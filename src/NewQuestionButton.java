@@ -74,7 +74,7 @@ class Footer extends JPanel {
         NewQuestion.addActionListener(
         (ActionEvent e) -> {
             //JButton doneButton = task.getDone();
-            ImageIcon Icon = new ImageIcon("RedIcon.png");
+            ImageIcon Icon = new ImageIcon("RedIcon.png"); //If mac user,change to"path/RedIcon.png"
             NewQuestion.setIcon(Icon);
 
             //Place holder for recording method US4
