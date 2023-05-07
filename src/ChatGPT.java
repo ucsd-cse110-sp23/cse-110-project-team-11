@@ -1,5 +1,7 @@
 //javac -cp ../lib/json-20230227.jar:. ChatGPT.java
 //java -cp ../lib/json-20230227.jar:. ChatGPT
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -52,5 +54,15 @@ public class ChatGPT {
         String generatedText = choices.getJSONObject(0).getString("text");
 
         System.out.println(generatedText);
+
+        File chatGPTResult = new File("chatGPTResult.txt");
+
+        try {
+            FileWriter myWriter = new FileWriter(chatGPTResult);
+            myWriter.write(generatedText);
+            myWriter.close();
+        } catch (IOException e) {
+            //
+        }
     }
 }
