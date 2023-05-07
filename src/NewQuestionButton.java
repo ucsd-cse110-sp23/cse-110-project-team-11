@@ -72,4 +72,5 @@ public class NewQuestionButton {
  * of the image did not fit the button. Fixed the problem that the button is not 
  * displayed after opening the program, and the button must be zoomed in or out to 
  * display the program.
+ * 
  */
