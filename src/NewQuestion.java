@@ -25,5 +25,3 @@ public class NewQuestion {
         chatGPT.main(argsForChatGPT);
     }
 }
-
-//test to commit
