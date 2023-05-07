@@ -123,5 +123,3 @@ public class AudioRecorder extends JFrame {
     targetDataLine.close();
   }
 }
-
-//test to commit
