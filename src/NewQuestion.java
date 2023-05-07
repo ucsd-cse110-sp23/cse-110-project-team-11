@@ -15,13 +15,10 @@ public class NewQuestion {
     public void newQuestionEnd() throws IOException, InterruptedException{
         audioRecorder.stopRecording();
 
-        String[] argsForWhisper = new String[1];
-        argsForWhisper[0] = "recording.wav"; //output file of audioRecorder
+        String[] argsForWhisper = {"recording.wav"}; //output file of audioRecorder
         whisper.main(argsForWhisper);
 
-        String[] argsForChatGPT = new String[2];
-        argsForChatGPT[0] = "100";
-        argsForChatGPT[1] = "whisperResult.txt"; //transcript output file of Whisper
+        String[] argsForChatGPT = {"100", "whisperResult.txt"}; //transcript output file of Whisper
         chatGPT.main(argsForChatGPT);
     }
 }
