@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.*;
+import java.awt.*;
 
 class Footer extends JPanel {
 
@@ -73,12 +74,18 @@ class Footer extends JPanel {
     public void addListeners() {
         NewQuestion.addActionListener(
         (ActionEvent e) -> {
-            //JButton doneButton = task.getDone();
             ImageIcon Icon = new ImageIcon("RedIcon.png"); //If mac user,change to"path/RedIcon.png"
-            NewQuestion.setIcon(Icon);
+            Image newImg = Icon.getImage();
+            Image newImg2 = newImg.getScaledInstance(35, 35, java.awt.Image.SCALE_SMOOTH);
+            NewQuestion.setIcon(new ImageIcon(newImg2));
+            NewQuestion.setText("Stop Recording");
 
             //Place holder for recording method US4
+            //Do we need to do a thread? Like in lab so once we click on it we get the 
+            //audio recording while the user being able to click stop recording?
             //startrecording
+
+
         }
       );
 
