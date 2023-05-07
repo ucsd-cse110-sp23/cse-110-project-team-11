@@ -54,5 +54,3 @@ public class ChatGPT {
         System.out.println(generatedText);
     }
 }
-
-//test to commit
