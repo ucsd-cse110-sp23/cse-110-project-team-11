@@ -189,24 +189,24 @@ class AppFrame extends JFrame {
 
 public class frame {
     public static void main(String args[]) {
-    //   try {
-    //   Class<?> class1 = Class.forName("ChatGPT");
-    //     Method method = class1.getMethod("main", String[].class);
-    //     String[] arguments = args;
-    //     method.invoke(null, (Object) arguments);
-    //   } catch (ClassNotFoundException e) {
-    //     e.printStackTrace();
-    // } catch (NoSuchMethodException e) {
-    //     e.printStackTrace();
-    // } catch (SecurityException e) {
-    //     e.printStackTrace();
-    // } catch (IllegalAccessException e) {
-    //     e.printStackTrace();
-    // } catch (IllegalArgumentException e) {
-    //     e.printStackTrace();
-    // } catch (InvocationTargetException e) {
-    //     e.printStackTrace();
-    // }
+      try {
+      Class<?> class1 = Class.forName("ChatGPT");
+        Method method = class1.getMethod("main", String[].class);
+        String[] arguments = args;
+        method.invoke(null, (Object) arguments);
+      } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+    } catch (NoSuchMethodException e) {
+        e.printStackTrace();
+    } catch (SecurityException e) {
+        e.printStackTrace();
+    } catch (IllegalAccessException e) {
+        e.printStackTrace();
+    } catch (IllegalArgumentException e) {
+        e.printStackTrace();
+    } catch (InvocationTargetException e) {
+        e.printStackTrace();
+    }
       new AppFrame(); // Create the frame
       
     }
