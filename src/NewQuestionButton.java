@@ -1,93 +1,75 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.border.Border;
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.*;
 
 class Footer extends JPanel {
 
-    JButton NewQuestion;
-  
-    Color backgroundColor = new Color(240, 248, 255);
+    private JButton newQuestion;
+    private boolean isIconVisible = false;
+
     Border emptyBorder = BorderFactory.createEmptyBorder();
-  
+
     Footer() {
-      this.setPreferredSize(new Dimension(400, 60));
-      this.setBackground(backgroundColor);
-  
-      //GridLayout layout = new GridLayout(1, 4);
-      //layout.setHgap(5); // Hertical gap
-      //this.setLayout((layout));
-  
-      //We don't have a sidebar yet, so we don't know if it is in the middle of the screen.
-      NewQuestion = new JButton("New Question"); // add task button
-      NewQuestion.setFont(new Font("Sans-serif", Font.ITALIC, 10)); // set font
-      this.add(NewQuestion); // add to footer
-  
-    }
-  
-    public JButton getNewButton() {
-      return NewQuestion;
-    }
-  
-  }
-  
-  class AppFrame extends JFrame {
-  
-    private Footer footer;
-  
-    private JButton NewQuestion;
-  
-    AppFrame() {
-      this.setSize(400, 600); // 400 width and 600 height
-      this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close on exit
-      this.setVisible(true); // Make visible
-  
-      footer = new Footer();
-  
-      this.add(footer, BorderLayout.SOUTH); // Add footer on bottom of the screen
-  
-      NewQuestion = footer.getNewButton();
-  
-      addListeners();
-      revalidate();
-    }
-  
-    public void addListeners() {
-        NewQuestion.addActionListener(
-        (ActionEvent e) -> {
-            //JButton doneButton = task.getDone();
-            ImageIcon Icon = new ImageIcon("RedIcon.png"); //If mac user,change to"path/RedIcon.png"
-            NewQuestion.setIcon(Icon);
+        setPreferredSize(new Dimension(400, 60));
+        setBackground(new Color(0, 0, 0, 0)); // set background color to transparent
 
-            //Place holder for recording method US4
-            //startrecording
+        newQuestion = new JButton("New Question");
+        newQuestion.setPreferredSize(new Dimension(100, 60)); // set the size of the button
+
+        newQuestion.setFont(new Font("Sans-serif", Font.ITALIC, 10));
+
+        add(newQuestion);
+
+        newQuestion.addActionListener(e -> toggleIcon());
+    }
+
+    private void toggleIcon() {
+        if (!isIconVisible) {
+            //if MacBook user, change to "/path/redIcon.png"
+            //if Windows user, move the file into the same folder and change to "redIcon.png"
+            ImageIcon icon = new ImageIcon("/Users/hongyuan/Documents/GitHub/cse-110-project-team-11/src/redIcon.png");
+            Image image = icon.getImage();
+            Image scaledImage = image.getScaledInstance(newQuestion.getWidth(), newQuestion.getHeight(), Image.SCALE_SMOOTH);
+            newQuestion.setIcon(new ImageIcon(scaledImage));
+            newQuestion.setText("");
+            isIconVisible = true;
+        } else {
+            newQuestion.setIcon(null);
+            newQuestion.setText("New Question");
+            isIconVisible = false;
         }
-      );
+    }
+}
 
+class AppFrame extends JFrame {
+
+    private Footer footer;
+
+    AppFrame() {
+        setSize(400, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+        getContentPane().setBackground(new Color(0, 0, 0, 0)); // set the background color to transparent
+    
+        footer = new Footer();
+        add(footer, BorderLayout.SOUTH);
+    
+        setVisible(true);
     }
-  }
-  
-  public class NewQuestionButton{
-  
-    public static void main(String args[]) {
-      new AppFrame(); // Create the frame
+    
+}
+
+public class NewQuestionButton {
+
+    public static void main(String[] args) {
+        new AppFrame();
     }
-  }
+}
+/*
+ * The May 3rd version of chatGPT helped fix the problem of black boxes 
+ * appearing after clicking the New Question button. Fixed an issue where the size 
+ * of the image did not fit the button. Fixed the problem that the button is not 
+ * displayed after opening the program, and the button must be zoomed in or out to 
+ * display the program.
+ */
