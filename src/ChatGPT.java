@@ -16,7 +16,7 @@ public class ChatGPT {
     private static final String API_KEY = "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";
     private static final String MODEL = "text-davinci-003";
 
-    public void main(String[] args) throws IOException, InterruptedException{
+    public void generateText(String[] args) throws IOException, InterruptedException {
         //set request parameters
         String prompt = args[1];
         int maxToxens = Integer.parseInt(args[0]);
@@ -62,7 +62,62 @@ public class ChatGPT {
             myWriter.write(generatedText);
             myWriter.close();
         } catch (IOException e) {
-            //
+            System.out.println("An error occurred.");
         }
     }
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+        ChatGPT chatGPT = new ChatGPT();
+        chatGPT.generateText(args);
+    }
 }
+//     public void main(String[] args) throws IOException, InterruptedException{
+//         //set request parameters
+//         String prompt = args[1];
+//         int maxToxens = Integer.parseInt(args[0]);
+
+//         //create request body which you will pass into request object
+//         JSONObject requestBody = new JSONObject();
+//         requestBody.put("model", MODEL);
+//         requestBody.put("prompt", prompt);
+//         requestBody.put("max_tokens", maxToxens);
+//         requestBody.put("temperature", 1.0);
+
+//         //create http client
+//         HttpClient client = HttpClient.newHttpClient();
+
+//         //create request object
+//         HttpRequest request = HttpRequest
+//         .newBuilder()
+//         .uri(URI.create(API_ENDPOINT))
+//         .header("Content-Type", "application/json")
+//         .header("Authorization", String.format("Bearer %s", API_KEY))
+//         .POST(HttpRequest.BodyPublishers.ofString(String.valueOf(requestBody)))
+//         .build();
+        
+//         //send request and receive response
+//         HttpResponse<String> response = client.send(
+//         request,
+//         HttpResponse.BodyHandlers.ofString()
+//         );
+
+//         //process response
+//         String responseBody = response.body();
+
+//         JSONObject responseJson = new JSONObject(responseBody);
+//         JSONArray choices = responseJson.getJSONArray("choices");
+//         String generatedText = choices.getJSONObject(0).getString("text");
+
+//         System.out.println(generatedText);
+
+//         File chatGPTResult = new File("chatGPTResult.txt");
+
+//         try {
+//             FileWriter myWriter = new FileWriter(chatGPTResult);
+//             myWriter.write(generatedText);
+//             myWriter.close();
+//         } catch (IOException e) {
+//             //
+//         }
+//     }
+// }
