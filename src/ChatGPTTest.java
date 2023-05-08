@@ -27,4 +27,20 @@ class ChatGPTTest {
             fail("Unable to read the content of chatGPTResult.txt");
         }
     }
+
+    @Test
+    void testWhisper() {
+        Whisper whisper = new Whisper();
+        String[] args = new String[]{"recording.wav"};
+
+        File outputFile = new File("whisperResult.txt");
+        assertTrue(outputFile.exists());
+        
+        try {
+            String content = new String(Files.readAllBytes(Paths.get("whisperResult.txt")));
+            assertEquals("Hello world", content.trim());
+        } catch (IOException e) {
+            fail("Unable to read the content of whisperResult.txt");
+        }
+    }
 }
