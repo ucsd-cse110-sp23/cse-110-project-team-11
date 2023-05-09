@@ -61,32 +61,6 @@ public class ChatGPT{
         // Create the HTTP client
         HttpClient client = HttpClient.newHttpClient();
 
-        // Create the request object
-=======
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-
-public class ChatGPT {
-    private static final String API_ENDPOINT = "https://api.openai.com/v1/completions";
-    private static final String API_KEY = "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";
-    private static final String MODEL = "text-davinci-003";
-
-    public void main(String[] args) throws IOException, InterruptedException{
-        //set request parameters
-        String prompt = args[1];
-        int maxToxens = Integer.parseInt(args[0]);
-
-        //create request body which you will pass into request object
-        JSONObject requestBody = new JSONObject();
-        requestBody.put("model", MODEL);
-        requestBody.put("prompt", prompt);
-        requestBody.put("max_tokens", maxToxens);
-        requestBody.put("temperature", 1.0);
-
-        //create http client
-        HttpClient client = HttpClient.newHttpClient();
-
         //create request object
         HttpRequest request = HttpRequest
         .newBuilder()
