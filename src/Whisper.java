@@ -10,7 +10,7 @@ public class Whisper {
     private static final String API_ENDPOINT = "https://api.openai.com/v1/audio/transcriptions";
     private static final String TOKEN = "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";
     private static final String MODEL = "whisper-1";
-    private static final String FILE_PATH = "myaudio.mp3";
+    private static final String FILE_PATH = "myAudio.mp3";
 
     private static void writeParameterToOutputStream(
         OutputStream outputStream,
@@ -70,7 +70,6 @@ public class Whisper {
         //print transcription result
         System.out.println("Transcription Result: " + generatedText);
 
-
         //create and write transcription result to txt file for use
         File whisperResult = new File("whisperResult.txt");
 
@@ -79,7 +78,7 @@ public class Whisper {
             myWriter.write(generatedText);
             myWriter.close();
         } catch (IOException e) {
-            //
+            System.out.println("An error occurred.");
         }
     }
 
@@ -100,7 +99,7 @@ public class Whisper {
         System.out.println("Error result: " + errorResult);
     }
 
-    public void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
         //create file object
         File file = new File(args[0]);
 

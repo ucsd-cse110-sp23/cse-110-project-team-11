@@ -106,7 +106,7 @@ public class AudioRecorder extends JFrame {
             AudioInputStream audioInputStream = new AudioInputStream(targetDataLine);
       
             // the file that will contain the audio data
-            File audioFile = new File("recording.wav");
+            File audioFile = new File("myAudio.mp3");
             AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, audioFile);
             recordingLabel.setVisible(false);
           } catch (Exception ex) {
