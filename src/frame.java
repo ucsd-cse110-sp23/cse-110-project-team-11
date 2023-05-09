@@ -188,6 +188,7 @@ class AppFrame extends JFrame {
 
 
 public class frame {
+    //use main in other classes, from https://www.cnblogs.com/weizhxa/p/6228562.html
     public static void main(String args[]) {
       try {
       Class<?> class1 = Class.forName("ChatGPT");
