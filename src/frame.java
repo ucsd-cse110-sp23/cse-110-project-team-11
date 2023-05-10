@@ -264,8 +264,6 @@ class AppFrame extends JFrame {
 
 public class frame {
     public static void main(String args[]) {
-      new AppFrame(); // Create the frame
-      
+      new AppFrame(); // Create the frame   
     }
-    
-  }
+ }
