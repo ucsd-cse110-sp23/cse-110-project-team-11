@@ -4,7 +4,11 @@
 import java.io.*;
 import java.lang.reflect.Parameter;
 import java.net.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import org.json.*;
+
 
 public class Whisper {
     private static final String API_ENDPOINT = "https://api.openai.com/v1/audio/transcriptions";
@@ -70,12 +74,25 @@ public class Whisper {
         //print transcription result
         System.out.println("Transcription Result: " + generatedText);
 
+        // delete file if it exists
+        File checkWhisper = new File("whisperResult.txt");
+        if (checkWhisper.exists()) {
+            checkWhisper.delete();
+        }
+                //if (checkWhisp)
+        // Path path = Files.createTempFile("whisperResult", ".txt");
+        // boolean exists = Files.exists(path);
+        // if (exists) {
+        //     path.delete();
+        // }
         //create and write transcription result to txt file for use
         File whisperResult = new File("whisperResult.txt");
 
         try {
-            FileWriter myWriter = new FileWriter(whisperResult);
+            FileWriter myWriter = new FileWriter(whisperResult, false);
+            myWriter.write("\"");
             myWriter.write(generatedText);
+            myWriter.write("\"");
             myWriter.close();
         } catch (IOException e) {
             System.out.println("An error occurred.");

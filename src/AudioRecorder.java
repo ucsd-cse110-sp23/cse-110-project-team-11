@@ -119,7 +119,11 @@ public class AudioRecorder extends JFrame {
   }
 
   public void stopRecording() {
-    targetDataLine.stop();
-    targetDataLine.close();
+    if (this.targetDataLine != null) {
+      this.targetDataLine.stop();
+      targetDataLine.close();
+    }
+    //targetDataLine.stop();
+    
   }
 }

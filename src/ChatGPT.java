@@ -1,5 +1,6 @@
 //javac -cp ../lib/json-20230227.jar:. ChatGPT.java
 //java -cp ../lib/json-20230227.jar:. ChatGPT
+//for windows, use ;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,50 +9,49 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.text.NumberFormat.Style;
+import java.util.ArrayList;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class ChatGPT{
     private static final String API_ENDPOINT = "https://api.openai.com/v1/completions";
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "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";
     private static final String MODEL = "text-davinci-003";
 
-
-    public static void savePrompt(String prompt, String answer) {
-        // hint 1: use try-catch block
-        // hint 2: use FileWriter
-        // hint 3 get list of Tasks using this.getComponents()
-        //ArrayList<Task> tasks = new ArrayList<Task>();
+    public String loadfile(String fileName) {
+        String line = "";
     
         try{
-          FileWriter fileWriter = new FileWriter("question.txt", false);
-    
-            fileWriter.write(prompt+ "\n");
-            fileWriter.write(answer+"\n");
-    
-          fileWriter.close();
+          BufferedReader reader = new BufferedReader(new FileReader(fileName));
+          line = reader.readLine();
+          reader.close();
         }
         catch(IOException e){
-            System.out.println("Saving Error: " + e.getMessage());
+            System.out.println("Reading Error: " + e.getMessage());
       
         }
-    }
+        return line;
+      }
 
     public void generateText(String[] args) throws IOException, InterruptedException {
         //set request parameters
         String prompt = args[1];
+        String question = loadfile(prompt);
+        String questionText = question;
         int maxToxens = Integer.parseInt(args[0]);
 
         //create request body which you will pass into request object
         JSONObject requestBody = new JSONObject();
         requestBody.put("model", MODEL);
-        requestBody.put("prompt", prompt);
+        requestBody.put("prompt", questionText);
         requestBody.put("max_tokens", maxToxens);
         requestBody.put("temperature", 1.0);
 
@@ -96,8 +96,5 @@ public class ChatGPT{
     public static void main(String[] args) throws IOException, InterruptedException {
         ChatGPT chatGPT = new ChatGPT();
         chatGPT.generateText(args);
-        
-        // savePrompt(args[1], generatedText);
     }
-
 }

@@ -89,14 +89,14 @@ class AppFrame extends JFrame {
     Color someGray = new Color(199, 199, 199);
     Color deepGray = new Color(149, 149, 149);
 
-    public ArrayList<String> loadfile() {
+    public ArrayList<String> loadfile(String fileName) {
       // hint 1: use try-catch block
       // hint 2: use BufferedReader and FileReader
       // hint 3: task.taskName.setText(line) sets the text of the task
       ArrayList<String> questions = new ArrayList<String>();
   
       try{
-        BufferedReader reader = new BufferedReader(new FileReader("question.txt"));
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
         
         String line = reader.readLine();
         while(line != null){
@@ -125,13 +125,21 @@ class AppFrame extends JFrame {
       //rightPanel.setLayout(new GridLayout(20,1));
 
       // Get question from text file
-      ArrayList<String> questions = loadfile();
+      String questionFile = "whisperResult.txt";
+      String answerFile = "chatGPTResult.txt";
+
+      ArrayList<String> questions = loadfile(questionFile);
+      ArrayList<String> answer = loadfile(answerFile);
+
       String questionText = questions.get(0);
-      List<String> answerTextList = questions.subList(3,questions.size()); 
 
-      String answerText = String.join("\n", answerTextList);
+      // get answer from a chatGPTResult.txt
+      //List<String> answerTextList = answer.subList(0,questions.size()); 
+      //String answerText = String.join("\n", answerTextList);
 
-      System.out.println(answerText);
+      String answerText = answer.get(2);
+
+      //System.out.println(answerText);
       // create a question
       Question question = new Question(questionText, answerText);
 
@@ -190,24 +198,24 @@ class AppFrame extends JFrame {
 public class frame {
     //use main in other classes, from https://www.cnblogs.com/weizhxa/p/6228562.html
     public static void main(String args[]) {
-      try {
-      Class<?> class1 = Class.forName("ChatGPT");
-        Method method = class1.getMethod("main", String[].class);
-        String[] arguments = args;
-        method.invoke(null, (Object) arguments);
-      } catch (ClassNotFoundException e) {
-        e.printStackTrace();
-    } catch (NoSuchMethodException e) {
-        e.printStackTrace();
-    } catch (SecurityException e) {
-        e.printStackTrace();
-    } catch (IllegalAccessException e) {
-        e.printStackTrace();
-    } catch (IllegalArgumentException e) {
-        e.printStackTrace();
-    } catch (InvocationTargetException e) {
-        e.printStackTrace();
-    }
+    //   try {
+    //   Class<?> class1 = Class.forName("ChatGPT");
+    //     Method method = class1.getMethod("main", String[].class);
+    //     String[] arguments = args;
+    //     method.invoke(null, (Object) arguments);
+    //   } catch (ClassNotFoundException e) {
+    //     e.printStackTrace();
+    // } catch (NoSuchMethodException e) {
+    //     e.printStackTrace();
+    // } catch (SecurityException e) {
+    //     e.printStackTrace();
+    // } catch (IllegalAccessException e) {
+    //     e.printStackTrace();
+    // } catch (IllegalArgumentException e) {
+    //     e.printStackTrace();
+    // } catch (InvocationTargetException e) {
+    //     e.printStackTrace();
+    // }
       new AppFrame(); // Create the frame
       
     }
