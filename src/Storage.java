@@ -1,5 +1,3 @@
-import java.util.Enumeration;
-import java.lang.Object;
 import java.util.Hashtable;
 import java.util.ArrayList;
 
@@ -15,24 +13,27 @@ public class Storage {
      ArrayList<String> answers = new ArrayList<String>();
      int currentSize = 0;
 
-     public void setQnA(String Question, String Answer) {
+     public void setQnA(String question, String answer) {
         /* put value in table
          * use currentSize to index ArrayList.
          */
-        if (Question == null || Answer == null) {
+        if (question == null || answer == null) {
             return;
         }
         Integer currentIdx = new Integer(currentSize);
-        questions.put(Question, currentIdx);
-        answers.add(Answer);
+        questions.put(question, currentIdx);
+        answers.add(answer);
         currentSize++;
      }
 
-     public String getQnA (String Question) {
+     public String getAns (String question) {
+        if (question == null) {
+            return "Invalid input.";
+        }
         /* return a particular answer, given a
          * past query.
          */
-        Integer index = questions.get(Question);
+        Integer index = questions.get(question);
         String answer = (index == null) ? "Error: no answer for question stored." : answers.get(index.intValue());
         return answer; 
      }
@@ -41,4 +42,7 @@ public class Storage {
      public int getSize () {
         return currentSize;
      }
+
+     //TODO: deleteQuestion, deleteAnswer
+     //TODO: Test cases for deleteQ and deleteA
 }
