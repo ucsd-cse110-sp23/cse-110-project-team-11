@@ -5,6 +5,7 @@ public class NewQuestion {
     private static AudioRecorder audioRecorder = new AudioRecorder();
     private static Whisper whisper = new Whisper();
     private static ChatGPT chatGPT = new ChatGPT();
+    
 
     public void newQuestionStart(){
         audioRecorder.startRecording();
@@ -16,7 +17,8 @@ public class NewQuestion {
         String whisperArg = "myAudio.mp3";
         String question = whisper.getTranscript(whisperArg);
 
-        chatGPT.chat(question);
+        //if stop is clicked
+            chatGPT.chat(question); 
     }
     public static void main(String[] args) throws JSONException, IOException, InterruptedException {
         NewQuestion q = new NewQuestion();
