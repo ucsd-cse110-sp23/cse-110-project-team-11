@@ -26,11 +26,25 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+//imports mocks interfaces - mocks must be in src
+import mocks.MockChat;
+import mocks.MockWhisper;
+
+
+
+
 
 class Question extends JPanel{
     JLabel question;
     JLabel answer;
     JTextArea answerArea;
+
+    /*
+     * Example of using mocks package
+     * MockChat obj = new MockChat();
+     * String s = obj.getQuestion();
+    */
+
 
     Color gray = new Color(218, 229, 234);
     Color someGray = new Color(199, 199, 199);
