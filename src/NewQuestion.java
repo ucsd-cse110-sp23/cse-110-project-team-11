@@ -19,6 +19,7 @@ public class NewQuestion {
         audioRecorder.stopRecording();
 
         String[] argsForWhisper = {"myAudio.mp3"}; //output file of audioRecorder
+
         try {
             Class<?> class1 = Class.forName("Whisper");
             Method method = class1.getMethod("main", String[].class);
