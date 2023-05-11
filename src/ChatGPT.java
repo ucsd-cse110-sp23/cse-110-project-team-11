@@ -1,6 +1,3 @@
-//javac -cp ../lib/json-20230227.jar:. ChatGPT.java
-//java -cp ../lib/json-20230227.jar:. ChatGPT
-//for windows, use ;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -88,6 +85,7 @@ public class ChatGPT{
 
         //set the answer!
         setAnswer(generatedText);
+        System.out.println(getAnswer());
     }
 
     /*
@@ -110,27 +108,29 @@ public class ChatGPT{
 
     public static void main(String[] args) throws IOException, InterruptedException {
         ChatGPT chatGPT = new ChatGPT();
-        String prompt = args[0];
+        Whisper whisper = new Whisper();
+        String file = "myAudio.mp3";
+        // String prompt = args[0];
 
         /*
-         * Sets question from .txt file (might be deletd), chat() sets the answer
+         * Sets question from .txt file (might be deleted), chat() sets the answer
          * and question, getAnswer() returns the result
          */
-        chatGPT.setQuestion(chatGPT.loadfile(prompt));
+        // chatGPT.setQuestion(chatGPT.loadfile(prompt));
+        chatGPT.setQuestion(whisper.getTranscript(file));
         chatGPT.chat(chatGPT.getQuestion());
-        System.out.println(chatGPT.getAnswer());
 
         /*
          * Saves result to a .txt file
          */
-        File chatGPTResult = new File("chatGPTResult.txt");
+        // File chatGPTResult = new File("chatGPTResult.txt");
 
-        try {
-            FileWriter myWriter = new FileWriter(chatGPTResult);
-            myWriter.write(chatGPT.getAnswer());
-            myWriter.close();
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-        }
+        // try {
+        //     FileWriter myWriter = new FileWriter(chatGPTResult);
+        //     myWriter.write(chatGPT.getAnswer());
+        //     myWriter.close();
+        // } catch (IOException e) {
+        //     System.out.println("An error occurred.");
+        // }
     }
 }
