@@ -85,6 +85,7 @@ public class ChatGPT{
 
         //set the answer!
         setAnswer(generatedText);
+        System.out.println(getAnswer());
     }
 
     /*
@@ -118,7 +119,6 @@ public class ChatGPT{
         // chatGPT.setQuestion(chatGPT.loadfile(prompt));
         chatGPT.setQuestion(whisper.getTranscript(file));
         chatGPT.chat(chatGPT.getQuestion());
-        System.out.println(chatGPT.getAnswer());
 
         /*
          * Saves result to a .txt file
