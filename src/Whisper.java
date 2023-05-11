@@ -1,14 +1,6 @@
-//javac -cp ../lib/json-20230227.jar:. Whisper.java
-//java -cp ../lib/json-20230227.jar:. Whisper
-
 import java.io.*;
-import java.lang.reflect.Parameter;
 import java.net.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 import org.json.*;
-
 
 public class Whisper {
     private static final String API_ENDPOINT = "https://api.openai.com/v1/audio/transcriptions";
@@ -55,7 +47,10 @@ public class Whisper {
         fileInputStream.close();
     }
 
-    private static void handleSuccessResponse(HttpURLConnection connection)
+    /*
+     * Returns generatedText when success
+     */
+    private static String handleSuccessResponse(HttpURLConnection connection)
         throws IOException, JSONException {
 
         BufferedReader in = new BufferedReader(
@@ -74,29 +69,19 @@ public class Whisper {
         //print transcription result
         System.out.println("Transcription Result: " + generatedText);
 
-        // delete file if it exists
-        File checkWhisper = new File("whisperResult.txt");
-        if (checkWhisper.exists()) {
-            checkWhisper.delete();
-        }
-                //if (checkWhisp)
-        // Path path = Files.createTempFile("whisperResult", ".txt");
-        // boolean exists = Files.exists(path);
-        // if (exists) {
-        //     path.delete();
-        // }
-        //create and write transcription result to txt file for use
-        File whisperResult = new File("whisperResult.txt");
+        // File whisperResult = new File("whisperResult.txt");
 
-        try {
-            FileWriter myWriter = new FileWriter(whisperResult, false);
-            myWriter.write("\"");
-            myWriter.write(generatedText);
-            myWriter.write("\"");
-            myWriter.close();
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-        }
+        // try {
+        //     FileWriter myWriter = new FileWriter(whisperResult, false);
+        //     myWriter.write("\"");
+        //     myWriter.write(generatedText);
+        //     myWriter.write("\"");
+        //     myWriter.close();
+        // } catch (IOException e) {
+        //     System.out.println("An error occurred.");
+        // }
+
+        return generatedText;
     }
 
     private static void handleErrorResponse(HttpURLConnection connection)
@@ -116,9 +101,12 @@ public class Whisper {
         System.out.println("Error result: " + errorResult);
     }
 
-    public static void main(String[] args) throws IOException {
+    /*
+     * Uses connection and gets the transcript of the audio file
+     */
+    public String getTranscript(String filePath) throws IOException, JSONException {
         //create file object
-        File file = new File(args[0]);
+        File file = new File(filePath);
 
         //set up http connection
         URL url = new URL(API_ENDPOINT);
@@ -133,7 +121,7 @@ public class Whisper {
             "multipart/form-data; boundary=" + boundary
         );
         connection.setRequestProperty("Authorization", "Bearer " + TOKEN);
-
+        
         //set up output stream to write request body
         OutputStream outputStream = connection.getOutputStream();
 
@@ -143,7 +131,7 @@ public class Whisper {
         //write file parameter to request body
         writeFileToOutputStream(outputStream, file, boundary);
 
-        //write closing boundary to request body
+        //write closing bonudary to request body
         outputStream.write(("\r\n--" + boundary + "--\r\n").getBytes());
 
         //flush and close output stream
@@ -155,12 +143,15 @@ public class Whisper {
 
         //check response code and handle response accordingly
         if (responseCode == HttpURLConnection.HTTP_OK) {
-            handleSuccessResponse(connection);
+            return handleSuccessResponse(connection); //method returns generatedText
         } else {
             handleErrorResponse(connection);
+            return null;
         }
+    }
 
-        //disconnect connection
-        connection.disconnect();
+    public static void main(String[] args) throws IOException, JSONException {
+        Whisper whisper = new Whisper();
+        whisper.getTranscript(FILE_PATH);
     }
 }

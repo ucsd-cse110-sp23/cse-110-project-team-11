@@ -7,12 +7,36 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ChatGPTTest {
-    @Test
-    void testGenerateText() {
-        ChatGPT chatGPT = new ChatGPT();
-        String[] args = new String[]{"20", "Please type Hello World, and don't say anything else, don't type colon and don't create a new line"};
+    private ChatGPT chatGPT = new ChatGPT();
+    private String arg = "Please type Hello World, and don't say anything else, don't type colon and don't create a new line";
 
-        assertDoesNotThrow(() -> chatGPT.generateText(args));
+    /*
+     * Test setQuestion() and getQuestion()
+     */
+    @Test
+    void testQuestion() {
+        chatGPT.setQuestion(arg);
+        String q = chatGPT.getQuestion();
+
+        assertEquals(arg, q);
+    }
+
+    /*
+     * Test setAnswer(), getAnswer(), chat()
+     */
+    @Test
+    void testAnswerAndChat() throws IOException, InterruptedException {
+        chatGPT.setQuestion(arg);
+        
+        //chat() uses setAnswer)
+        chatGPT.chat(chatGPT.getQuestion());
+        assertEquals("\n\nHello World", chatGPT.getAnswer());
+        
+    }
+
+    @Test
+    void testChat() {
+        assertDoesNotThrow(() -> chatGPT.chat(arg));
 
         // Check if the output file is created and not empty
         File outputFile = new File("chatGPTResult.txt");
