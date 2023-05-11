@@ -7,10 +7,11 @@ import javax.swing.*;
 public class AudioRecorder extends JFrame {
 
   private JButton startButton;
-  private JButton stopButton;
+  public JButton stopButton;
   private AudioFormat audioFormat;
   private TargetDataLine targetDataLine;
   private JLabel recordingLabel;
+  private boolean isRecording = false;
 
   public static void main(String[] args) {
     new AudioRecorder();
@@ -116,6 +117,7 @@ public class AudioRecorder extends JFrame {
       }
     );
     t.start();
+    isRecording = true;
   }
 
   public void stopRecording() {
@@ -123,7 +125,10 @@ public class AudioRecorder extends JFrame {
       this.targetDataLine.stop();
       targetDataLine.close();
     }
-    //targetDataLine.stop();
-    
+    isRecording = false;
+  }
+
+  public boolean isRecording() {
+    return isRecording;
   }
 }
