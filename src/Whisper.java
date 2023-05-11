@@ -143,9 +143,12 @@ public class Whisper {
 
         //check response code and handle response accordingly
         if (responseCode == HttpURLConnection.HTTP_OK) {
-            return handleSuccessResponse(connection); //method returns generatedText
+            String successReturn = handleSuccessResponse(connection);
+            connection.disconnect();
+            return successReturn; //method returns generatedText
         } else {
             handleErrorResponse(connection);
+            connection.disconnect();
             return null;
         }
     }
