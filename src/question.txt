@@ -1,0 +1,5 @@
+What day is it today?
+
+Where is UCSD?
+
+How do you implement a hashtable data structure?
