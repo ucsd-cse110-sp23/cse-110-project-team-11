@@ -293,14 +293,15 @@ class AppFrame extends JFrame {
       
       // history object to get panel
       JTextArea answerArea = question.getAnswerArea();
-      HistoryList history = new HistoryList("question.txt", "answer.txt", answerArea);
+      HistoryList history = new HistoryList("/Users/hongyuan/Documents/GitHub/cse-110-project-team-11/src/question.txt", "/Users/hongyuan/Documents/GitHub/cse-110-project-team-11/src/answer.txt", answerArea);
 
       // get newQuestionButton
       NewQuestionButton newQuestionButton = new NewQuestionButton(answerArea);
       JButton newButton = newQuestionButton.getNewQuestionButton();
 
       // Create a JPanel for the right section of the frame
-      JPanel rightPanel = new JPanel();
+      //JPanel rightPanel = new JPanel();
+      JPanel rightPanel = new JPanel(new BorderLayout());
       rightPanel.setPreferredSize(new Dimension(800, 900));
 
       //JTextArea answerArea = history.getAnswerArea();
@@ -310,7 +311,12 @@ class AppFrame extends JFrame {
       //rightPanel.add(row2, BorderLayout.CENTER);
       rightPanel.add(answerArea, BorderLayout.CENTER);
       //rightPanel.add(footer, BorderLayout.SOUTH);
-      rightPanel.add(newButton, BorderLayout.SOUTH);
+      //rightPanel.add(newButton, BorderLayout.SOUTH);
+      JPanel buttonPanel = new JPanel();  // FlowLayout is the default
+      buttonPanel.add(newButton);
+
+      rightPanel.add(buttonPanel, BorderLayout.SOUTH);
+      
       rightPanel.setBackground(gray);
 
       // if i click on the new question button, answer text field should be cleared.
@@ -327,12 +333,17 @@ class AppFrame extends JFrame {
       leftPanel.setPreferredSize(new Dimension(180, 1000));
       leftPanel.setBackground(historyColor);
 
+      // Set the minimum size of the left panel
+      Dimension minimumSize = new Dimension(200, 1000); 
+      leftPanel.setMinimumSize(minimumSize);
+
       // Combine two panels into one
       JPanel nestedPanel = new JPanel(new BorderLayout());
       nestedPanel.add(rightPanel, BorderLayout.CENTER);
 
       // Set the divider location to divide the frame into 1/5 and 4/5
       splitPane.setDividerLocation(0.2);
+      //splitPane.setOneTouchExpandable(true);
 
       // Add the left and nested panels to the split pane
       splitPane.setLeftComponent(leftPanel);
