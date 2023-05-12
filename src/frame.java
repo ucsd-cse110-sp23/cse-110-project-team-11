@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.*;
 
-
 class Footer extends JPanel {
 
   private JButton newQuestion; // button to ask new question
