@@ -7,21 +7,28 @@ public class NewQuestion {
     private static ChatGPT chatGPT = new ChatGPT();
     private boolean isRecording = true;
 
+    /*
+     * Start recording on AudioRecorder object
+     */
     public void start(){
         audioRecorder.startRecording();
     }
 
+    /*
+     * Make sure AudioRecorder object is not recording anymore and
+     * stop recording on AudioRecorder object
+     */
     public void stop() throws JSONException, IOException, InterruptedException {
-        audioRecorder.stopRecording();
-    }
-
-    public void recordingStatus() throws InterruptedException{
         while (isRecording) {
             isRecording = audioRecorder.isRecording();
             Thread.sleep(25);
         }
+        audioRecorder.stopRecording();
     }
 
+    /*
+     * Display ChatGPT result with chat()
+     */
     public void display() throws JSONException, IOException, InterruptedException {
         String whisperArg = "myAudio.mp3";
         String question = whisper.getTranscript(whisperArg);
@@ -31,9 +38,7 @@ public class NewQuestion {
     public static void main(String[] args) throws JSONException, IOException, InterruptedException {
         NewQuestion q = new NewQuestion();
         q.start();
-        q.recordingStatus();
-        q.display();
         q.stop();
+        q.display();
     }
-    
 }
