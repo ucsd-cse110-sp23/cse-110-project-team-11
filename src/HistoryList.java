@@ -36,7 +36,7 @@ public class HistoryList {
     JList<String> questionList;
     JTextArea questionTextArea;
     JTextArea answerTextArea;
-    //DefaultListModel<String> dlm;
+    DefaultListModel<String> dlm;
 
     // create a panel that contains the list, then put the panel in frame?
     JPanel historyPanel;
@@ -47,15 +47,15 @@ public class HistoryList {
 
     // addd clearPage() function that erases all the current content on the panel.
 
-    public HistoryList(String questionFile, String answerFile) {
+    public HistoryList(String questionFile, String answerFile, JTextArea answerArea) {
         // read file into arraylist
         this.historyPanel = new JPanel();
         this.questionTextArea = new JTextArea();
-        this.answerTextArea = new JTextArea();
+        this.answerTextArea = answerArea;
         this.pastQuestions = loadFile(questionFile);
         this.pastAnswers = loadFile(answerFile);
         this.questionList = setList();
-        //this.dlm = new DefaultListModel<String>();
+        this.dlm = new DefaultListModel<String>();
         addListener();
         setHistoryPanel();
     }
@@ -81,6 +81,10 @@ public class HistoryList {
 
     public JPanel getHistoryPanel() {
         return this.historyPanel;
+    }
+
+    public JTextArea getAnswerArea() {
+        return this.answerTextArea;
     }
 
     public JList<String> setList() {
@@ -116,6 +120,8 @@ public class HistoryList {
     private void questionListValueChanged(ListSelectionEvent event) {
         String question = (String) questionList.getSelectedValue();
         int queryIdx = pastQuestions.indexOf(question);
+
+        // how to set this in main frame?
         answerTextArea.setText(pastAnswers.get(queryIdx));
     }
 
@@ -125,12 +131,12 @@ public class HistoryList {
         this.pastQuestions.add(0, answer);
     }
 
-    public static void main(String args[]) {
-        JFrame f = new JFrame();
-        HistoryList list = new HistoryList("question.txt", "answer.txt");
-        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        f.add(list.getHistoryPanel());
-        f.pack();
-        f.setVisible(true);
-    }
+    // public static void main(String args[]) {
+    //     JFrame f = new JFrame();
+    //     HistoryList list = new HistoryList("question.txt", "answer.txt");
+    //     f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    //     f.add(list.getHistoryPanel());
+    //     f.pack();
+    //     f.setVisible(true);
+    // }
 }
