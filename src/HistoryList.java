@@ -22,6 +22,9 @@ import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -37,6 +40,8 @@ public class HistoryList {
     JTextArea questionTextArea;
     JTextArea answerTextArea;
     DefaultListModel<String> dlm;
+    JsonStorage jsonStorage;
+
 
     // create a panel that contains the list, then put the panel in frame?
     JPanel historyPanel;
@@ -58,7 +63,16 @@ public class HistoryList {
         this.dlm = new DefaultListModel<String>();
         addListener();
         setHistoryPanel();
+
+        JButton clearAllButton = new JButton("Clear All");
+        JButton deleteButton = new JButton("Delete");
+
+        historyPanel.add(clearAllButton);
+        historyPanel.add(deleteButton);
+
     }
+
+
 
     private ArrayList<String> loadFile(String fileName) {
         ArrayList<String> list = new ArrayList<String>();
@@ -139,4 +153,5 @@ public class HistoryList {
     //     f.pack();
     //     f.setVisible(true);
     // }
+    
 }
