@@ -66,24 +66,6 @@ public class Whisper {
         JSONObject responseJson = new JSONObject(response.toString());
         String generatedText = responseJson.getString("text");
 
-        //print transcription result
-        //System.out.println("Transcription Result: " + generatedText);
-
-<<<<<<< HEAD
-        // File whisperResult = new File("whisperResult.txt");
-
-        // try {
-        //     FileWriter myWriter = new FileWriter(whisperResult, false);
-        //     myWriter.write("\"");
-        //     myWriter.write(generatedText);
-        //     myWriter.write("\"");
-        //     myWriter.close();
-        // } catch (IOException e) {
-        //     System.out.println("An error occurred.");
-        // }
-
-=======
->>>>>>> US4
         return generatedText;
     }
 
