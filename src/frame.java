@@ -173,4 +173,3 @@ public class frame {
       new AppFrame(); // Create the frame
     }
   }
-
