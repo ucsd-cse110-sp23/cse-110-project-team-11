@@ -172,8 +172,4 @@ public class frame {
     public static void main(String args[]) throws IOException {
       new AppFrame(); // Create the frame
     }
-<<<<<<< HEAD
   }
-=======
-  }
->>>>>>> main
