@@ -33,6 +33,7 @@ public class HistoryList {
         this.history = history;
         this.prompts = history.getPrompts();
         this.historyPanel = new JPanel();
+        //this.questionTextArea = new JTextArea();
         this.answerTextArea = answerArea;
         this.questionTextArea = questionArea;
         this.dlm = new DefaultListModel<String>();
