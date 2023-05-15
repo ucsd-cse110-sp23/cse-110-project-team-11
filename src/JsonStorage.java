@@ -114,32 +114,4 @@ public class JsonStorage {
     public ArrayList<JSONObject> getHistoryPrompt() {
         return historyPrompt;
     }
-    
-
-    public static void main(String[] args) throws IOException {
-        JsonStorage js = new JsonStorage("historyPrompt.json");
-        JSONObject eg1 = new JSONObject();
-        eg1.put("question", "What is your name?");
-        eg1.put("answer", "My name is John.");
-        js.addPrompt(eg1);
-        JSONObject eg2 = new JSONObject();
-        eg2.put("question", "What is your age?");
-        eg2.put("answer", "I am 20 years old.");
-        js.addPrompt(eg2);
-        // js.writeJson("historyPrompt.json");
-        // System.out.println(js.getQuestion(0));
-        // //System.out.println(type(js.getAnswer(0)));
-        // System.out.println(js.getAnswer(0));
-        // System.out.println(js.getQuestion(1));
-        // System.out.println(js.getAnswer(1));
-        //js.removePrompt(0);
-        // System.out.println(js.getQuestion(0));
-        // System.out.println(js.getAnswer(1));
-        // System.out.println(js.getAnswer(2));
-        // System.out.println(js.getAnswer(12));
-        //js.clearPrompt();
-        js.writeJson("historyPrompt.json");
-
-
-    }
 }

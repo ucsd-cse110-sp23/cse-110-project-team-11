@@ -1,30 +1,11 @@
 // reference: https://stackoverflow.com/questions/14625091/create-a-list-of-entries-and-make-each-entry-clickable
 // Lab5 JListExampleApp
 // https://stackoverflow.com/questions/3200846/how-to-make-a-scrollable-jlist-to-add-details-got-from-a-joptionpane
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JList;
-import javax.swing.JTextField;
-import javax.swing.border.Border;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 import org.json.JSONObject;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -47,12 +28,6 @@ public class HistoryList {
     // create a panel that contains the list, then put the panel in frame?
     JPanel historyPanel;
 
-    // transition in UI screens. For example, after i asked a new question, and the 
-    // question and answer are displayed. but then i want to click on a past question
-    // and the page should refresh and give the new result
-
-    // addd clearPage() function that erases all the current content on the panel.
-
     public HistoryList(JsonStorage history, JTextArea answerArea, JTextArea questionArea) throws IOException {
         // read file into arraylist
         this.history = history;
@@ -67,7 +42,6 @@ public class HistoryList {
         this.questionList = setList();
         addListener();
         setHistoryPanel();
-
     }
 
 
@@ -129,10 +103,7 @@ public class HistoryList {
     public void setHistoryPanel() {
         JScrollPane scrollPane = new JScrollPane(questionList);
         scrollPane.setPreferredSize(new Dimension(200, 600)); // specify your preferred width and height
-        // sets up the jlist on a panel
         historyPanel.add(scrollPane);
-        //historyPanel.add(answerTextArea);
-        //setAnswerArea();
     }
 
     public void setAnswerArea() {
@@ -162,9 +133,7 @@ public class HistoryList {
     private void questionListValueChanged(ListSelectionEvent event) {
         String question = (String) questionList.getSelectedValue();
         int queryIdx = pastQuestions.indexOf(question);
-        //System.out.println("queryIdx: " + queryIdx);
-
-        // how to set this in main frame?
+        
         if (queryIdx == -1) {
             questionTextArea.setText("");
             answerTextArea.setText("");
@@ -198,15 +167,4 @@ public class HistoryList {
         historyPanel.validate();
         historyPanel.repaint();
     }
-
-    // public static void main(String args[]) throws IOException {
-    //     JFrame f = new JFrame();
-    //     JsonStorage history = new JsonStorage("historyPrompt.json");
-    //     HistoryList list = new HistoryList(history, new JTextArea());
-    //     f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    //     f.add(list.getHistoryPanel());
-    //     f.pack();
-    //     f.setVisible(true);
-    // }
-    
 }

@@ -49,12 +49,8 @@ public class DeleteButton extends JPanel {
         // get selected question
         int selectedIndex = questionList.getSelectedIndex();
         if (selectedIndex != -1) { // if some question is selected
-            // remove from the history list
-            // historyList.pastQuestions.remove(selectedIndex);
-            // historyList.pastAnswers.remove(selectedIndex);
-            // historyList.dlm.remove(selectedIndex);
             historyList.deleteEntry();
-
+            
             // remove from the json storage
             jsonStorage.removePrompt(selectedIndex);
             try {

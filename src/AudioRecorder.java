@@ -1,16 +1,11 @@
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import javax.sound.sampled.*;
 import javax.swing.*;
 
 public class AudioRecorder extends JFrame {
 
-  private JButton startButton;
-  private JButton stopButton;
   private AudioFormat audioFormat;
   private TargetDataLine targetDataLine;
-  private JLabel recordingLabel;
 
   public static void main(String[] args) {
     new AudioRecorder();
@@ -18,10 +13,7 @@ public class AudioRecorder extends JFrame {
 
   public AudioRecorder() {
     audioFormat = getAudioFormat();
-    //addListeners();
   }
-
-
 
   private AudioFormat getAudioFormat() {
     // the number of samples of audio per second.
@@ -86,7 +78,5 @@ public class AudioRecorder extends JFrame {
       this.targetDataLine.stop();
       targetDataLine.close();
     }
-    //targetDataLine.stop();
-    
   }
 }
