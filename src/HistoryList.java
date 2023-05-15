@@ -25,7 +25,7 @@ import javax.swing.border.Border;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-
+import org.json.JSONObject;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -34,13 +34,14 @@ import javax.swing.event.ListSelectionListener;
  * Sets up history prompt panel on main frame of the app
  */
 public class HistoryList {
+    ArrayList<JSONObject> prompts;
     ArrayList<String> pastQuestions;
     ArrayList<String> pastAnswers;
     JList<String> questionList;
     JTextArea questionTextArea;
     JTextArea answerTextArea;
     DefaultListModel<String> dlm;
-    JsonStorage jsonStorage;
+    JsonStorage history;
 
 
     // create a panel that contains the list, then put the panel in frame?
@@ -52,13 +53,15 @@ public class HistoryList {
 
     // addd clearPage() function that erases all the current content on the panel.
 
-    public HistoryList(String questionFile, String answerFile, JTextArea answerArea) {
+    public HistoryList(JsonStorage history, JTextArea answerArea) throws IOException {
         // read file into arraylist
+        this.history = history;
+        this.prompts = history.getPrompts();
         this.historyPanel = new JPanel();
         this.questionTextArea = new JTextArea();
         this.answerTextArea = answerArea;
-        this.pastQuestions = loadFile(questionFile);
-        this.pastAnswers = loadFile(answerFile);
+        this.pastQuestions = setPastQuestions(prompts);
+        this.pastAnswers = setPastAnswers(prompts);
         this.questionList = setList();
         this.dlm = new DefaultListModel<String>();
         addListener();
@@ -73,26 +76,34 @@ public class HistoryList {
     }
 
 
-
-    private ArrayList<String> loadFile(String fileName) {
-        ArrayList<String> list = new ArrayList<String>();
-        try{
-            FileReader inFile = new FileReader(fileName);
-            BufferedReader reader = new BufferedReader(inFile);
-            String line;
-            while((line = reader.readLine()) != null) {
-                // prepend to list so questions show up from newest to oldest
-                list.add(0, line);
-            }
-            reader.close();
+    //get list of past questions
+    ArrayList<String> setPastQuestions(ArrayList<JSONObject> prompts) {
+        ArrayList<String> pastQuestions = new ArrayList<String>();
+        for (int i = 0; i < prompts.size(); i++) {
+            pastQuestions.add(history.getQuestion(i));
         }
-        catch(Exception e){
-            System.out.println("loadFile() failed");
-        };
+        return pastQuestions;
+    }
 
+    //get list of past answers
+    ArrayList<String> setPastAnswers(ArrayList<JSONObject> prompts) {
+        ArrayList<String> pastAnswers = new ArrayList<String>();
+        for (int i = 0; i < prompts.size(); i++) {
+            pastAnswers.add(history.getAnswer(i));
+        }
+        return pastAnswers;
+    }
+
+
+    public JList<String> setList() {
+        DefaultListModel<String> dlm = new DefaultListModel<String>();
+        dlm.addAll(pastQuestions);
+        JList<String> list = new JList<String>(dlm);
         return list;
     }
 
+
+    //Set Up History Panel
     public JPanel getHistoryPanel() {
         return this.historyPanel;
     }
@@ -101,11 +112,8 @@ public class HistoryList {
         return this.answerTextArea;
     }
 
-    public JList<String> setList() {
-        DefaultListModel<String> dlm = new DefaultListModel<String>();
-        dlm.addAll(pastQuestions);
-        JList<String> list = new JList<String>(dlm);
-        return list;
+    public JList getHistoryList() {
+        return this.questionList;
     }
     
     public void setHistoryPanel() {
@@ -120,6 +128,7 @@ public class HistoryList {
         answerTextArea.setRows(5);
     }
 
+    //Set listener for list
     public void addListener() {
         questionList.addListSelectionListener(new ListSelectionListener() {
 
@@ -139,15 +148,29 @@ public class HistoryList {
         answerTextArea.setText(pastAnswers.get(queryIdx));
     }
 
-
-    public void newEntry(String question, String answer) {
-        this.pastQuestions.add(0, question);
-        this.pastQuestions.add(0, answer);
+    public void deleteEntry() {
+        int selectedIndex = questionList.getSelectedIndex();
+        if (selectedIndex != -1) {
+            pastQuestions.remove(selectedIndex);
+            pastAnswers.remove(selectedIndex);
+            dlm.remove(selectedIndex);
+            questionList.repaint();
+        }
     }
 
-    // public static void main(String args[]) {
+    public void clearHistory() {
+        for (int i = 0; i < questionList.getModel().getSize(); i++) {
+            pastQuestions.remove(i);
+            pastAnswers.remove(i);
+            dlm.remove(i);
+        }
+        questionList.repaint();
+    }
+
+    // public static void main(String args[]) throws IOException {
     //     JFrame f = new JFrame();
-    //     HistoryList list = new HistoryList("question.txt", "answer.txt");
+    //     JsonStorage history = new JsonStorage("historyPrompt.json");
+    //     HistoryList list = new HistoryList(history, new JTextArea());
     //     f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     //     f.add(list.getHistoryPanel());
     //     f.pack();

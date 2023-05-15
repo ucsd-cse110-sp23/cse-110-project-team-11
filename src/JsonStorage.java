@@ -20,6 +20,11 @@ public class JsonStorage {
         }
     }
 
+    //get history prompt
+    public ArrayList<JSONObject> getPrompts() {
+        return historyPrompt;
+    }
+
     //read json file
     public void readJson(String fileName) throws IOException {
         //read json file
@@ -117,10 +122,10 @@ public class JsonStorage {
         eg1.put("question", "What is your name?");
         eg1.put("answer", "My name is John.");
         js.addPrompt(eg1);
-        // JSONObject eg2 = new JSONObject();
-        // eg2.put("question", "What is your age?");
-        // eg2.put("answer", "I am 20 years old.");
-        // js.addPrompt(eg2);
+        JSONObject eg2 = new JSONObject();
+        eg2.put("question", "What is your age?");
+        eg2.put("answer", "I am 20 years old.");
+        js.addPrompt(eg2);
         // js.writeJson("historyPrompt.json");
         // System.out.println(js.getQuestion(0));
         // //System.out.println(type(js.getAnswer(0)));
@@ -128,11 +133,11 @@ public class JsonStorage {
         // System.out.println(js.getQuestion(1));
         // System.out.println(js.getAnswer(1));
         //js.removePrompt(0);
-        System.out.println(js.getQuestion(0));
-        System.out.println(js.getAnswer(1));
-        System.out.println(js.getAnswer(2));
-        System.out.println(js.getAnswer(12));
-        js.clearPrompt();
+        // System.out.println(js.getQuestion(0));
+        // System.out.println(js.getAnswer(1));
+        // System.out.println(js.getAnswer(2));
+        // System.out.println(js.getAnswer(12));
+        //js.clearPrompt();
         js.writeJson("historyPrompt.json");
 
 

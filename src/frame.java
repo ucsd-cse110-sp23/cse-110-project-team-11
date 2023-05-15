@@ -21,133 +21,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+
+import org.json.JSONObject;
+
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-
-// class Footer extends JPanel {
-//   private JButton newQuestion;
-//     private boolean isIconVisible = false;
-//     private ImageIcon icon;
-
-//     Footer() {
-//         // Set the size and background color of the panel.
-//         setPreferredSize(new Dimension(400, 60));
-//         setBackground(new Color(0, 0, 0, 0)); // set background color to transparent
-
-//         // Create the button.
-//         newQuestion = new JButton("New Question");
-//         newQuestion.setPreferredSize(new Dimension(100, 60)); // set the size of the button
-//         newQuestion.setFont(new Font("Sans-serif", Font.ITALIC, 10));
-
-//         // Add the button to the panel.
-//         add(newQuestion);
-
-//         // Add an action listener to the button.
-//         newQuestion.addActionListener(e -> waitForAnswer());
-
-//         // Create a SwingWorker to load the image in a background thread.
-//         //From ChaTGPT May 3rd version. Modify the ToggleIcon and add some methods to
-//         //be able to load the image in advance.
-//                 new SwingWorker<ImageIcon, Void>() {
-//             @Override
-//             protected ImageIcon doInBackground() throws Exception {
-//                 // Load the image from the URL.
-//                 URL url = new URL("https://drive.google.com/uc?export=download&id=1B39XTjnEYdqXU_JIp9gRvT6naAX6uOxI");
-//                 ImageIcon icon = new ImageIcon(url);
-//                 Image image = icon.getImage();
-                
-//                 // Scale the image to the size of the button.
-//                 Image scaledImage = image.getScaledInstance(newQuestion.getWidth(), newQuestion.getHeight(), Image.SCALE_SMOOTH);
-                
-//                 // Return the scaled image as an ImageIcon.
-//                 return new ImageIcon(scaledImage);
-//             }
-
-//             @Override
-//             protected void done() {
-//                 try {
-//                     // When the image has been loaded, store it in the 'icon' field.
-//                     icon = get();
-//                 } catch (Exception e) {
-//                     // If an error occurs while loading the image, print the stack trace.
-//                     e.printStackTrace();
-//                 }
-//             }
-//         }.execute();
-//     }
-
-//     public void waitForAnswer() {
-//       toggleIcon();
-//       clearAnswer();
-//     }
-
-//     public void clearAnswer() {
-//       // clear answerTextArea;
-//       getAnswerArea();
-//     }
-
-//     private void toggleIcon() {
-//         // If the icon is not currently visible, set it as the button's icon.
-//         // If the icon is currently visible, remove it and set the button's text back to "New Question".
-//         if (!isIconVisible) {
-//             newQuestion.setIcon(icon);
-//             newQuestion.setText("");
-//             isIconVisible = true;
-//         } else {
-//             newQuestion.setIcon(null);
-//             newQuestion.setText("New Question");
-//             isIconVisible = false;
-//         }
-//     }
-
-  // private JButton newQuestion; // button to ask new question
-  // private boolean isIconVisible = false;
-
-  // Border emptyBorder = BorderFactory.createEmptyBorder(); // create empty border
-
-  // Footer() {
-  //     setPreferredSize(new Dimension(400, 60));
-  //     setBackground(new Color(0, 0, 0, 0)); // set background color to transparent
-
-  //     //add new question button
-  //     newQuestion = new JButton("New Question");
-  //     newQuestion.setPreferredSize(new Dimension(100, 60)); // set the size of the button
-  //     newQuestion.setFont(new Font("Sans-serif", Font.ITALIC, 10));
-  //     add(newQuestion);
-
-  //     //add action listener to new question button
-  //     newQuestion.addActionListener(e -> toggleIcon());
-  //     //TODO: raise start recording action and threading
-  // }
-
-  // //Change the icon of the button while recording
-  // private void toggleIcon() {
-  //     if (!isIconVisible) {
-  //         //if MacBook user, change to "/path/redIcon.png"
-  //         //if Windows user, move the file into the same folder and change to "redIcon.png"
-
-  //         //read image file for icon
-  //         ImageIcon icon = new ImageIcon("redIcon.png");
-  //         Image image = icon.getImage();
-  //         Image scaledImage = image.getScaledInstance(newQuestion.getWidth(), newQuestion.getHeight(), Image.SCALE_SMOOTH);
-
-  //         //set icon
-  //         newQuestion.setIcon(new ImageIcon(scaledImage));
-  //         newQuestion.setText("");
-  //         isIconVisible = true;
-  //     } else {
-  //         //change back to original button
-  //         newQuestion.setIcon(null);
-  //         newQuestion.setText("New Question");
-  //         isIconVisible = false;
-  //     }
-  // }
-//}
 
 
 class Question extends JPanel{
@@ -205,7 +87,6 @@ class Question extends JPanel{
         answerArea.setBackground(someGray);
 
         //set size and position
-
         question.setPreferredSize(new Dimension(780, 50)); // set size of index label
         answer.setHorizontalAlignment(JLabel.CENTER);
         answer.setVerticalAlignment(JLabel.TOP);
@@ -217,9 +98,6 @@ class Question extends JPanel{
 
 
 class AppFrame extends JFrame {
-
-    // Create a space for the footer
-    //private Footer footer;
 
     // Colors
     Color gray = new Color(240, 240, 240);
@@ -255,13 +133,14 @@ class AppFrame extends JFrame {
 
     
     //MAIN UI Frame
-    AppFrame() {
+    AppFrame() throws IOException {
       //Set the whole window
       this.setSize(1000,1000); // 1000 width and 1000 height
       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close on exit
       this.setVisible(true); // Make visible
 
       // Get question from text file
+      // TODO: should get question from json file
       String questionText = loadfile();
 
       // Get answer from text file
@@ -278,29 +157,23 @@ class AppFrame extends JFrame {
       row1.setPreferredSize(new Dimension(800, 50));
       row1.add(question.getQuestion());
 
-      // // create answer panel
-      // JPanel row2 = new JPanel();
-      // row2.setBackground(gray);
-      // row2.setPreferredSize(new Dimension(800, 750));
-      // row2.add(question.getAnswerArea());
-
-
-      // initialize footer
-      //footer = new Footer();
-
-      // pass in history to delete button constructor
-    // pass text area into newQuestion and history list.
-      
-      // history object to get panel
+      // create answer area in frame
       JTextArea answerArea = question.getAnswerArea();
-      HistoryList history = new HistoryList("/Users/hongyuan/Documents/GitHub/cse-110-project-team-11/src/question.txt", "/Users/hongyuan/Documents/GitHub/cse-110-project-team-11/src/answer.txt", answerArea);
+      JsonStorage history = new JsonStorage("historyPrompt.json");
 
+      // try adding to json
+      JSONObject eg1 = new JSONObject();
+        eg1.put("question", "What is your name?");
+        eg1.put("answer", "My name is John.");
+        history.addPrompt(eg1);
+      //history.addPrompt();
+
+      HistoryList list = new HistoryList(history, answerArea);
       // get newQuestionButton
       NewQuestionButton newQuestionButton = new NewQuestionButton(answerArea);
       JButton newButton = newQuestionButton.getNewQuestionButton();
 
       // Create a JPanel for the right section of the frame
-      //JPanel rightPanel = new JPanel();
       JPanel rightPanel = new JPanel(new BorderLayout());
       rightPanel.setPreferredSize(new Dimension(800, 900));
 
@@ -319,15 +192,11 @@ class AppFrame extends JFrame {
       
       rightPanel.setBackground(gray);
 
-      // if i click on the new question button, answer text field should be cleared.
-      // button listener
-
-
       // Create a split pane with the two panels in it
       JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
       //JPanel leftPanel = new JPanel();
-      JPanel leftPanel = history.getHistoryPanel();
+      JPanel leftPanel = list.getHistoryPanel();
 
       //leftPanel.add(new JLabel("History prompt"));
       leftPanel.setPreferredSize(new Dimension(180, 1000));
@@ -360,9 +229,8 @@ class AppFrame extends JFrame {
 
 
 public class frame {
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
       new AppFrame(); // Create the frame
-      
     }
     
   }
