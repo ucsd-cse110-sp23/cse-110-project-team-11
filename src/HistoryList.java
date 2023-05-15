@@ -61,7 +61,7 @@ public class HistoryList {
         this.pastAnswers = loadFile(answerFile);
         this.questionList = setList();
         this.dlm = new DefaultListModel<String>();
-        addListener();
+        //addListener();
         setHistoryPanel();
 
         JButton clearAllButton = new JButton("Clear All");
