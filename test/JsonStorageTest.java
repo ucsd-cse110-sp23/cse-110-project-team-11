@@ -5,19 +5,6 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class JsonStorageTest {
-    public void testStarter() throws IOException {
-        JsonStorage js = new JsonStorage("historyPrompt.json");
-        JSONObject eg1 = new JSONObject();
-        js.clearPrompt();
-        js.writeJson("historyPrompt.json");
-
-        eg1.put("question", "Q1");
-        eg1.put("answer", "A1");
-
-        js.addPrompt(eg1);
-        js.writeJson("historyPrompt.json");
-    }
-
     /*
      * Test constructor
      */
@@ -33,7 +20,15 @@ class JsonStorageTest {
     @Test
     void testGetQuestion() throws IOException {
         JsonStorage js = new JsonStorage("historyPrompt.json");
-        testStarter();
+        JSONObject eg1 = new JSONObject();
+        js.clearPrompt();
+        js.writeJson("historyPrompt.json");
+
+        eg1.put("question", "Q1");
+        eg1.put("answer", "A1");
+
+        js.addPrompt(eg1);
+        js.writeJson("historyPrompt.json");
 
         assertEquals("Q1", js.getQuestion(0));
         assertEquals(1, js.getHistoryPrompt().size());
@@ -47,7 +42,15 @@ class JsonStorageTest {
     @Test
     void testGetAnswer() throws IOException {
         JsonStorage js = new JsonStorage("historyPrompt.json");
-        testStarter();
+        JSONObject eg1 = new JSONObject();
+        js.clearPrompt();
+        js.writeJson("historyPrompt.json");
+
+        eg1.put("question", "Q1");
+        eg1.put("answer", "A1");
+
+        js.addPrompt(eg1);
+        js.writeJson("historyPrompt.json");
 
         assertEquals("A1", js.getAnswer(0));
         assertEquals(1, js.getHistoryPrompt().size());
