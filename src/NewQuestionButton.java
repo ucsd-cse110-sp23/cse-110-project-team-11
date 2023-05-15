@@ -194,12 +194,14 @@ class NewQuestionButton extends JPanel {
     private boolean isIconVisible = false;
     private ImageIcon icon;
     private JTextArea answer;
+    private JTextArea question;
     private JsonStorage storage;
     private HistoryList list;
     //private JTextArea answerArea;
 
-    NewQuestionButton(JTextArea answerText, JsonStorage storage, HistoryList hl) {
+    NewQuestionButton(JTextArea answerText, JTextArea questionText, JsonStorage storage, HistoryList hl) {
         this.answer = answerText;
+        this.question = questionText;
         this.storage = storage;
         this.list = hl;
         //this.answerArea = answerArea;
@@ -260,13 +262,13 @@ class NewQuestionButton extends JPanel {
         answer.setText(" ");
     }
 
-    public JTextArea getAnswerArea() {
-        return this.answer;
-    }
+    // public JTextArea getAnswerArea() {
+    //     return this.answer;
+    // }
 
     public void toggleAndClear() throws IOException, JSONException, InterruptedException {
         toggleIcon();
-        clearAnswer();
+        //clearAnswer();
     }
 
     private void toggleIcon() throws IOException, JSONException, InterruptedException{
@@ -276,15 +278,30 @@ class NewQuestionButton extends JPanel {
         if (!isIconVisible) {
             newQuestion.setIcon(icon);
             newQuestion.setText("");
-            //NewQuestion newQ = new NewQuestion();
             newQ.newQuestionStart();
             isIconVisible = true;
         } else {
             newQuestion.setIcon(null);
             newQuestion.setText("New Question");
             newQ.newQuestionEnd(storage);
+
+            //access the last question
+            int lastEntry = storage.getHistoryPrompt().size() - 1;
+            String newQuestion = storage.getQuestion(lastEntry);
+            String newAnswer = storage.getAnswer(lastEntry);
+            System.out.println(newAnswer);
+            question.setText(newQuestion);
+            answer.setText(newAnswer);
+            answer.revalidate();
+            answer.repaint();
             list.refresh();
             isIconVisible = false;
+
+            
+            // answerArea = new JTextArea(answerText, 5, 20);
+            // answerArea.setBounds(10, 11, 780, 1000);
+            // answerArea.setEditable(false);
+            // answerArea.setLineWrap(true);
         }
     }
 

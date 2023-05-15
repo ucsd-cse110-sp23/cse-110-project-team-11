@@ -84,6 +84,7 @@ public class ChatGPT{
         String generatedText = choices.getJSONObject(0).getString("text");
 
         //set the answer!
+        setQuestion(questionText);
         setAnswer(generatedText);
         System.out.println(getAnswer());
     }

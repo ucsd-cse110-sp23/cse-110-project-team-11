@@ -58,7 +58,7 @@ public class HistoryList {
         this.history = history;
         this.prompts = history.getPrompts();
         this.historyPanel = new JPanel();
-        this.questionTextArea = new JTextArea();
+        //this.questionTextArea = new JTextArea();
         this.answerTextArea = answerArea;
         this.questionTextArea = questionArea;
         this.dlm = new DefaultListModel<String>();
@@ -125,8 +125,8 @@ public class HistoryList {
         scrollPane.setPreferredSize(new Dimension(200, 600)); // specify your preferred width and height
         // sets up the jlist on a panel
         historyPanel.add(scrollPane);
-        historyPanel.add(answerTextArea);
-        setAnswerArea();
+        //historyPanel.add(answerTextArea);
+        //setAnswerArea();
     }
 
     public void setAnswerArea() {
@@ -156,12 +156,14 @@ public class HistoryList {
     private void questionListValueChanged(ListSelectionEvent event) {
         String question = (String) questionList.getSelectedValue();
         int queryIdx = pastQuestions.indexOf(question);
-        System.out.println("queryIdx: " + queryIdx);
+        //System.out.println("queryIdx: " + queryIdx);
 
         // how to set this in main frame?
         if (queryIdx == -1) {
+            questionTextArea.setText("");
             answerTextArea.setText("");
         } else {
+            questionTextArea.setText(question);
             answerTextArea.setText(pastAnswers.get(queryIdx));
         }
     }

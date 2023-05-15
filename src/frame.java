@@ -1,6 +1,12 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Panel;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowAdapter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,133 +21,140 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import javax.swing.*;
 
+
 /*
  * Handle question panel
  */
-class Question extends JPanel{
-    private JLabel question;
-    private JLabel answer;
-    private JTextArea answerArea;
-    private JTextArea questionArea;
+class QuestionAnswerPanel extends JPanel{
+   
+    private String question;
+    private String answer;
+    private JTextArea questionTextArea;
+    private JTextArea answerTextArea;
+    //private JButton newQuestion;
 
-    private Color pink = new Color(223, 165, 245);
-    
-    /*
-     * Set question
-     */
-    public void setQuestionString(String newQuestion){
-        question.setText(newQuestion);
+
+    public QuestionAnswerPanel(String question, String answer) {
+        this.question = question;
+        this.answer = answer;
+
+
+        // create layout for right panel
+        setLayout(new GridBagLayout());
+
+
+
+
+        // set question area
+        questionTextArea = new JTextArea(question);
+        questionTextArea.setRows(3);
+        questionTextArea.setEditable(false);
+        JScrollPane questionScrollPane = new JScrollPane(questionTextArea);
+       
+
+
+        // set answer area
+        answerTextArea = new JTextArea(answer);
+        answerTextArea.setRows(8);
+        answerTextArea.setEditable(false);
+        answerTextArea.setLineWrap(true);
+        answerTextArea.setWrapStyleWord(true);
+        JScrollPane answerScrollPane = new JScrollPane(answerTextArea);
+
+
+        // set layout
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.3;
+        gbc.insets = new Insets(10, 10, 5, 10);
+        add(questionScrollPane, gbc);
+
+
+        gbc.gridy = 1;
+        gbc.weighty = 0.3;       
+        gbc.insets = new Insets(5, 10, 10, 10);
+        add(answerScrollPane, gbc);
+
+
+    //     addNewQuestionButton(js, list);
+    //     gbc.gridy = 2;
+    //     gbc.weighty = 0.3;
+    //     gbc.fill = GridBagConstraints.CENTER;
+    //     gbc.insets = new Insets(5, 10, 10, 10);
+    //     add(this.newQuestion, gbc);
     }
 
-    /*
-     * Set answer
-     */
-    public void setAnswerString(String newAnswer){
-        answer.setText(newAnswer);
+
+    // public void setQuestion(String question) {
+    //     questionTextArea.setText(question);
+    // }
+
+
+    // public void addNewQuestionButton(JsonStorage js, HistoryList list) {
+    //   NewQuestionButton newQuestionButton = new NewQuestionButton(this.answerTextArea, js, list);
+    //   this.newQuestion = newQuestionButton.getNewQuestionButton();
+    // }
+
+
+    public JPanel getPanel() {
+      return this;
     }
 
-    /*
-     * Get question
-     */
-    public JLabel getQuestion(){
-        return question;
-    }
-
-    /*
-     * Get answer
-     */
-    public JLabel getAnswer(){
-        return answer;
-    }
-
-    /*
-     * Get answer area
-     */
-    public JTextArea getAnswerArea(){
-        return answerArea;
-    }
 
     public JTextArea getQuestionArea() {
-        return questionArea;
+      return this.questionTextArea;
     }
 
-    /*
-     * Constructor for question, settings for question and answer labels (size, color)
-     */
-    Question(String questionText, String answerText) {
-        this.setPreferredSize(new Dimension(780, 800)); // set size of task
-        // this.setBackground(gray); // set background color of task
-        this.setLayout(new BorderLayout()); // set layout of task
 
-        // create question label
-        question = new JLabel("<html>"+questionText+ "</html>"); // create index label
-        question.setPreferredSize(new Dimension(780, 50)); // set size of index label
-        question.setHorizontalAlignment(JLabel.CENTER); // set alignment of index label
-        question.setVerticalAlignment(JLabel.TOP);
-        
-        // create answer label
-        answer = new JLabel("<html>"+ answerText +"<html>"); // create task name text field
-        answerArea = new JTextArea(answerText, 5, 20);
-        answerArea.setBounds(10, 400, 780, 500);
-        answerArea.setEditable(false);
-        answerArea.setLineWrap(true);
-        answerArea.setBackground(pink);
-
-        // set size and position
-        question.setPreferredSize(new Dimension(780, 400)); // set size of index label
-        answer.setHorizontalAlignment(JLabel.CENTER);
-        answer.setVerticalAlignment(JLabel.TOP);
-        answer.setBorder(BorderFactory.createEmptyBorder()); // remove border of text field
-        // answer.setBackground(gray); // set background color of text field   
+    public JTextArea getAnswerArea() {
+      return this.answerTextArea;
     }
-
 }
+
+
+// class ButtonPanel extends JPanel{
+//     private JButton newQuestion;
+
+
+//     public ButtonPanel(JTextArea answerTextArea, JsonStorage js, HistoryList list) {
+//       setLayout(new GridBagLayout());
+//       NewQuestionButton newQuestionButton = new NewQuestionButton(answerTextArea, js, list);
+//       this.newQuestion = newQuestionButton.getNewQuestionButton();
+
+
+//       // set layout
+//       GridBagConstraints gbc = new GridBagConstraints();
+//       gbc.gridx = 0;
+//       gbc.gridy = 0;
+//       gbc.fill = GridBagConstraints.RELATIVE;
+//       gbc.anchor = GridBagConstraints.PAGE_END;
+//       gbc.weightx = 1.0;
+//       gbc.weighty = 0.3;
+//       gbc.insets = new Insets(10, 10, 5, 10);
+//       add(newQuestion, gbc);
+//     }
+
+
+// }
 
 
 class AppFrame extends JFrame {
 
+
     // Colors
-    Color gray = new Color(223, 165, 245);
-    Color historyColor = new Color(100, 204, 200);
-    Color someGray = new Color(223, 165, 245);
-    Color deepGray = new Color(223, 165, 245);
+    Color gray = new Color(50, 50, 50);
+    Color blue = new Color(100, 204, 200);
+    Color lightGray = new Color (200,200,200);
 
-    private NewQuestion nq = new NewQuestion();
 
-    /*
-     * TODO: DELETE
-     * Interface for question
-     * Input any file that contains questions and modify below code
-     */
-    public String loadfile() {
-      ArrayList<String> questions = new ArrayList<String>();
-  
-      try{
-        BufferedReader reader = new BufferedReader(new FileReader("question.txt"));
-        
-        String line = reader.readLine();
-        while(line != null){
-              //System.out.println(line);
-              questions.add(line);
-              line = reader.readLine();
-        }
-  
-        reader.close();
-      }
-      catch(IOException e){
-          System.out.println("Reading Error: " + e.getMessage());
-    
-      }
-      return String.join("\n", questions);
-    }
+   
 
-    
-    // public void displayQuery() throws JSONException, IOException, InterruptedException {
-    //   // displays result from new question on right panel
-    //   String whisperArg = "myAudio.mp3";
-    //   String question = whisper.getTranscript(whisperArg);
-    //   chatgpt.chat(question);
-    // }
+
+
+
 
 
 
@@ -151,111 +164,146 @@ class AppFrame extends JFrame {
      */
     AppFrame() throws IOException {
 
+
+      //initailze the data structure
       JsonStorage js = new JsonStorage("historyPrompt.json");
 
-      for (int i = 0; i < 50; i++) {
+
+      //adding actions to exit
+      addWindowListener(new WindowAdapter() {
+
+
+        @Override
+        public void windowClosing(WindowEvent e){
+          try {
+            js.writeJson("historyPrompt.json");
+          } catch (IOException e1) {
+            e1.printStackTrace();
+          }
+            System.exit(0);
+          }
+      });
+     
+     
+      //add mocking history prompts
+      for (int i = 0; i < 10; i++) {
         JSONObject eg1 = new JSONObject();
         eg1.put("question", "What is your name? What is your age?" + i);
         eg1.put("answer", "My name is John." + i);
         js.addPrompt(eg1);
       }
 
-      int lastEntry = js.getHistoryPrompt().size() - 1;
-      String newQuestion = js.getQuestion(lastEntry);
-      String newAnswer = js.getAnswer(lastEntry);
 
 
-      // create a question
-      Question question = new Question(newQuestion, newAnswer);
+
+        //set original question panel
+        String newQuestion = "";
+        String newAnswer = "";
+   
+
+        
+
+
+        // create a question
+        QuestionAnswerPanel question = new QuestionAnswerPanel(newQuestion, newAnswer);
+        JPanel questionPanel = question.getPanel();
+
+
+        HistoryList list = new HistoryList(js, question.getAnswerArea(), question.getQuestionArea());
+        JPanel historyPanel = list.getHistoryPanel();
+        JList historyList = list.getHistoryList();
+        NewQuestionButton newQuestionButton = new NewQuestionButton(question.getAnswerArea(), question.getQuestionArea(), js, list);
+        DeleteButton deleteButton = new DeleteButton(list, js, historyList);
+
+        //QuestionAnswerPanel history = new QuestionAnswerPanel("History Prompts", "History area");
+        //ButtonPanel buttonPanel = new ButtonPanel(question.getAnswerArea(), js, list);
+        //JPanel historyPanel = history.getPanel();
+
+
+
 
 
 
       //Set the whole window
       this.setSize(1000,1000); // 1000 width and 1000 height
-      this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close on exit
+      this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // Close on exit
       this.setVisible(true); // Make visible
 
-      // // Get question from text file
-      // // TODO: should get question from json file
-      // String questionText = loadfile();
-
-      // // Get answer from text file
-      // // TODO: modify answer Text
-      // String answerText = questionText;
 
 
-      // // create question panel
-      JPanel row1 = new JPanel();
-      row1.setBackground(deepGray);
-      row1.setPreferredSize(new Dimension(800, 50));
-      row1.add(question.getQuestion());
 
-      // create answer area in frame
-      JTextArea answerArea = question.getAnswerArea();
-      JTextArea questionArea = question.getQuestionArea();
-      //JsonStorage history = new JsonStorage("historyPrompt.json");
 
-    
-      HistoryList list = new HistoryList(js, answerArea, questionArea);
 
-      // get newQuestionButton
-      NewQuestionButton newQuestionButton = new NewQuestionButton(answerArea, js, list);
-      JButton newButton = newQuestionButton.getNewQuestionButton();
-      JList historyList = list.getHistoryList();
-      list.printDlmSize();
-      
-      DeleteButton deleteButton = new DeleteButton(list, js, historyList);
+
+
+      // //access the last question
+      // int lastEntry = js.getHistoryPrompt().size() - 1;
+      // String newQuestion = js.getQuestion(lastEntry);
+      // String newAnswer = js.getAnswer(lastEntry);
+
 
       // Create a JPanel for the right section of the frame
       JPanel rightPanel = new JPanel(new BorderLayout());
-      rightPanel.setPreferredSize(new Dimension(800, 900));
+      rightPanel.setPreferredSize(new Dimension(500, 500));
 
-      //JTextArea answerArea = history.getAnswerArea();
-      //JTextArea answerArea = question.getAnswerArea();
+
       // Add the label to the center of the right panel
-      rightPanel.add(row1, BorderLayout.NORTH);
-      //rightPanel.add(row2, BorderLayout.CENTER);
-      rightPanel.add(answerArea, BorderLayout.SOUTH);
-      //rightPanel.add(footer, BorderLayout.SOUTH);
-      //rightPanel.add(newButton, BorderLayout.SOUTH);
-      JPanel buttonPanel = new JPanel();  // FlowLayout is the default
-      buttonPanel.add(newButton);
+      rightPanel.add(questionPanel, BorderLayout.CENTER);
+      //rightPanel.add(buttonPanel);
+      rightPanel.revalidate();
+      rightPanel.repaint();
+      //rightPanel.add(buttonPanel);
+     
 
-      rightPanel.add(buttonPanel, BorderLayout.SOUTH);
-      
+      rightPanel.add(newQuestionButton, BorderLayout.SOUTH);
+      //rightPanel.add(buttonPanel, BorderLayout.SOUTH);
+     
       rightPanel.setBackground(gray);
+      rightPanel.revalidate();
+      rightPanel.repaint();
+
+
 
 
       // Create a split pane with the two panels in it
       JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
+
       //JPanel leftPanel = new JPanel();
-      JPanel leftPanel = list.getHistoryPanel();
+      JPanel leftPanel = historyPanel;
+
 
       //leftPanel.add(new JLabel("History prompt"));
       leftPanel.setPreferredSize(new Dimension(180, 1000));
-      leftPanel.setBackground(historyColor);
+      leftPanel.setBackground(blue);
       leftPanel.add(deleteButton);
 
+
       // Set the minimum size of the left panel
-      Dimension minimumSize = new Dimension(200, 1000); 
+      Dimension minimumSize = new Dimension(200, 1000);
       leftPanel.setMinimumSize(minimumSize);
 
+
       // Combine two panels into one
-      JPanel nestedPanel = new JPanel(new BorderLayout());
-      nestedPanel.add(rightPanel, BorderLayout.CENTER);
+      //JPanel nestedPanel = new JPanel(new BorderLayout());
+      //nestedPanel.add(rightPanel, BorderLayout.CENTER);
+
 
       // Set the divider location to divide the frame into 1/5 and 4/5
       splitPane.setDividerLocation(0.2);
       //splitPane.setOneTouchExpandable(true);
 
+
       // Add the left and nested panels to the split pane
       splitPane.setLeftComponent(leftPanel);
-      splitPane.setRightComponent(nestedPanel);
+      splitPane.setRightComponent(rightPanel);
       splitPane.setBackground(gray);
+
 
       // Add the split pane to the frame
       getContentPane().add(splitPane);
+
+
 
 
       revalidate();
@@ -263,9 +311,12 @@ class AppFrame extends JFrame {
 }
 
 
+
+
 public class frame {
     public static void main(String args[]) throws IOException {
       new AppFrame(); // Create the frame
     }
-    
+   
   }
+
