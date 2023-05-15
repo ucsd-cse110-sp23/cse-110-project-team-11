@@ -66,9 +66,6 @@ public class Whisper {
         JSONObject responseJson = new JSONObject(response.toString());
         String generatedText = responseJson.getString("text");
 
-        //print transcription result
-        //System.out.println("Transcription Result: " + generatedText);
-
         return generatedText;
     }
 
