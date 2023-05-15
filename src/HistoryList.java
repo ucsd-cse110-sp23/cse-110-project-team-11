@@ -36,9 +36,6 @@ public class HistoryList {
         this.answerTextArea = answerArea;
         this.questionTextArea = questionArea;
         this.dlm = new DefaultListModel<String>();
-        this.pastQuestions = setPastQuestions(prompts);
-        this.pastAnswers = setPastAnswers(prompts);
-        this.questionList = setList();
         addListener();
         setHistoryPanel();
     }

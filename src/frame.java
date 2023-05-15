@@ -173,6 +173,10 @@ class AppFrame extends JFrame {
       NewQuestionButton newQuestionButton = new NewQuestionButton(answerArea);
       JButton newButton = newQuestionButton.getNewQuestionButton();
 
+      //get ClearAll button
+      clearAllButton clearAllButton = new clearAllButton();
+      JButton clearAll = clearAllButton.getClear();
+
       // Create a JPanel for the right section of the frame
       JPanel rightPanel = new JPanel(new BorderLayout());
       rightPanel.setPreferredSize(new Dimension(800, 900));
