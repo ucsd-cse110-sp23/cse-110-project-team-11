@@ -24,6 +24,7 @@ public class NewQuestion {
             Thread.sleep(100);
         }
 
+        //Stop new question
         q.newQuestionStop();
         String whisperArg = "myAudio.mp3";
         String question = whisper.getTranscript(whisperArg);
