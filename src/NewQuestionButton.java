@@ -118,7 +118,7 @@ class Footer extends JPanel {
 
         newQuestion.addActionListener(e -> toggleIcon());
 
-        // 创建一个SwingWorker来加载图片
+        
         new SwingWorker<ImageIcon, Void>() {
             @Override
             protected ImageIcon doInBackground() throws Exception {
@@ -132,7 +132,7 @@ class Footer extends JPanel {
             @Override
             protected void done() {
                 try {
-                    // 在图片加载完成后更新按钮
+                    
                     icon = get();
                 } catch (Exception e) {
                     e.printStackTrace();

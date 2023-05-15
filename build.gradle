@@ -14,11 +14,15 @@ repositories {
 
 dependencies {
     def junitVersion = '5.8.1'
+    def mockitoVersion = '3.11.2' // Add Mockito version
 
     // This provides the JUnit API.
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     // This provides the TestEngine to actually run the tests.
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+
+    // Add Mockito dependency
+    testImplementation "org.mockito:mockito-core:$mockitoVersion" 
 
     // Add JSON dependency
     implementation 'org.json:json:20210307'

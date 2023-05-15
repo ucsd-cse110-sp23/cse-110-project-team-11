@@ -1,6 +1,9 @@
+
 // reference: https://stackoverflow.com/questions/14625091/create-a-list-of-entries-and-make-each-entry-clickable
 // Lab5 JListExampleApp
 // https://stackoverflow.com/questions/3200846/how-to-make-a-scrollable-jlist-to-add-details-got-from-a-joptionpane
+
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -33,28 +36,29 @@ import javax.swing.event.ListSelectionListener;
 /**
  * Sets up history prompt panel on main frame of the app
  */
+/**
+ * HistoryList class is used to display past prompts and their corresponding answers.
+ * It includes functions to create and manage a list of past prompts, and to display the
+ * corresponding answer when a prompt is selected.
+ */
+
 public class HistoryList {
-    ArrayList<JSONObject> prompts;
-    ArrayList<String> pastQuestions;
-    ArrayList<String> pastAnswers;
-    JList<String> questionList;
-    JTextArea questionTextArea;
-    JTextArea answerTextArea;
-    DefaultListModel<String> dlm;
-    JsonStorage history;
+    // Instance variables for holding the data and GUI components
+    ArrayList<JSONObject> prompts;  // List of prompts
+    ArrayList<String> pastQuestions;  // List of past questions
+    ArrayList<String> pastAnswers;  // List of past answers
+    JList<String> questionList;  // GUI component for displaying the questions
+    JTextArea questionTextArea;  // GUI component for displaying the selected question
+    JTextArea answerTextArea;  // GUI component for displaying the answer to the selected question
+    DefaultListModel<String> dlm;  // Default list model for managing the list data
+    JsonStorage history;  // The JSON storage containing the history
 
+    // GUI components for the panel displaying the history
+    JPanel historyPanel;  // The main panel
 
-    // create a panel that contains the list, then put the panel in frame?
-    JPanel historyPanel;
-
-    // transition in UI screens. For example, after i asked a new question, and the 
-    // question and answer are displayed. but then i want to click on a past question
-    // and the page should refresh and give the new result
-
-    // addd clearPage() function that erases all the current content on the panel.
-
+    // Constructor
     public HistoryList(JsonStorage history, JTextArea answerArea, JTextArea questionArea) throws IOException {
-        // read file into arraylist
+        // Initialize instance variables
         this.history = history;
         this.prompts = history.getPrompts();
         this.historyPanel = new JPanel();
@@ -67,7 +71,6 @@ public class HistoryList {
         this.questionList = setList();
         addListener();
         setHistoryPanel();
-
     }
 
 
