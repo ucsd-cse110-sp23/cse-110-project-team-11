@@ -299,6 +299,10 @@ class AppFrame extends JFrame {
       NewQuestionButton newQuestionButton = new NewQuestionButton(answerArea);
       JButton newButton = newQuestionButton.getNewQuestionButton();
 
+      //get ClearAll button
+      clearAllButton clearAllButton = new clearAllButton();
+      JButton clearAll = clearAllButton.getClear();
+
       // Create a JPanel for the right section of the frame
       //JPanel rightPanel = new JPanel();
       JPanel rightPanel = new JPanel(new BorderLayout());
@@ -328,6 +332,8 @@ class AppFrame extends JFrame {
 
       //JPanel leftPanel = new JPanel();
       JPanel leftPanel = history.getHistoryPanel();
+      //Adding clear all button to left 
+      leftPanel.add(clearAll, BorderLayout.SOUTH);
 
       //leftPanel.add(new JLabel("History prompt"));
       leftPanel.setPreferredSize(new Dimension(180, 1000));
