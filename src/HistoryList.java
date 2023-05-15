@@ -119,6 +119,12 @@ public class HistoryList {
     public void printDlmSize() {
         System.out.println(dlm.getSize());
     }
+
+    public void addEntry(String question, String answer) {
+        dlm.addElement(question);
+        pastQuestions.add(question);
+        pastAnswers.add(answer);
+    }
     
     public void setHistoryPanel() {
         JScrollPane scrollPane = new JScrollPane(questionList);

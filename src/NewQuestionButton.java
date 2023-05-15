@@ -289,6 +289,7 @@ class NewQuestionButton extends JPanel {
             int lastEntry = storage.getHistoryPrompt().size() - 1;
             String newQuestion = storage.getQuestion(lastEntry);
             String newAnswer = storage.getAnswer(lastEntry);
+            list.addEntry(newQuestion, newAnswer);
             System.out.println(newAnswer);
             question.setText(newQuestion);
             answer.setText(newAnswer);
