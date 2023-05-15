@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -27,6 +28,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+class Footer extends JPanel {
+
+  private JButton newQuestion;
+  private boolean isIconVisible = false;
+
+  Border emptyBorder = BorderFactory.createEmptyBorder();
+
+  Footer() {
+      setPreferredSize(new Dimension(400, 60));
+      setBackground(new Color(0, 0, 0, 0)); // set background color to transparent
+
+      newQuestion = new JButton("New Question");
+      newQuestion.setPreferredSize(new Dimension(100, 60)); // set the size of the button
+
+      newQuestion.setFont(new Font("Sans-serif", Font.ITALIC, 10));
+
+      add(newQuestion);
+
+      newQuestion.addActionListener(e -> toggleIcon());
+  }
+
+  private void toggleIcon() {
+      if (!isIconVisible) {
+          //if MacBook user, change to "/path/redIcon.png"
+          //if Windows user, move the file into the same folder and change to "redIcon.png"
+          ImageIcon icon = new ImageIcon("/Users/peikexu/Documents/Ucsd/cse/cse 110/cse-110-project-team-11/src/redIcon.png");
+          Image image = icon.getImage();
+          Image scaledImage = image.getScaledInstance(newQuestion.getWidth(), newQuestion.getHeight(), Image.SCALE_SMOOTH);
+          newQuestion.setIcon(new ImageIcon(scaledImage));
+          newQuestion.setText("");
+          isIconVisible = true;
+      } else {
+          newQuestion.setIcon(null);
+          newQuestion.setText("New Question");
+          isIconVisible = false;
+      }
+  }
+}
+
+
 class Question extends JPanel{
     JLabel question;
     JLabel answer;
@@ -35,6 +76,7 @@ class Question extends JPanel{
     Color gray = new Color(218, 229, 234);
     Color someGray = new Color(199, 199, 199);
     Color green = new Color(188, 226, 158);
+    
 
     Question(String questionText, String answerText) {
         this.setPreferredSize(new Dimension(780, 800)); // set size of task
@@ -84,6 +126,7 @@ class Question extends JPanel{
 
 class AppFrame extends JFrame {
 
+    private Footer footer;
     Color gray = new Color(211, 211, 211);
     Color darkGray = new Color(169, 169, 169);
     Color someGray = new Color(199, 199, 199);
@@ -115,8 +158,12 @@ class AppFrame extends JFrame {
     }
   
     AppFrame() {
+
+
       this.setSize(1000,1000); // 1000 width and 1000 height
       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close on exit
+      footer = new Footer();
+      add(footer, BorderLayout.SOUTH);
       this.setVisible(true); // Make visible
 
       // Create a JPanel for the right section of the frame
@@ -138,7 +185,7 @@ class AppFrame extends JFrame {
       // create question panel
       JPanel row1 = new JPanel();
       row1.setBackground(deepGray);
-      row1.setPreferredSize(new Dimension(800,50));
+      row1.setPreferredSize(new Dimension(800, 50));
       row1.add(question.question);
 
       // create answer panel
@@ -188,27 +235,28 @@ class AppFrame extends JFrame {
 
 
 public class frame {
-    //use main in other classes, from https://www.cnblogs.com/weizhxa/p/6228562.html
     public static void main(String args[]) {
-      try {
-      Class<?> class1 = Class.forName("ChatGPT");
-        Method method = class1.getMethod("main", String[].class);
-        String[] arguments = args;
-        method.invoke(null, (Object) arguments);
-      } catch (ClassNotFoundException e) {
-        e.printStackTrace();
-    } catch (NoSuchMethodException e) {
-        e.printStackTrace();
-    } catch (SecurityException e) {
-        e.printStackTrace();
-    } catch (IllegalAccessException e) {
-        e.printStackTrace();
-    } catch (IllegalArgumentException e) {
-        e.printStackTrace();
-    } catch (InvocationTargetException e) {
-        e.printStackTrace();
-    }
+      //use main in other classes, from https://www.cnblogs.com/weizhxa/p/6228562.html
+    //   try {
+    //   Class<?> class1 = Class.forName("ChatGPT");
+    //     Method method = class1.getMethod("main", String[].class);
+    //     String[] arguments = args;
+    //     method.invoke(null, (Object) arguments);
+    //   } catch (ClassNotFoundException e) {
+    //     e.printStackTrace();
+    // } catch (NoSuchMethodException e) {
+    //     e.printStackTrace();
+    // } catch (SecurityException e) {
+    //     e.printStackTrace();
+    // } catch (IllegalAccessException e) {
+    //     e.printStackTrace();
+    // } catch (IllegalArgumentException e) {
+    //     e.printStackTrace();
+    // } catch (InvocationTargetException e) {
+    //     e.printStackTrace();
+    // }
       new AppFrame(); // Create the frame
       
     }
+    
   }
