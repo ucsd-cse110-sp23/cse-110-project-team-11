@@ -82,8 +82,13 @@ public class ChatGPT{
         String generatedText = choices.getJSONObject(0).getString("text");
 
         //set the answer!
+<<<<<<< HEAD
         setAnswer(generatedText);
         System.out.println(getAnswer());
+=======
+        setQuestion(questionText);
+        setAnswer(generatedText);
+>>>>>>> US4
     }
 
     /*
@@ -108,12 +113,16 @@ public class ChatGPT{
         ChatGPT chatGPT = new ChatGPT();
         Whisper whisper = new Whisper();
         String file = "myAudio.mp3";
+<<<<<<< HEAD
         // String prompt = args[0];
+=======
+>>>>>>> US4
 
         /*
          * Sets question from .txt file (might be deleted), chat() sets the answer
          * and question, getAnswer() returns the result
          */
+<<<<<<< HEAD
         // chatGPT.setQuestion(chatGPT.loadfile(prompt));
         chatGPT.setQuestion(whisper.getTranscript(file));
         chatGPT.chat(chatGPT.getQuestion());
@@ -130,5 +139,9 @@ public class ChatGPT{
         // } catch (IOException e) {
         //     System.out.println("An error occurred.");
         // }
+=======
+        chatGPT.setQuestion(whisper.getTranscript(file));
+        chatGPT.chat(chatGPT.getQuestion());
+>>>>>>> US4
     }
 }

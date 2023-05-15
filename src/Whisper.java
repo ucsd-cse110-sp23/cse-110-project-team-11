@@ -67,8 +67,9 @@ public class Whisper {
         String generatedText = responseJson.getString("text");
 
         //print transcription result
-        System.out.println("Transcription Result: " + generatedText);
+        //System.out.println("Transcription Result: " + generatedText);
 
+<<<<<<< HEAD
         // File whisperResult = new File("whisperResult.txt");
 
         // try {
@@ -81,6 +82,8 @@ public class Whisper {
         //     System.out.println("An error occurred.");
         // }
 
+=======
+>>>>>>> US4
         return generatedText;
     }
 
