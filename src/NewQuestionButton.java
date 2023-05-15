@@ -181,7 +181,11 @@ public class NewQuestionButton {
 */
 
 import javax.swing.*;
+
+import org.json.JSONException;
+
 import java.awt.*;
+import java.io.IOException;
 import java.net.URL;
 
 class NewQuestionButton extends JPanel {
@@ -190,10 +194,14 @@ class NewQuestionButton extends JPanel {
     private boolean isIconVisible = false;
     private ImageIcon icon;
     private JTextArea answer;
+    private JsonStorage storage;
+    private HistoryList list;
     //private JTextArea answerArea;
 
-    NewQuestionButton(JTextArea answerText) {
+    NewQuestionButton(JTextArea answerText, JsonStorage storage, HistoryList hl) {
         this.answer = answerText;
+        this.storage = storage;
+        this.list = hl;
         //this.answerArea = answerArea;
         // Set the size and background color of the panel.
         setPreferredSize(new Dimension(400, 60));
@@ -208,7 +216,14 @@ class NewQuestionButton extends JPanel {
         add(newQuestion);
 
         // Add an action listener to the button.
-        newQuestion.addActionListener(e -> toggleAndClear());
+        newQuestion.addActionListener(e -> {
+            try {
+                toggleAndClear();
+            } catch (JSONException | IOException | InterruptedException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
 
         // Create a SwingWorker to load the image in a background thread.
         //From ChaTGPT May 3rd version. Modify the ToggleIcon and add some methods to
@@ -249,21 +264,26 @@ class NewQuestionButton extends JPanel {
         return this.answer;
     }
 
-    public void toggleAndClear() {
+    public void toggleAndClear() throws IOException, JSONException, InterruptedException {
         toggleIcon();
         clearAnswer();
     }
 
-    private void toggleIcon() {
+    private void toggleIcon() throws IOException, JSONException, InterruptedException{
         // If the icon is not currently visible, set it as the button's icon.
         // If the icon is currently visible, remove it and set the button's text back to "New Question".
+        NewQuestion newQ = new NewQuestion();
         if (!isIconVisible) {
             newQuestion.setIcon(icon);
             newQuestion.setText("");
+            //NewQuestion newQ = new NewQuestion();
+            newQ.newQuestionStart();
             isIconVisible = true;
         } else {
             newQuestion.setIcon(null);
             newQuestion.setText("New Question");
+            newQ.newQuestionEnd(storage);
+            list.refresh();
             isIconVisible = false;
         }
     }

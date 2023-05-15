@@ -53,25 +53,20 @@ public class HistoryList {
 
     // addd clearPage() function that erases all the current content on the panel.
 
-    public HistoryList(JsonStorage history, JTextArea answerArea) throws IOException {
+    public HistoryList(JsonStorage history, JTextArea answerArea, JTextArea questionArea) throws IOException {
         // read file into arraylist
         this.history = history;
         this.prompts = history.getPrompts();
         this.historyPanel = new JPanel();
         this.questionTextArea = new JTextArea();
         this.answerTextArea = answerArea;
+        this.questionTextArea = questionArea;
+        this.dlm = new DefaultListModel<String>();
         this.pastQuestions = setPastQuestions(prompts);
         this.pastAnswers = setPastAnswers(prompts);
         this.questionList = setList();
-        this.dlm = new DefaultListModel<String>();
         addListener();
         setHistoryPanel();
-
-        JButton clearAllButton = new JButton("Clear All");
-        JButton deleteButton = new JButton("Delete");
-
-        historyPanel.add(clearAllButton);
-        historyPanel.add(deleteButton);
 
     }
 
@@ -96,9 +91,10 @@ public class HistoryList {
 
 
     public JList<String> setList() {
-        DefaultListModel<String> dlm = new DefaultListModel<String>();
         dlm.addAll(pastQuestions);
+        // dlm.fireValueChanged(thiss, 0, dlm.getSize() - 1);
         JList<String> list = new JList<String>(dlm);
+        list.setPreferredSize(new Dimension(150, 2000));
         return list;
     }
 
@@ -112,20 +108,37 @@ public class HistoryList {
         return this.answerTextArea;
     }
 
+    public JTextArea getQuestionArea() {
+        return this.questionTextArea;
+    }
+
     public JList getHistoryList() {
         return this.questionList;
     }
+
+    public void printDlmSize() {
+        System.out.println(dlm.getSize());
+    }
     
     public void setHistoryPanel() {
+        JScrollPane scrollPane = new JScrollPane(questionList);
+        scrollPane.setPreferredSize(new Dimension(200, 600)); // specify your preferred width and height
         // sets up the jlist on a panel
-        historyPanel.add(new JScrollPane(questionList));
+        historyPanel.add(scrollPane);
         historyPanel.add(answerTextArea);
         setAnswerArea();
     }
 
     public void setAnswerArea() {
         answerTextArea.setColumns(20);
-        answerTextArea.setRows(5);
+        answerTextArea.setRows(50);
+        answerTextArea.setPreferredSize(new Dimension(200, 600));
+    }
+
+    public void setQuestionArea() {
+        questionTextArea.setColumns(20);
+        questionTextArea.setRows(50);
+        answerTextArea.setPreferredSize(new Dimension(200, 400));
     }
 
     //Set listener for list
@@ -143,9 +156,14 @@ public class HistoryList {
     private void questionListValueChanged(ListSelectionEvent event) {
         String question = (String) questionList.getSelectedValue();
         int queryIdx = pastQuestions.indexOf(question);
+        System.out.println("queryIdx: " + queryIdx);
 
         // how to set this in main frame?
-        answerTextArea.setText(pastAnswers.get(queryIdx));
+        if (queryIdx == -1) {
+            answerTextArea.setText("");
+        } else {
+            answerTextArea.setText(pastAnswers.get(queryIdx));
+        }
     }
 
     public void deleteEntry() {
@@ -165,6 +183,12 @@ public class HistoryList {
             dlm.remove(i);
         }
         questionList.repaint();
+    }
+
+    public void refresh() {
+        prompts = history.getPrompts();
+        historyPanel.validate();
+        historyPanel.repaint();
     }
 
     // public static void main(String args[]) throws IOException {
