@@ -82,8 +82,8 @@ public class ChatGPT{
         String generatedText = choices.getJSONObject(0).getString("text");
 
         //set the answer!
+        setQuestion(questionText);
         setAnswer(generatedText);
-        System.out.println(getAnswer());
     }
 
     /*
@@ -108,27 +108,12 @@ public class ChatGPT{
         ChatGPT chatGPT = new ChatGPT();
         Whisper whisper = new Whisper();
         String file = "myAudio.mp3";
-        // String prompt = args[0];
 
         /*
          * Sets question from .txt file (might be deleted), chat() sets the answer
          * and question, getAnswer() returns the result
          */
-        // chatGPT.setQuestion(chatGPT.loadfile(prompt));
         chatGPT.setQuestion(whisper.getTranscript(file));
         chatGPT.chat(chatGPT.getQuestion());
-
-        /*
-         * Saves result to a .txt file
-         */
-        // File chatGPTResult = new File("chatGPTResult.txt");
-
-        // try {
-        //     FileWriter myWriter = new FileWriter(chatGPTResult);
-        //     myWriter.write(chatGPT.getAnswer());
-        //     myWriter.close();
-        // } catch (IOException e) {
-        //     System.out.println("An error occurred.");
-        // }
     }
 }

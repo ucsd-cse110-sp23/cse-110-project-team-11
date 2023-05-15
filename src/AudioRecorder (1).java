@@ -1,63 +1,27 @@
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import javax.sound.sampled.*;
 import javax.swing.*;
 
 public class AudioRecorder extends JFrame {
 
+<<<<<<< HEAD:src/AudioRecorder.java
   private JButton startButton;
   public JButton stopButton;
   private AudioFormat audioFormat;
   private TargetDataLine targetDataLine;
   private JLabel recordingLabel;
   private boolean isRecording = false;
+=======
+  private AudioFormat audioFormat;
+  private TargetDataLine targetDataLine;
+>>>>>>> US4:src/AudioRecorder (1).java
 
   public static void main(String[] args) {
     new AudioRecorder();
   }
 
   public AudioRecorder() {
-    setTitle("Audio Recorder");
-    setLayout(new GridLayout(1, 3));
-
-    startButton = new JButton("Start");
-    this.add(startButton);
-
-    stopButton = new JButton("Stop");
-    this.add(stopButton);
-
-    recordingLabel = new JLabel("Recording");
-    recordingLabel.setForeground(Color.RED);
-    recordingLabel.setPreferredSize(new Dimension(20, 20));
-    recordingLabel.setVisible(false);
-    this.add(recordingLabel);
-
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
-    setSize(300, 100);
-    setVisible(true);
-
     audioFormat = getAudioFormat();
-    addListeners();
-  }
-
-  public void addListeners() {
-    startButton.addActionListener(
-      new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          startRecording();
-        }
-      }
-    );
-    stopButton.addActionListener(
-      new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          stopRecording();
-        }
-      }
-    );
   }
 
   private AudioFormat getAudioFormat() {
@@ -101,7 +65,7 @@ public class AudioRecorder extends JFrame {
             targetDataLine = (TargetDataLine) AudioSystem.getLine(dataLineInfo);
             targetDataLine.open(audioFormat);
             targetDataLine.start();
-            recordingLabel.setVisible(true);
+            
       
             // the AudioInputStream that will be used to write the audio data to a file
             AudioInputStream audioInputStream = new AudioInputStream(targetDataLine);
@@ -109,7 +73,6 @@ public class AudioRecorder extends JFrame {
             // the file that will contain the audio data
             File audioFile = new File("myAudio.mp3");
             AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, audioFile);
-            recordingLabel.setVisible(false);
           } catch (Exception ex) {
             ex.printStackTrace();
           }
@@ -125,10 +88,13 @@ public class AudioRecorder extends JFrame {
       this.targetDataLine.stop();
       targetDataLine.close();
     }
+<<<<<<< HEAD:src/AudioRecorder.java
     isRecording = false;
   }
 
   public boolean isRecording() {
     return isRecording;
+=======
+>>>>>>> US4:src/AudioRecorder (1).java
   }
 }

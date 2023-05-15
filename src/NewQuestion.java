@@ -1,5 +1,6 @@
 import java.io.IOException;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class NewQuestion {
     private static AudioRecorder audioRecorder = new AudioRecorder();
@@ -10,25 +11,17 @@ public class NewQuestion {
         audioRecorder.startRecording();
     }
 
-    public void newQuestionStop() throws JSONException, IOException, InterruptedException {
+    public void newQuestionEnd(JsonStorage storage) throws JSONException, IOException, InterruptedException {
         audioRecorder.stopRecording();
-    }
-    public static void main(String[] args) throws JSONException, IOException, InterruptedException {
-        NewQuestion q = new NewQuestion();
-        q.newQuestionStart();
 
-        boolean isRecording = true;
-
-        while (isRecording) {
-            isRecording = audioRecorder.isRecording();
-            Thread.sleep(100);
-        }
-
-        //Stop new question
-        q.newQuestionStop();
         String whisperArg = "myAudio.mp3";
         String question = whisper.getTranscript(whisperArg);
-        chatGPT.chat(question); 
+
+        chatGPT.chat(question);
+
+        JSONObject savedQuestion = new JSONObject();
+        savedQuestion.put("question",chatGPT.getQuestion());
+        savedQuestion.put("answer",chatGPT.getAnswer());
+        storage.addPrompt(savedQuestion);
     }
-    
 }

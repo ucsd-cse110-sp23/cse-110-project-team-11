@@ -1,7 +1,9 @@
+import java.util.Enumeration;
+import java.lang.Object;
 import java.util.Hashtable;
 import java.util.ArrayList;
 
-public class Storage {
+public class storage {
     
     /* Use dictionary to store <string
      * , string> pairs, where K = question
@@ -13,27 +15,24 @@ public class Storage {
      ArrayList<String> answers = new ArrayList<String>();
      int currentSize = 0;
 
-     public void setQnA(String question, String answer) {
+     public void setQnA(String Question, String Answer) {
         /* put value in table
          * use currentSize to index ArrayList.
          */
-        if (question == null || answer == null) {
+        if (Question == null || Answer == null) {
             return;
         }
         Integer currentIdx = new Integer(currentSize);
-        questions.put(question, currentIdx);
-        answers.add(answer);
+        questions.put(Question, currentIdx);
+        answers.add(Answer);
         currentSize++;
      }
 
-     public String getAns (String question) {
-        if (question == null) {
-            return "Invalid input.";
-        }
+     public String getQnA (String Question) {
         /* return a particular answer, given a
          * past query.
          */
-        Integer index = questions.get(question);
+        Integer index = questions.get(Question);
         String answer = (index == null) ? "Error: no answer for question stored." : answers.get(index.intValue());
         return answer; 
      }
@@ -42,7 +41,4 @@ public class Storage {
      public int getSize () {
         return currentSize;
      }
-
-     //TODO: deleteQuestion, deleteAnswer
-     //TODO: Test cases for deleteQ and deleteA
 }
