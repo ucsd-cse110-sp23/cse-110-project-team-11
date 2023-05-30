@@ -25,7 +25,7 @@ class NewQuestionButton extends JPanel {
         setBackground(new Color(0, 0, 0, 0)); // set background color to transparent
 
         // Create the button.
-        newQuestion = new JButton("New Question");
+        newQuestion = new JButton("Start");
         newQuestion.setPreferredSize(new Dimension(100, 60)); // set the size of the button
         newQuestion.setFont(new Font("Sans-serif", Font.ITALIC, 10));
 
@@ -84,7 +84,7 @@ class NewQuestionButton extends JPanel {
             isIconVisible = true;
         } else {
             newQuestion.setIcon(null);
-            newQuestion.setText("New Question");
+            newQuestion.setText("Start");
             newQ.newQuestionEnd(storage);
 
             //access the last question
