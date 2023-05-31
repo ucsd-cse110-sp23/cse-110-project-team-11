@@ -15,7 +15,7 @@ public class ChatGPT{
     
     private String question;
     private String answer;
-    private int maxTokens = 100;
+    private int maxTokens = 150;
 
     /*
      * Sets question

@@ -70,13 +70,13 @@ public class DeleteButton extends JPanel {
         }
     } 
 
-    public void test(String command) throws IOException {
-        VoiceCommands vc = new VoiceCommands();
+    // public void test(String command) throws IOException {
+    //     VoiceCommands vc = new VoiceCommands();
 
-        if (vc.firstWord.equals("Clear") && vc.secondWord.equals("all")) {
-            clearAll();
-        } else if (vc.firstWord.equals("Delete") && vc.secondWord.equals("prompt.")) {
-            delete();
-        }
-    }
+    //     if (vc.firstWord.equals("Clear") && vc.secondWord.equals("all")) {
+    //         clearAll();
+    //     } else if (vc.firstWord.equals("Delete") && vc.secondWord.equals("prompt.")) {
+    //         delete();
+    //     }
+    // }
 }

@@ -86,7 +86,7 @@ public class HistoryList {
         return this.questionTextArea;
     }
 
-    public JList getHistoryList() {
+    public JList<String> getHistoryList() {
         return this.questionList;
     }
 

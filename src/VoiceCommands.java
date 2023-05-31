@@ -1,70 +1,80 @@
 import java.io.IOException;
 
 import javax.swing.JList;
+import javax.swing.JTextArea;
 
 import org.json.JSONException;
 
 public class VoiceCommands {
 
-    private Whisper whisper;
-    private DeleteButton db;
     private String whisperArg;
+
     String question;
     String firstWord = "";
     String secondWord = "";
     String thirdWord = "";
-    private String[] sentence;
-    HistoryList historyList;
-    JsonStorage jsonStorage;
+
+    JTextArea answerArea;
+    JTextArea questionArea;
+    HistoryList hl;
+    JsonStorage js;
     JList<String> questionList;
 
-    public VoiceCommands() throws IOException {
-        this.whisper = new Whisper();
+    /*
+     * Constructor
+     */
+    public VoiceCommands(JTextArea answerText, JTextArea questionText, JsonStorage storage, HistoryList hl, Whisper whisper, JList<String> historyList) throws IOException {
         whisperArg = "myAudio.mp3";
         question = whisper.getTranscript(whisperArg);
+        
+        this.answerArea = answerText;
+        this.questionArea = questionText;
+        this.hl = hl;
+        this.js = storage;
+        this.questionList = historyList;
+    }
 
-        if (question.length() == 0) {
-            this.question = "";
+    /*
+     * Set first words to be accessible
+     */
+    public void processTranscript(String transcript) {
+        String[] words = transcript.split(" ");
+
+        if (words.length >= 1) {
+            this.firstWord = words[0];
         }
-        else {
-            this.sentence = question.split(" ");
-            if (sentence.length == 1) {
-                this.firstWord = sentence[0];
-            }
-            else if (sentence.length == 2) {
-                this.firstWord = sentence[0];
-                this.secondWord = sentence[1];
-            }
-            else {
-                this.firstWord = sentence[0];
-                this.secondWord = sentence[1];
-                this.thirdWord = sentence[2];
-            }
+        if (words.length >= 2) {
+            this.secondWord = words[1];
+        }
+        if (words.length >= 3) {
+            this.thirdWord = words[2];
         }
     }
 
-    public String callCommands() throws JSONException, IOException, InterruptedException {
+    /*
+     * Call respective commands based on the first words of the transcript
+     */
+    public String callCommands(ChatGPT chatGPT) throws JSONException, IOException, InterruptedException {
         String value = "invalid";
-        System.out.println(question);
-        System.out.println(sentence);
-        System.out.println(firstWord);
-        System.out.println(secondWord);
-       if (firstWord.equals("Question") || firstWord.equals("Question,") || firstWord.equals("Question.")) {
+        
+        processTranscript(question);
+
+       if (firstWord.equalsIgnoreCase("Question") || firstWord.equalsIgnoreCase("Question,") || firstWord.equalsIgnoreCase("Question.")) {
             //question();
             value = "chatgpt";
-       } else if (firstWord.equals("Delete") && secondWord.equals("prompt.")) {
+       } else if (firstWord.equalsIgnoreCase("Delete") && secondWord.equalsIgnoreCase("prompt.")) {
             value = "non-chatgpt";
             deletePrompt();
-       } else if (firstWord.equals("Clear") && secondWord.equals("all")) {
+       } else if (firstWord.equalsIgnoreCase("Clear") && secondWord.equalsIgnoreCase("all.")) {
             value = "non-chatgpt";
             clearAll();
-       } else if (firstWord.equals("Create") && secondWord.equals("email")) {
-            //createEmail();
+       } else if (firstWord.equalsIgnoreCase("Create") && secondWord.equalsIgnoreCase("email")) {
             value = "chatgpt";
-       } else if (firstWord.equals("Send") && secondWord.equals("email")) {
+            createEmail(chatGPT);
+       } else if (firstWord.equalsIgnoreCase("Send") && secondWord.equalsIgnoreCase("email.")) {
             value = "non-chatgpt";
             sendEmail();
-       } else if (firstWord.equals("Set") && secondWord.equals("up") && thirdWord.equals("email")) {
+       } else if (firstWord.equalsIgnoreCase("Set") && secondWord.equalsIgnoreCase("up") && thirdWord.equalsIgnoreCase("email.")) {
             value = "non-chatgpt";
             setUpEmail();
         } 
@@ -77,32 +87,84 @@ public class VoiceCommands {
         // TODO: figure out design pattern
     }
 
+    /*
+     * Delete prompt voice command to delete a prompt when selected
+     */
     public void deletePrompt() {
-        //TODO: call instance
-        // db = new DeleteButton(historyList, jsonStorage, questionList);
-        // db.delete();
+        int selectedIndex = questionList.getSelectedIndex();
+        if (selectedIndex != -1) { // if some question is selected
+            hl.deleteEntry();
+            
+            // remove from the json storage
+            js.removePrompt(selectedIndex);
+            hl.refresh();
+            try {
+                js.writeJson("historyPrompt.json");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
+    /*
+     * Voice command Clear All clears everything in history prompt
+     */
     public void clearAll() {
-        //TODO
+        hl.pastQuestions.clear();
+        hl.pastAnswers.clear();
+        hl.dlm.clear();
+        hl.answerTextArea.setText("");
+        js.clearPrompt();
+        try {
+            js.writeJson("historyPrompt.json");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void setUpEmail() {  
         //TODO, not us
     }
 
-    public void createEmail() {
-        //TODO, append best regards, etc (on doc)
+    /*
+     * Asks ChatGPT to create an email and show display name
+     */
+    public void createEmail(ChatGPT chatGPT) {
+        String email = chatGPT.getAnswer();
+        System.out.println("before: " + email);
+        String displayName = "Helen Keller";
+        
+        email = email.replace("[your name]", displayName);
+        email = email.replace("[Your name]", displayName);
+        email = email.replace("[Your Name]", displayName);
+        email = email.replace("[name]", displayName);
+        email = email.replace("[Name]", displayName);
+        
+        chatGPT.setAnswer(email);
     }
 
     public void sendEmail() {
         //TODO, not us
     }
 
-    public static void main(String[] args) throws IOException {
-        VoiceCommands vc = new VoiceCommands();
-        // vc.setUp();
-        System.out.println(vc.firstWord);
-        System.out.println(vc.secondWord);
+    /*
+     * Get first word
+     */
+    public String getFirstWord() {
+        return firstWord;
+    }
+
+    /*
+     * Get second word
+     */
+    public String getSecondWord() {
+        return secondWord;
+    }
+
+    /*
+     * Get third word
+     */
+    public String getThirdWord() {
+        return thirdWord;
     }
 }
