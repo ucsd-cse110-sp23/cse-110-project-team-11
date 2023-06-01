@@ -2,7 +2,6 @@ import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class VoiceCommandsTest {
@@ -12,21 +11,6 @@ public class VoiceCommandsTest {
     public void setup() throws IOException {
         vcm = new VoiceCommandsMock();
     }
-    // private VoiceCommands vc;
-    // private ChatGPT chatgpt;
-    // private Whisper whisper;
-    // JTextArea answerArea;
-    // JTextArea questionArea;
-    // HistoryList hl;
-    // JsonStorage js;
-    // JList<String> questionList;
-
-    // @BeforeEach
-    // public void setUp() throws IOException{
-    //     whisper = new Whisper();
-    //     vc = new VoiceCommands(answerArea, questionArea, js, hl, whisper, questionList);
-    //     chatgpt = new ChatGPT();
-    // }
 
     @Test
     public void testProcessTranscript() throws IOException {
@@ -42,7 +26,6 @@ public class VoiceCommandsTest {
     @Test
     public void testCallCommandsQuestion() throws JSONException, IOException, InterruptedException {
         String t = "Question who is the current president?";
-        // vcm.processTranscript(t);
         String r = vcm.callCommands(t);
 
         assertEquals("chatgpt", r);

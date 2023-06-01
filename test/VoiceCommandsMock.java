@@ -1,12 +1,28 @@
 import java.io.IOException;
 
+import javax.swing.JList;
+import javax.swing.JTextArea;
+
 import org.json.JSONException;
 
 public class VoiceCommandsMock extends VoiceCommands {
     private String transcript;
+    private Object JTextArea;
 
     public VoiceCommandsMock() throws JSONException, IOException {
         super(null, null, null, null, null, null);
+        this.js = new JsonStorage("historyPromptMock.json");
+        //this.hl = new HistoryList(js, answerArea, questionArea);
+        // JTextArea answerText = new JTextArea();
+        // JTextArea questionText = new JTextArea();
+        // JsonStorage storage = new  JsonStorage("historyPromptMock");
+        // HistoryList hl = new HistoryList(storage, answerArea, questionArea);
+        // Whisper whisper = new Whisper();
+        // JList<String> historyList = new JList<String>();
+    }
+
+    public void setHl() {
+        
     }
 
     public void setTranscript(String transcript) {
@@ -76,7 +92,16 @@ public class VoiceCommandsMock extends VoiceCommands {
 
     @Override
     public void clearAll() {
-        // Mock implementation for testing
+        // hl.pastQuestions.clear();
+        // hl.pastAnswers.clear();
+        // hl.dlm.clear();
+        // hl.answerTextArea.setText("");
+        js.clearPrompt();
+        try {
+            js.writeJson("historyPromptMock.json");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
