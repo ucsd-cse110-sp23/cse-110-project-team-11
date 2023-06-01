@@ -1,9 +1,9 @@
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+//import java.io.File;
+//import java.io.IOException;
+//import java.nio.file.Files;
+//import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,7 +16,8 @@ import org.bson.Document;
 class AccountTest{
 
     private String uri = "TODO";
-    
+    static AddAccount testAccount;
+    static MongoCollection<Document> testCollection;
 
     @BeforeAll
     void setUp(){
@@ -44,6 +45,6 @@ class AccountTest{
         String username = "Jose";
         String password = "xyz";
         testAccount.createAccount(username, password);
-        assertThrows(NullPointerException.class,  testCollection.find(new Document("username", username)).first());
+        assertNull(testCollection.find(new Document("username", username)).first());
     }
 }
