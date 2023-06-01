@@ -15,7 +15,7 @@ import org.bson.Document;
 
 class AccountTest{
 
-    private String uri = "TODO";
+    static String uri = "mongodb://emavila:<Mariel.Tijuana24>@ac-jutyc4z-shard-00-00.9o3jutl.mongodb.net:27017,ac-jutyc4z-shard-00-01.9o3jutl.mongodb.net:27017,ac-jutyc4z-shard-00-02.9o3jutl.mongodb.net:27017/?ssl=true&replicaSet=atlas-mzphgv-shard-0&authSource=admin&retryWrites=true&w=majority";
     static AddAccount testAccount;
     static MongoCollection<Document> testCollection;
 

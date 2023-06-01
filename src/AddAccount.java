@@ -14,7 +14,8 @@ public class AddAccount {
 
     static MongoDatabase acc;
     static MongoCollection<Document> collection;
-    static String uri = "<YOUR CONNECTION URI STRING HERE>";
+    static String uri = "mongodb://emavila:<Mariel.Tijuana24>@ac-jutyc4z-shard-00-00.9o3jutl.mongodb.net:27017,ac-jutyc4z-shard-00-01.9o3jutl.mongodb.net:27017,ac-jutyc4z-shard-00-02.9o3jutl.mongodb.net:27017/?ssl=true&replicaSet=atlas-mzphgv-shard-0&authSource=admin&retryWrites=true&w=majority";
+    //static String uri = "mongodb+srv://emavila%40ucsd.edu:Mariel.Tijuana24@gettingstarted.9o3jutl.mongodb.net/";
     public static void main(String[] args) {
     
         try (MongoClient mongoClient = MongoClients.create(uri)) {
