@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 java {
@@ -22,6 +23,13 @@ dependencies {
 
     // Add JSON dependency
     implementation 'org.json:json:20210307'
+    implementation 'com.google.guava:guava:31.1-jre'
+
+}
+
+application {
+    // Define the main class for the application.
+    mainClass = 'AddApplication'//change this
 }
 
 sourceSets {
@@ -39,4 +47,8 @@ sourceSets {
 
 test {
     useJUnitPlatform()
+}
+
+dependencies {
+  implementation 'org.mongodb:mongodb-driver-sync:4.9.1'
 }
