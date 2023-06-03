@@ -4,6 +4,9 @@ import java.io.*;
 import java.lang.management.LockInfo;
 import java.net.*;
 import javax.swing.*;
+import javax.swing.text.Document;
+
+import com.mongodb.client.MongoCollection;
 
 class FieldPanel extends JPanel {
 
@@ -61,6 +64,7 @@ public class LoginUI extends JFrame {
 
   public final String URL = "http://localhost:8100/";
 
+
   private JButton createAccountButton, loginButton;
   private FieldPanel fieldPanel;
   private ButtonPanel buttonPanel;
@@ -84,42 +88,98 @@ public class LoginUI extends JFrame {
     createAccountButton.addActionListener(
       new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-        //   try {
-        //     String language = fieldPanel.getEmail();
-        //     String year = fieldPanel.getPassword();
-        //     URL url = new URL(URL);
-        //     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        //     conn.setRequestMethod("POST");
-        //     conn.setDoOutput(true);
-        //     OutputStreamWriter out = new OutputStreamWriter(
-        //       conn.getOutputStream()
-        //     );
-        //     out.write(language + "," + year);
-        //     out.flush();
-        //     out.close();
-        //     BufferedReader in = new BufferedReader(
-        //       new InputStreamReader(conn.getInputStream())
-        //     );
-        //     String response = in.readLine();
-        //     in.close();
-        //     JOptionPane.showMessageDialog(null, response);
-        //   } catch (Exception ex) {
-        //     ex.printStackTrace();
-        //     JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
-        //   }
+          try {
+            String email = fieldPanel.getEmail();
+            String password = fieldPanel.getPassword();
+
+            if(email.equals("") || password.equals("")){
+              JOptionPane.showMessageDialog(null, "Cannot be empty");
+              return;
+            }
+            
+            URL url = new URL(URL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            OutputStreamWriter out = new OutputStreamWriter(
+              conn.getOutputStream()
+            );
+            out.write(email + "," + password);
+            out.flush();
+            out.close();
+            BufferedReader in = new BufferedReader(
+              new InputStreamReader(conn.getInputStream())
+            );
+            String response = in.readLine();
+            in.close();
+            JOptionPane.showMessageDialog(null, response);
+          } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+          }
         }
       }
     );
 
+
+    // loginButton.addActionListener(
+    //   new ActionListener() {
+    //     public void actionPerformed(ActionEvent e) {
+    //       try {
+    //         String email = fieldPanel.getEmail();
+    //         String password = fieldPanel.getPassword();
+    //         URL url = new URL(URL + "?=" + email + "=" + password);
+    //         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    //         conn.setRequestMethod("GET");
+    //         String response = "ok";
+    //         BufferedReader in = new BufferedReader(
+    //           new InputStreamReader(conn.getInputStream())
+    //         );
+    //         response = in.readLine();
+    //         in.close();
+    //         JOptionPane.showMessageDialog(null, response);
+    //       } catch (Exception ex) {
+    //         ex.printStackTrace();
+    //         JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+    //       }
+    //     }
+    //   }
+    // );
+
     loginButton.addActionListener(
-      new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-         
+  new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+      try {
+        String email = fieldPanel.getEmail();
+        String password = fieldPanel.getPassword();
+        if(email.equals("") || password.equals("")){
+          JOptionPane.showMessageDialog(null, "Cannot be empty");
+          return;
         }
+        String query = "email=" + URLEncoder.encode(email, "UTF-8") + "&password=" + URLEncoder.encode(password, "UTF-8");
+        URL url = new URL(URL + "?" + query);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        BufferedReader in = new BufferedReader(
+          new InputStreamReader(conn.getInputStream())
+        );
+        String response = in.readLine();
+        in.close();
+        JOptionPane.showMessageDialog(null, response);
+      } catch (Exception ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
       }
-    );
-    
+    }
   }
+);
+
+
+    
+}
+
+
+  
 
   public static void main(String[] args) {
     LoginUI serverUI = new LoginUI();
