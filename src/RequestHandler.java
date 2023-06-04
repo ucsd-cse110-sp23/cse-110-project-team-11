@@ -12,6 +12,9 @@ import java.io.File;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+
+import javax.swing.JFrame;
+
 import org.bson.conversions.Bson;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -62,6 +65,16 @@ public class RequestHandler implements HttpHandler {
       }
   }
 
+  //return the user
+    public Document getUser(String email) {
+        MongoCollection<Document> collection = database.getCollection("user_information");
+    
+        Document user = collection.find(eq("email", email)).first();
+        return user;
+    }
+
+
+// create an account
   public void createAccount(String email, String password) {
     //mongodb+srv://Cluster95779:YV50WnpyZEp9@cluster95779.lfr31so.mongodb.net/?retryWrites=true&w=majority
 
@@ -104,6 +117,7 @@ public void updateHistoryPrompt(String email, JSONObject historyPrompt) {
 public void updateEmailHost(String email, String emailHost) {
      MongoCollection<Document> collection = database.getCollection("user_information");
 }
+
 
 
 
@@ -161,6 +175,8 @@ public void updateEmailHost(String email, String emailHost) {
             String password = URLDecoder.decode(keyValue2[1], "UTF-8");
             if(verifyPassword(email, password) == true){
               response = "login successfully";
+              Document user = getUser(email);
+              response = response  + '\n' + user.toJson();
             }
           }
           
