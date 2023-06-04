@@ -77,3 +77,9 @@ public class RequestHandlerTest {
         database.getCollection("user_information").deleteMany(new Document());
     }
 }
+/*
+ * fixed bugs by ChatGPT May 24th version, including but not limit:
+ *         String expected = historyPrompt.toString().replaceAll("\\s+", "");
+        String actual = actualHistoryPrompt.toJson().replaceAll("\\s+", "");
+        fixed the issue that expected and actual output are not the same.
+ */
