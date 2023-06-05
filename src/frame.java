@@ -87,6 +87,7 @@ class AppFrame extends JFrame {
 
     private Document user;
     private JsonStorage js;
+   
 
     //user getter
     public Document getUser() {
@@ -112,7 +113,9 @@ class AppFrame extends JFrame {
       //read user information
       js.readJson(user);
 
-      // //adding actions to exit
+      String email = user.getString("email");
+
+      // // //adding actions to exit
       // addWindowListener(new WindowAdapter() {
 
 
@@ -138,8 +141,8 @@ class AppFrame extends JFrame {
         HistoryList list = new HistoryList(js, question.getAnswerArea(), question.getQuestionArea());
         JPanel historyPanel = list.getHistoryPanel();
         JList<String> historyList = list.getHistoryList();
-        NewQuestionButton newQuestionButton = new NewQuestionButton(question.getAnswerArea(), question.getQuestionArea(), js, list, historyList);
-        DeleteButton deleteButton = new DeleteButton(list, js, historyList);
+        NewQuestionButton newQuestionButton = new NewQuestionButton(question.getAnswerArea(), question.getQuestionArea(), js, list, historyList,email);
+        //DeleteButton deleteButton = new DeleteButton(list, js, historyList);
 
       //Set the whole window
       this.setSize(1000,1000); // 1000 width and 1000 height
@@ -167,7 +170,6 @@ class AppFrame extends JFrame {
 
       leftPanel.setPreferredSize(new Dimension(180, 1000));
       leftPanel.setBackground(blue);
-      leftPanel.add(deleteButton);
 
 
       // Set the minimum size of the left panel

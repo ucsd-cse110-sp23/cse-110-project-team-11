@@ -1,10 +1,18 @@
 import javax.swing.*;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.awt.*;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+
+
 
 class NewQuestionButton extends JPanel {
 
@@ -17,12 +25,14 @@ class NewQuestionButton extends JPanel {
     private HistoryList list;
     private JList historyList;
 
-    NewQuestionButton(JTextArea answerText, JTextArea questionText, JsonStorage storage, HistoryList hl, JList<String> list) {
+    NewQuestionButton(JTextArea answerText, JTextArea questionText, JsonStorage storage, HistoryList hl, JList<String> list, String email) {
         this.answer = answerText;
         this.question = questionText;
         this.storage = storage;
         this.list = hl;
         this.historyList = list;
+        final String URL = "http://localhost:8100/";
+
         setPreferredSize(new Dimension(400, 60));
         setBackground(new Color(0, 0, 0, 0)); // set background color to transparent
 
@@ -38,11 +48,32 @@ class NewQuestionButton extends JPanel {
         newQuestion.addActionListener(e -> {
             try {
                 toggleIcon();
-            } catch (JSONException | IOException | InterruptedException e1) {
-                // TODO Auto-generated catch block
+
+                String history = storage.getHistoryPrompt().toString();
+    
+                
+                URL url = new URL(URL);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("PUT");
+                conn.setDoOutput(true);
+                OutputStreamWriter out = new OutputStreamWriter(
+                    conn.getOutputStream()
+                );
+                out.write(email + ',' + history);
+                out.flush();
+                out.close();
+                // BufferedReader in = new BufferedReader(
+                //     new InputStreamReader(conn.getInputStream())
+                // );
+                // String response = in.readLine();
+                // in.close();
+                // JOptionPane.showMessageDialog(null, response);
+            }
+            catch (JSONException | IOException | InterruptedException e1) {
                 e1.printStackTrace();
             }
-        });
+        }
+        );
 
         // Create a SwingWorker to load the image in a background thread.
         //From ChaTGPT May 3rd version. Modify the ToggleIcon and add some methods to

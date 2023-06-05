@@ -31,7 +31,7 @@ public class NewQuestion {
     public void newQuestionEnd(JsonStorage storage) throws JSONException, IOException, InterruptedException {
         audioRecorder.stopRecording();
         VoiceCommands vc = new VoiceCommands(answer, question, storage, hl, whisper, list);
-        String whisperArg = "myAudio.mp3";
+        String whisperArg = "/Users/peikexu/Documents/Ucsd/CSE/CSE110/cse-110-project-team-11/src/myAudio.mp3";
         String question = whisper.getTranscript(whisperArg);
         JSONObject savedQuestion = new JSONObject();
 

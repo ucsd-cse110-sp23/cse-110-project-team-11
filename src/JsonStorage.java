@@ -39,9 +39,7 @@ public class JsonStorage {
         for (int i = 0; i < arr.length(); i++) {
             historyPrompt.add(arr.getJSONObject(i));
         }
-      }
-
-       
+      }     
     }
 
     //write json file
