@@ -1,3 +1,4 @@
+import java.util.UUID;
 import java.util.prefs.Preferences;
 
 public class DeviceIdManager {
