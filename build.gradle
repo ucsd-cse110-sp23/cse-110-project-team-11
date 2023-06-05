@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'application'
+
 }
 
 java {
@@ -22,6 +24,11 @@ dependencies {
 
     // Add JSON dependency
     implementation 'org.json:json:20210307'
+
+}
+
+application {
+    mainClass = "Database"
 }
 
 sourceSets {
@@ -39,4 +46,9 @@ sourceSets {
 
 test {
     useJUnitPlatform()
+}
+
+dependencies {
+    implementation 'io.fares.junit.mongodb:mongodb-junit-test:1.0.1'
+    implementation 'org.mongodb:mongodb-driver-sync:4.9.1'
 }
