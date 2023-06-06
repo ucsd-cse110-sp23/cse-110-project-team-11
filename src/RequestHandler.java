@@ -106,7 +106,8 @@ public void updateHistoryPrompt(String email, JSONObject historyPrompt) {
 
         // update one document
         Bson filter = eq("email", email);
-        Bson updateOperation = set("historyPrompt", Document.parse(historyPrompt.toString()));
+        Bson updateOperation = set("history_prompt", Document.parse(historyPrompt.toString()));
+        //Bson updateOperation = set("history_prompt", historyPrompt);
         collection.updateOne(filter, updateOperation);
 }
 
@@ -138,6 +139,8 @@ public void updateEmailHost(String email, String emailHost) {
             response = handleLog(httpExchange);
           } else if (method.equals("POST")) {
             response = handleCreate(httpExchange);
+          } else if(method.equals("PUT")){
+            handleUpdate(httpExchange);
           }
           else{
             throw new Exception("Not Valid Request Method");
@@ -201,7 +204,7 @@ public void updateEmailHost(String email, String emailHost) {
           createAccount(email, password);
           response = "created successfully";
         }
-     
+        
         
   
         scanner.close();
@@ -209,6 +212,44 @@ public void updateEmailHost(String email, String emailHost) {
      
         return response;
 
+      }
+
+      private void handleUpdate(HttpExchange httpExchange) throws IOException {
+        InputStream inStream = httpExchange.getRequestBody();
+        Scanner scanner = new Scanner(inStream);
+
+        String postData = scanner.nextLine();
+        String email = postData.substring(
+          0,
+          postData.indexOf(",")
+        ), jsonArrayList = postData.substring(postData.indexOf(",") + 1);
+
+
+        // String email = scanner.nextLine();
+
+        // StringBuilder inputBuilder = new StringBuilder();
+        // String line;
+        // while (scanner.hasNextLine()) {
+        //     line = scanner.nextLine();
+        //     if (line.isEmpty()) {
+        //         break; // Stop reading if an empty line is encountered
+        //     }
+        //     inputBuilder.append(line);
+        // }
+  
+        //String jsonArrayList = inputBuilder.toString();
+
+        if (jsonArrayList.length() == 0){
+          return;
+        }
+        JSONArray jsonArray = new JSONArray(jsonArrayList);
+
+        JSONObject obj = new JSONObject();
+
+        obj.put("historyPrompt", jsonArray);
+
+        updateHistoryPrompt(email, obj);
+     
       }
 }
      

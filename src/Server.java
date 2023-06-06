@@ -15,11 +15,11 @@ public class Server {
  // initialize server port and hostname
  private static final int SERVER_PORT = 8100;
  private static final String SERVER_HOSTNAME = "localhost";
- private static final String uri = "mongodb+srv://Cluster95779:YV50WnpyZEp9@cluster95779.lfr31so.mongodb.net/?retryWrites=true&w=majority";
+ private static final String uri = "mongodb://r3hu:Reinacse30...@ac-sm9alxo-shard-00-00.syygsg3.mongodb.net:27017,ac-sm9alxo-shard-00-01.syygsg3.mongodb.net:27017,ac-sm9alxo-shard-00-02.syygsg3.mongodb.net:27017/?ssl=true&replicaSet=atlas-86cc8d-shard-0&authSource=admin&retryWrites=true&w=majority";
+//private static final String uri = "mongodb+srv://Cluster95779:YV50WnpyZEp9@cluster95779.lfr31so.mongodb.net/?retryWrites=true&w=majority";
 
-
- public static void main(String[] args) throws IOException {
-    // create a thread pool to handle requests
+Server() throws IOException{
+   // create a thread pool to handle requests
    ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
 
 
@@ -46,9 +46,8 @@ public class Server {
 
     // Start the server
     server.start();
-
-
-    System.out.println("Server started on port " + SERVER_PORT);
-
- }
+}
+//  public static void main(String[] args) throws IOException {
+    
+//  }
 }

@@ -37,7 +37,20 @@ public class NewQuestion {
 
         chatGPT.chat(question);
 
-        if(question.length() != 0) {
+        if (question == null) {
+            String answer = "Invalid input. Please try again with the following accepted commands:\nQuestion\nDelete Prompt\nClear All\nSet Up Email\nCreate Email\nSend Email";
+            question = "Invalid input";
+            savedQuestion.put("question", question);
+            savedQuestion.put("answer", answer);
+        }
+        else if (question.length() == 0) {
+            String answer = "Invalid input. Please try again with the following accepted commands:\nQuestion\nDelete Prompt\nClear All\nSet Up Email\nCreate Email\nSend Email";
+            question = "Invalid input";
+            savedQuestion.put("question", question);
+            savedQuestion.put("answer", answer);
+        }
+
+        else if(question.length() != 0) {
             String isGpt = vc.callCommands(chatGPT);
             if (isGpt.equals("chatgpt")) {
                 savedQuestion.put("question",chatGPT.getQuestion());
@@ -55,12 +68,7 @@ public class NewQuestion {
             }
         } 
         
-        else {
-            String answer = "Invalid input. Please try again with the following accepted commands:\nQuestion\nDelete Prompt\nClear All\nSet Up Email\nCreate Email\nSend Email";
-            question = "Invalid input";
-            savedQuestion.put("question", question);
-            savedQuestion.put("answer", answer);
-        }
+        
         
         storage.addPrompt(savedQuestion);
 
