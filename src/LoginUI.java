@@ -63,7 +63,6 @@ class ButtonPanel extends JPanel {
 public class LoginUI extends JFrame {
 
   private final String URL = "http://localhost:8100/";
-  private final String URL = "http://localhost:8100/";
 
 
   private JButton createAccountButton, loginButton;
