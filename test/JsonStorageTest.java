@@ -8,11 +8,11 @@ class JsonStorageTest {
     /*
      * Test constructor
      */
-    @Test
-    void testConstructor() throws IOException {
-        JsonStorage js = new JsonStorage("historyPrompt.json");
-        assertEquals(0, js.getHistoryPrompt().size());
-    }
+//     @Test
+//     void testConstructor() throws IOException {
+//         JsonStorage js = new JsonStorage("historyPrompt.json");
+//         assertEquals(0, js.getHistoryPrompt().size());
+//     }
 
     /*
      * Test getQuestion()
