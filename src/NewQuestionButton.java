@@ -43,6 +43,14 @@ class NewQuestionButton extends JPanel {
                 e1.printStackTrace();
             }
         });
+        newQuestion.addActionListener(e -> {
+            try {
+                toggleIcon();
+            } catch (JSONException | IOException | InterruptedException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
 
         // Create a SwingWorker to load the image in a background thread.
         //From ChaTGPT May 3rd version. Modify the ToggleIcon and add some methods to
@@ -75,6 +83,7 @@ class NewQuestionButton extends JPanel {
         }.execute();
     }
 
+
     private void toggleIcon() throws IOException, JSONException, InterruptedException{
         // If the icon is not currently visible, set it as the button's icon.
         // If the icon is currently visible, remove it and set the button's text back to "New Question".
@@ -82,6 +91,7 @@ class NewQuestionButton extends JPanel {
         if (!isIconVisible) {
             newQuestion.setIcon(icon);
             newQuestion.setText("");
+            newQ.newQuestionStart();
             newQ.newQuestionStart();
             isIconVisible = true;
         } else {

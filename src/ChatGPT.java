@@ -8,9 +8,9 @@ import java.io.FileReader;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class ChatGPT{
+class ChatGPT implements IChat{
     private static final String API_ENDPOINT = "https://api.openai.com/v1/completions";
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "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";
     private static final String MODEL = "text-davinci-003";
     
     private String question;
@@ -89,20 +89,20 @@ public class ChatGPT{
     /*
      * Read from file, might be deleted
      */
-    public String loadfile(String fileName) {
-        String line = "";
+    // public String loadfile(String fileName) {
+    //     String line = "";
     
-        try{
-          BufferedReader reader = new BufferedReader(new FileReader(fileName));
-          line = reader.readLine();
-          reader.close();
-        }
-        catch(IOException e){
-            System.out.println("Reading Error: " + e.getMessage());
+    //     try{
+    //       BufferedReader reader = new BufferedReader(new FileReader(fileName));
+    //       line = reader.readLine();
+    //       reader.close();
+    //     }
+    //     catch(IOException e){
+    //         System.out.println("Reading Error: " + e.getMessage());
       
-        }
-        return line;
-    }
+    //     }
+    //     return line;
+    // }
 
     public static void main(String[] args) throws IOException, InterruptedException {
         ChatGPT chatGPT = new ChatGPT();

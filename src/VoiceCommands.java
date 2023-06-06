@@ -6,8 +6,8 @@ import javax.swing.JTextArea;
 import org.json.JSONException;
 
 public class VoiceCommands {
-
-    private String whisperArg;
+    private Whisper whisper = new Whisper();
+    private String whisperArg = "myAudio.mp3";
 
     String question;
     String firstWord = "";
@@ -24,8 +24,7 @@ public class VoiceCommands {
      * Constructor
      */
     public VoiceCommands(JTextArea answerText, JTextArea questionText, JsonStorage storage, HistoryList hl, Whisper whisper, JList<String> historyList) throws IOException {
-        whisperArg = "myAudio.mp3";
-        question = whisper.getTranscript(whisperArg);
+        // question = whisper.getTranscript(whisperArg);
         
         this.answerArea = answerText;
         this.questionArea = questionText;
@@ -37,7 +36,9 @@ public class VoiceCommands {
     /*
      * Set first words to be accessible
      */
-    public void processTranscript(String transcript) {
+    public void processTranscript(String transcript) throws IOException {
+        
+        transcript = whisper.getTranscript(whisperArg);
         String[] words = transcript.split(" ");
 
         if (words.length >= 1) {
@@ -107,7 +108,7 @@ public class VoiceCommands {
     }
 
     /*
-     * Voice command Clear All clears everything in history prompt
+     * Voice command "Clear All" clears everything in history prompt
      */
     public void clearAll() {
         hl.pastQuestions.clear();
@@ -127,13 +128,14 @@ public class VoiceCommands {
     }
 
     /*
-     * Asks ChatGPT to create an email and show display name
+     * Voice command "Create email" asks ChatGPT to create an email and show display name
      */
     public void createEmail(ChatGPT chatGPT) {
         String email = chatGPT.getAnswer();
         System.out.println("before: " + email);
         String displayName = "Helen Keller";
         
+        // handle case-sensitive cases
         email = email.replace("[your name]", displayName);
         email = email.replace("[Your name]", displayName);
         email = email.replace("[Your Name]", displayName);
