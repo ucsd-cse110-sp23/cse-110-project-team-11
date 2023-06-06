@@ -1,3 +1,4 @@
+import javax.security.auth.kerberos.DelegationPermission;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,31 +9,39 @@ public class DeleteButton extends JPanel {
     private JsonStorage jsonStorage;
     private JList<String> questionList;
 
-    public DeleteButton(HistoryList historyList, JsonStorage jsonStorage, JList<String> questionList) {
+    public DeleteButton(HistoryList historyList, JsonStorage jsonStorage, JList<String> questionList) throws IOException {
         this.historyList = historyList;
         this.jsonStorage = jsonStorage;
         this.questionList = questionList;
         
-        JButton clearAllButton = new JButton("Clear All");
-        JButton deleteButton = new JButton("Delete");
+        // JButton clearAllButton = new JButton("Clear All");
+        // JButton deleteButton = new JButton("Delete");
 
-        clearAllButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                clearAll();
-            }
-        });
+        // VoiceCommands vc = new VoiceCommands();
 
-        deleteButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                delete();
-            }
-        });
+        // if (vc.firstWord.equals("Clear") && vc.secondWord.equals("all")) {
+        //     clearAll();
+        // } else if (vc.firstWord.equals("Delete") && vc.secondWord.equals("prompt.")) {
+        //     delete();
+        // }
 
-        this.add(clearAllButton);
-        this.add(deleteButton);
+        // clearAllButton.addActionListener(new ActionListener() {
+        //     public void actionPerformed(ActionEvent e) {
+        //         clearAll();
+        //     }
+        // });
+
+        // deleteButton.addActionListener(new ActionListener() {
+        //     public void actionPerformed(ActionEvent e) {
+        //         delete();
+        //     }
+        // });
+
+        // this.add(clearAllButton);
+        // this.add(deleteButton);
     }
 
-    private void clearAll() {
+    public void clearAll() {
         historyList.pastQuestions.clear();
         historyList.pastAnswers.clear();
         historyList.dlm.clear();
@@ -45,7 +54,7 @@ public class DeleteButton extends JPanel {
         }
     }
 
-    private void delete() {
+    public void delete() {
         // get selected question
         int selectedIndex = questionList.getSelectedIndex();
         if (selectedIndex != -1) { // if some question is selected
@@ -59,5 +68,15 @@ public class DeleteButton extends JPanel {
                 ex.printStackTrace();
             }
         }
-    }
+    } 
+
+    // public void test(String command) throws IOException {
+    //     VoiceCommands vc = new VoiceCommands();
+
+    //     if (vc.firstWord.equals("Clear") && vc.secondWord.equals("all")) {
+    //         clearAll();
+    //     } else if (vc.firstWord.equals("Delete") && vc.secondWord.equals("prompt.")) {
+    //         delete();
+    //     }
+    // }
 }

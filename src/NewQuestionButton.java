@@ -15,17 +15,19 @@ class NewQuestionButton extends JPanel {
     private JTextArea question;
     private JsonStorage storage;
     private HistoryList list;
+    private JList historyList;
 
-    NewQuestionButton(JTextArea answerText, JTextArea questionText, JsonStorage storage, HistoryList hl) {
+    NewQuestionButton(JTextArea answerText, JTextArea questionText, JsonStorage storage, HistoryList hl, JList<String> list) {
         this.answer = answerText;
         this.question = questionText;
         this.storage = storage;
         this.list = hl;
+        this.historyList = list;
         setPreferredSize(new Dimension(400, 60));
         setBackground(new Color(0, 0, 0, 0)); // set background color to transparent
 
         // Create the button.
-        newQuestion = new JButton("New Question");
+        newQuestion = new JButton("Start");
         newQuestion.setPreferredSize(new Dimension(100, 60)); // set the size of the button
         newQuestion.setFont(new Font("Sans-serif", Font.ITALIC, 10));
 
@@ -33,6 +35,14 @@ class NewQuestionButton extends JPanel {
         add(newQuestion);
 
         // Add an action listener to the button.
+        newQuestion.addActionListener(e -> {
+            try {
+                toggleIcon();
+            } catch (JSONException | IOException | InterruptedException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
         newQuestion.addActionListener(e -> {
             try {
                 toggleIcon();
@@ -73,18 +83,20 @@ class NewQuestionButton extends JPanel {
         }.execute();
     }
 
+
     private void toggleIcon() throws IOException, JSONException, InterruptedException{
         // If the icon is not currently visible, set it as the button's icon.
         // If the icon is currently visible, remove it and set the button's text back to "New Question".
-        NewQuestion newQ = new NewQuestion();
+        NewQuestion newQ = new NewQuestion(answer, question, storage, list, historyList);
         if (!isIconVisible) {
             newQuestion.setIcon(icon);
             newQuestion.setText("");
             newQ.newQuestionStart();
+            newQ.newQuestionStart();
             isIconVisible = true;
         } else {
             newQuestion.setIcon(null);
-            newQuestion.setText("New Question");
+            newQuestion.setText("Start");
             newQ.newQuestionEnd(storage);
 
             //access the last question
@@ -100,6 +112,8 @@ class NewQuestionButton extends JPanel {
             isIconVisible = false;
         }
     }
+
+    // helper method for creating a question
 
     public JButton getNewQuestionButton() {
         return this.newQuestion;

@@ -112,8 +112,8 @@ class AppFrame extends JFrame {
 
         HistoryList list = new HistoryList(js, question.getAnswerArea(), question.getQuestionArea());
         JPanel historyPanel = list.getHistoryPanel();
-        JList historyList = list.getHistoryList();
-        NewQuestionButton newQuestionButton = new NewQuestionButton(question.getAnswerArea(), question.getQuestionArea(), js, list);
+        JList<String> historyList = list.getHistoryList();
+        NewQuestionButton newQuestionButton = new NewQuestionButton(question.getAnswerArea(), question.getQuestionArea(), js, list, historyList);
         DeleteButton deleteButton = new DeleteButton(list, js, historyList);
 
       //Set the whole window
