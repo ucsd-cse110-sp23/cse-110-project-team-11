@@ -5,6 +5,7 @@ import javax.swing.JTextArea;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONObject;
 
 public class NewQuestion {
     private static AudioRecorder audioRecorder = new AudioRecorder();

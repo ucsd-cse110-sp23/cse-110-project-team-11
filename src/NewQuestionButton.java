@@ -110,6 +110,7 @@ class NewQuestionButton extends JPanel {
         }.execute();
     }
 
+
     private void toggleIcon() throws IOException, JSONException, InterruptedException{
         // If the icon is not currently visible, set it as the button's icon.
         // If the icon is currently visible, remove it and set the button's text back to "New Question".
@@ -117,6 +118,7 @@ class NewQuestionButton extends JPanel {
         if (!isIconVisible) {
             newQuestion.setIcon(icon);
             newQuestion.setText("");
+            newQ.newQuestionStart();
             newQ.newQuestionStart();
             isIconVisible = true;
         } else {

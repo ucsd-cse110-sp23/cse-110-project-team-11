@@ -63,6 +63,7 @@ class ButtonPanel extends JPanel {
 public class LoginUI extends JFrame {
 
   private final String URL = "http://localhost:8100/";
+  private final String URL = "http://localhost:8100/";
 
 
   private JButton createAccountButton, loginButton;
@@ -179,6 +180,10 @@ public class LoginUI extends JFrame {
 
   
 
+  // public static void main(String[] args) {
+  //   LoginUI serverUI = new LoginUI();
+  //   serverUI.setVisible(true);
+  // }
   // public static void main(String[] args) {
   //   LoginUI serverUI = new LoginUI();
   //   serverUI.setVisible(true);
