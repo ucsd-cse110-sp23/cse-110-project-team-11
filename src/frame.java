@@ -7,8 +7,15 @@ import java.awt.Insets;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import org.bson.Document;
+import org.bson.json.JsonObject;
+import org.json.JSONObject;
+import org.json.JSONArray;
+
 import javax.swing.*;
 
 
@@ -95,11 +102,16 @@ class AppFrame extends JFrame {
     /*
      * Main UI Frame
      */
-    AppFrame() throws IOException {
+    AppFrame(Document user) throws IOException {
+
+      //initailze the user
+      this.user = user;
 
       //initailze the data structure
-      JsonStorage js = new JsonStorage("historyPrompt.json");
-
+      js = new JsonStorage();
+       
+      //read user information
+      js.readJson(user);
 
       String email = user.getString("email");
 
@@ -107,16 +119,16 @@ class AppFrame extends JFrame {
       // addWindowListener(new WindowAdapter() {
 
 
-        @Override
-        public void windowClosing(WindowEvent e){
-          try {
-            js.writeJson("historyPrompt.json");
-          } catch (IOException e1) {
-            e1.printStackTrace();
-          }
-            System.exit(0);
-          }
-      });
+      //   @Override
+      //   public void windowClosing(WindowEvent e){
+      //     try {
+      //       js.writeJson("historyPrompt.json");
+      //     } catch (IOException e1) {
+      //       e1.printStackTrace();
+      //     }
+      //       System.exit(0);
+      //     }
+      // });
      
         //set original question panel
         String newQuestion = "";
@@ -183,8 +195,9 @@ class AppFrame extends JFrame {
 
 
 
-public class frame {
-    public static void main(String args[]) throws IOException {
-      new AppFrame(); // Create the frame
-    }
-  }
+// public class frame {
+//     public static void main(String args[]) throws IOException {
+//       //new AppFrame(); // Create the frame
+//     }
+//   }
+
