@@ -1,7 +1,6 @@
 plugins {
     id 'java'
     id 'application'
-
 }
 
 java {
@@ -22,13 +21,18 @@ dependencies {
     // This provides the TestEngine to actually run the tests.
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 
+    implementation 'org.mongodb:mongodb-driver-sync:4.9.1'
+
     // Add JSON dependency
     implementation 'org.json:json:20210307'
 
-}
+    dependencies {
+    // SLF4J API dependency
+    implementation 'org.slf4j:slf4j-api:1.7.32'
 
-application {
-    mainClass = "Database"
+    // Logback implementation dependency
+    implementation 'ch.qos.logback:logback-classic:1.2.6'
+}
 }
 
 sourceSets {
@@ -44,11 +48,11 @@ sourceSets {
     }
 }
 
+application{
+    mainClass = 'Database'
+}
+
 test {
     useJUnitPlatform()
 }
 
-dependencies {
-    implementation 'io.fares.junit.mongodb:mongodb-junit-test:1.0.1'
-    implementation 'org.mongodb:mongodb-driver-sync:4.9.1'
-}
