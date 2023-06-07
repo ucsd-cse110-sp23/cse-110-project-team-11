@@ -116,19 +116,14 @@ class AppFrame extends JFrame {
       String email = user.getString("email");
 
       // // //adding actions to exit
-      // addWindowListener(new WindowAdapter() {
+      addWindowListener(new WindowAdapter() {
 
 
-      //   @Override
-      //   public void windowClosing(WindowEvent e){
-      //     try {
-      //       js.writeJson("historyPrompt.json");
-      //     } catch (IOException e1) {
-      //       e1.printStackTrace();
-      //     }
-      //       System.exit(0);
-      //     }
-      // });
+        @Override
+        public void windowClosing(WindowEvent e){
+            System.exit(0);
+          }
+      });
      
         //set original question panel
         String newQuestion = "";
