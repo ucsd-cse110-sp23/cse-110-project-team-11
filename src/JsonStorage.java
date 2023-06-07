@@ -16,7 +16,7 @@ public class JsonStorage {
 
     //constructor
     public JsonStorage() {    
-
+        historyPrompt = new ArrayList<JSONObject>();
     }
 
     //get history prompt
@@ -33,7 +33,7 @@ public class JsonStorage {
       JSONObject obj2 = obj.getJSONObject("history_prompt");
       JSONArray arr = obj2.getJSONArray("historyPrompt");
       if(arr.length() == 0){
-        historyPrompt = new ArrayList<JSONObject>();
+        return;
       }
       else{
         for (int i = 0; i < arr.length(); i++) {

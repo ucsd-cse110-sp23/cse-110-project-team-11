@@ -213,7 +213,7 @@ public void updateEmailHost(String email, String emailHost) {
 
       }
 
-      private void handleUpdate(HttpExchange httpExchange) throws IOException {
+      private String handleUpdate(HttpExchange httpExchange) throws IOException {
         InputStream inStream = httpExchange.getRequestBody();
         Scanner scanner = new Scanner(inStream);
 
@@ -221,7 +221,11 @@ public void updateEmailHost(String email, String emailHost) {
         String email = postData.substring(
           0,
           postData.indexOf(",")
-        ), jsonArrayList = postData.substring(postData.indexOf(",") + 1);
+        ), history = postData.substring(postData.indexOf(",") + 1);
+
+          while(scanner.hasNextLine()){
+            history = history + scanner.nextLine();
+          }
 
 
         // String email = scanner.nextLine();
@@ -238,16 +242,21 @@ public void updateEmailHost(String email, String emailHost) {
   
         //String jsonArrayList = inputBuilder.toString();
 
-        if (jsonArrayList.length() == 0){
-          return;
-        }
-        JSONArray jsonArray = new JSONArray(jsonArrayList);
+        // if (jsonArrayList.length() == 0){
+        //   return;
+        // }
+        // JSONArray jsonArray = new JSONArray(jsonArrayList);
 
-        JSONObject obj = new JSONObject();
+        // JSONObject obj = new JSONObject();
 
-        obj.put("historyPrompt", jsonArray);
+        // obj.put("historyPrompt", jsonArray);
+        JSONObject obj = new JSONObject(history);
+
+        String response = obj.toString();
 
         updateHistoryPrompt(email, obj);
+
+        return response;
      
       }
 }

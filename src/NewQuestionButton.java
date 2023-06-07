@@ -1,7 +1,9 @@
 import javax.swing.*;
 
+import org.bson.json.JsonObject;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -31,7 +33,6 @@ class NewQuestionButton extends JPanel {
         this.storage = storage;
         this.list = hl;
         this.historyList = list;
-        final String URL = "http://localhost:8100/";
 
         setPreferredSize(new Dimension(400, 60));
         setBackground(new Color(0, 0, 0, 0)); // set background color to transparent
@@ -47,21 +48,31 @@ class NewQuestionButton extends JPanel {
         // Add an action listener to the button.
         newQuestion.addActionListener(e -> {
             try {
-                toggleIcon();
+                toggleIcon(email);
 
-                String history = storage.getHistoryPrompt().toString();
-    
+                //String history = storage.getHistoryPrompt().toString();
+
+
+                // ArrayList<JSONObject> historyPrompt = storage.getHistoryPrompt();
+                // JSONArray jsonArray = new JSONArray();
+                // for (JSONObject obj : historyPrompt) {
+                //     jsonArray.put(obj);
+                // }
+                // JSONObject history = new JSONObject();
+                // history.put("historyPrompt", jsonArray);
                 
-                URL url = new URL(URL);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("PUT");
-                conn.setDoOutput(true);
-                OutputStreamWriter out = new OutputStreamWriter(
-                    conn.getOutputStream()
-                );
-                out.write(email + ',' + history);
-                out.flush();
-                out.close();
+                // URL url = new URL(URL);
+                // HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                // conn.setRequestMethod("PUT");
+                // conn.setDoOutput(true);
+                // OutputStreamWriter out = new OutputStreamWriter(
+                //     conn.getOutputStream()
+                // );
+                // out.write(email + ',' + history.toString());
+                // out.flush();
+                // out.close();
+
+
                 // BufferedReader in = new BufferedReader(
                 //     new InputStreamReader(conn.getInputStream())
                 // );
@@ -106,7 +117,8 @@ class NewQuestionButton extends JPanel {
         }.execute();
     }
 
-    private void toggleIcon() throws IOException, JSONException, InterruptedException{
+    private void toggleIcon(String email) throws IOException, JSONException, InterruptedException{
+        String URL = "http://localhost:8100/";
         // If the icon is not currently visible, set it as the button's icon.
         // If the icon is currently visible, remove it and set the button's text back to "New Question".
         NewQuestion newQ = new NewQuestion(answer, question, storage, list, historyList);
@@ -131,6 +143,32 @@ class NewQuestionButton extends JPanel {
             answer.repaint();
             list.refresh();
             isIconVisible = false;
+
+            ArrayList<JSONObject> historyPrompt = storage.getHistoryPrompt();
+                JSONArray jsonArray = new JSONArray();
+                for (JSONObject obj : historyPrompt) {
+                    jsonArray.put(obj);
+                }
+                JSONObject history = new JSONObject();
+                history.put("historyPrompt", jsonArray);
+                
+                URL url = new URL(URL);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("PUT");
+                conn.setDoOutput(true);
+                OutputStreamWriter out = new OutputStreamWriter(
+                    conn.getOutputStream()
+                );
+                out.write(email + ',' + history.toString());
+                out.flush();
+                out.close();
+
+                BufferedReader in = new BufferedReader(
+              new InputStreamReader(conn.getInputStream())
+            );
+            String response = in.readLine();
+            in.close();
+            //JOptionPane.showMessageDialog(null, response);
         }
     }
 

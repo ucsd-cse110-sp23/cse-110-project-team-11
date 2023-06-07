@@ -31,13 +31,13 @@ public class NewQuestion {
     public void newQuestionEnd(JsonStorage storage) throws JSONException, IOException, InterruptedException {
         audioRecorder.stopRecording();
         VoiceCommands vc = new VoiceCommands(answer, question, storage, hl, whisper, list);
-        String whisperArg = "/Users/peikexu/Documents/Ucsd/CSE/CSE110/cse-110-project-team-11/src/myAudio.mp3";
+        String whisperArg = "myAudio.mp3";
         String question = whisper.getTranscript(whisperArg);
         JSONObject savedQuestion = new JSONObject();
 
         chatGPT.chat(question);
 
-        if(question.length() != 0) {
+        if(question != null && !question.equals("")) {
             String isGpt = vc.callCommands(chatGPT);
             if (isGpt.equals("chatgpt")) {
                 savedQuestion.put("question",chatGPT.getQuestion());

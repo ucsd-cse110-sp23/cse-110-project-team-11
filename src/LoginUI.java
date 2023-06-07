@@ -179,8 +179,8 @@ public class LoginUI extends JFrame {
 
   
 
-  public static void main(String[] args) {
-    LoginUI serverUI = new LoginUI();
-    serverUI.setVisible(true);
-  }
+  // public static void main(String[] args) {
+  //   LoginUI serverUI = new LoginUI();
+  //   serverUI.setVisible(true);
+  // }
 }

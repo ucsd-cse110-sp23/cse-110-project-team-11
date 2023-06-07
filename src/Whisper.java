@@ -6,7 +6,7 @@ public class Whisper {
     private static final String API_ENDPOINT = "https://api.openai.com/v1/audio/transcriptions";
     private static final String TOKEN = "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";
     private static final String MODEL = "whisper-1";
-    private static final String FILE_PATH = "myAudio.mp3";
+    private static final String FILE_PATH = "/Users/peikexu/Documents/Ucsd/CSE/CSE110/cse-110-project-team-11/src/myAudio.mp3";
 
     private static void writeParameterToOutputStream(
         OutputStream outputStream,
