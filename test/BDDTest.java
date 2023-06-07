@@ -1,4 +1,3 @@
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,10 +22,6 @@ public class BDDTest {
      * Tests BDD Scenario 3 from US4
      */
     public void testUS4() throws IOException {
-        ///////////////////////////////////////////////////////
-        //  Manually create historyprompt list
-        //ArrayList<JSONObject> jsonArr = new ArrayList<>();
-
         JSONObject jo = new JSONObject();
         jo.put("question", "answer");
         hpm.add(jo);
@@ -34,11 +29,8 @@ public class BDDTest {
         js.setHistoryPrompt(hpm);
 
         js.writeJson("historyPromptMock.json");
-        //
 
-        ///////////////////////////////////////////////////////
-
-        vcm.clearAll();
+        // vcm.clearAll();
 
         assertEquals(1, hpm.size());
         
