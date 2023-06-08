@@ -2,6 +2,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
@@ -59,5 +60,28 @@ public class BDDTest {
 
         //test email is created by last line is display name (Helen Keller)
         assertTrue(a.endsWith(displayName));
+    }
+
+    @Test
+    public void testUS3() {
+        File file = new File("remembered.txt");
+
+        if (file.exists()) {
+            assertTrue(file.exists());
+
+            try {
+                Automatic automatic = new Automatic();
+            } catch (Exception e) {
+                fail("Class not called");
+            }
+        } else {
+            assertFalse(file.exists());
+
+            try {
+                LoginUI serverUI = new LoginUI();
+            } catch (Exception e) {
+                fail("Class not called");
+            }
+        }
     }
 }

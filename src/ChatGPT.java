@@ -8,7 +8,7 @@ import java.io.FileReader;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-class ChatGPT{
+class ChatGPT {
     private static final String API_ENDPOINT = "https://api.openai.com/v1/completions";
     private static final String API_KEY = "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";
     private static final String MODEL = "text-davinci-003";
@@ -91,16 +91,7 @@ class ChatGPT{
      */
     // public String loadfile(String fileName) {
     //     String line = "";
-    // public String loadfile(String fileName) {
-    //     String line = "";
     
-    //     try{
-    //       BufferedReader reader = new BufferedReader(new FileReader(fileName));
-    //       line = reader.readLine();
-    //       reader.close();
-    //     }
-    //     catch(IOException e){
-    //         System.out.println("Reading Error: " + e.getMessage());
     //     try{
     //       BufferedReader reader = new BufferedReader(new FileReader(fileName));
     //       line = reader.readLine();
@@ -112,20 +103,17 @@ class ChatGPT{
     //     }
     //     return line;
     // }
-    //     }
-    //     return line;
+
+    // public static void main(String[] args) throws IOException, InterruptedException {
+    //     ChatGPT chatGPT = new ChatGPT();
+    //     Whisper whisper = new Whisper();
+    //     String file = "myAudio.mp3";
+
+    //     /*
+    //      * Sets question from .txt file (might be deleted), chat() sets the answer
+    //      * and question, getAnswer() returns the result
+    //      */
+    //     chatGPT.setQuestion(whisper.getTranscript(file));
+    //     chatGPT.chat(chatGPT.getQuestion());
     // }
-
-    public static void main(String[] args) throws IOException, InterruptedException {
-        ChatGPT chatGPT = new ChatGPT();
-        Whisper whisper = new Whisper();
-        String file = "myAudio.mp3";
-
-        /*
-         * Sets question from .txt file (might be deleted), chat() sets the answer
-         * and question, getAnswer() returns the result
-         */
-        chatGPT.setQuestion(whisper.getTranscript(file));
-        chatGPT.chat(chatGPT.getQuestion());
-    }
 }

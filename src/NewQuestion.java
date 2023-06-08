@@ -5,7 +5,6 @@ import javax.swing.JTextArea;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONObject;
 
 public class NewQuestion {
     private static AudioRecorder audioRecorder = new AudioRecorder();
@@ -34,24 +33,12 @@ public class NewQuestion {
         VoiceCommands vc = new VoiceCommands(answer, question, storage, hl, whisper, list);
         String whisperArg = "myAudio.mp3";
         String question = whisper.getTranscript(whisperArg);
+        System.out.println(question);
         JSONObject savedQuestion = new JSONObject();
 
         chatGPT.chat(question);
 
-        if (question == null) {
-            String answer = "Invalid input. Please try again with the following accepted commands:\nQuestion\nDelete Prompt\nClear All\nSet Up Email\nCreate Email\nSend Email";
-            question = "Invalid input";
-            savedQuestion.put("question", question);
-            savedQuestion.put("answer", answer);
-        }
-        else if (question.length() == 0) {
-            String answer = "Invalid input. Please try again with the following accepted commands:\nQuestion\nDelete Prompt\nClear All\nSet Up Email\nCreate Email\nSend Email";
-            question = "Invalid input";
-            savedQuestion.put("question", question);
-            savedQuestion.put("answer", answer);
-        }
-
-        else if(question.length() != 0) {
+        if(question != null && !question.equals("")) {
             String isGpt = vc.callCommands(chatGPT);
             if (isGpt.equals("chatgpt")) {
                 savedQuestion.put("question",chatGPT.getQuestion());
@@ -69,7 +56,12 @@ public class NewQuestion {
             }
         } 
         
-        
+        else {
+            String answer = "Invalid input. Please try again with the following accepted commands:\nQuestion\nDelete Prompt\nClear All\nSet Up Email\nCreate Email\nSend Email";
+            question = "Invalid input";
+            savedQuestion.put("question", question);
+            savedQuestion.put("answer", answer);
+        }
         
         storage.addPrompt(savedQuestion);
 

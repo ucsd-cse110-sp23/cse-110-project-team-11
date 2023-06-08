@@ -1,12 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.lang.management.LockInfo;
 import java.net.*;
 import javax.swing.*;
 import org.bson.Document;
-
-import com.mongodb.client.MongoCollection;
 
 class FieldPanel extends JPanel {
 
@@ -84,7 +81,6 @@ public class LoginUI extends JFrame {
     createAccountButton = buttonPanel.getCreateAccountButton();
     loginButton = buttonPanel.getLoginButton();
   
-
     createAccountButton.addActionListener(
       new ActionListener() {
         public void actionPerformed(ActionEvent e) {
@@ -123,12 +119,13 @@ public class LoginUI extends JFrame {
 
 
 
-    loginButton.addActionListener(
-  new ActionListener() {
+    loginButton.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
       try {
+
         String email = fieldPanel.getEmail();
         String password = fieldPanel.getPassword();
+
         if(email.equals("") || password.equals("")){
           JOptionPane.showMessageDialog(null, "Cannot be empty");
           return;
@@ -157,8 +154,31 @@ public class LoginUI extends JFrame {
           }
           in.close();
           dispose();
-          //new AppFrame();
-          new AppFrame(Document.parse(responseBody.toString()));
+          
+          saveCredentials(email, password);
+
+          String filePath = "remembered.txt";
+          File file = new File(filePath);
+          
+          if(!file.exists()) {
+            RememberDeviceUI rd = new RememberDeviceUI();
+            rd.setVisible(true);
+            rd.addWindowListener(new WindowAdapter() {
+              @Override
+              public void windowClosed(WindowEvent w) {
+                if (rd.isClicked()) {
+                  dispose();
+                  try {
+                    new AppFrame(Document.parse(responseBody.toString()));
+                  } catch (IOException e) {
+                    // 
+                  }
+                }
+              }
+            });
+          } else {
+            new AppFrame(Document.parse(responseBody.toString()));
+          }
         }
         else{
           JOptionPane.showMessageDialog(null, response);
@@ -170,17 +190,19 @@ public class LoginUI extends JFrame {
       }
     }
   }
-);
-
-
-    
+);    
 }
 
+private void saveCredentials(String email, String password) {
+  String fileName = "account.txt";
 
-  
-
-  // public static void main(String[] args) {
-  //   LoginUI serverUI = new LoginUI();
-  //   serverUI.setVisible(true);
-  // }
+    try{
+        File file = new File(fileName);
+        FileWriter writer = new FileWriter(file);
+        writer.write(email + "\n" + password);
+        writer.close();
+    } catch (IOException e) {
+        // nothing happens
+    }
+}
 }

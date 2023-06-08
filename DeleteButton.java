@@ -1,4 +1,7 @@
+import javax.security.auth.kerberos.DelegationPermission;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class DeleteButton extends JPanel {
@@ -10,6 +13,32 @@ public class DeleteButton extends JPanel {
         this.historyList = historyList;
         this.jsonStorage = jsonStorage;
         this.questionList = questionList;
+        
+        // JButton clearAllButton = new JButton("Clear All");
+        // JButton deleteButton = new JButton("Delete");
+
+        // VoiceCommands vc = new VoiceCommands();
+
+        // if (vc.firstWord.equals("Clear") && vc.secondWord.equals("all")) {
+        //     clearAll();
+        // } else if (vc.firstWord.equals("Delete") && vc.secondWord.equals("prompt.")) {
+        //     delete();
+        // }
+
+        // clearAllButton.addActionListener(new ActionListener() {
+        //     public void actionPerformed(ActionEvent e) {
+        //         clearAll();
+        //     }
+        // });
+
+        // deleteButton.addActionListener(new ActionListener() {
+        //     public void actionPerformed(ActionEvent e) {
+        //         delete();
+        //     }
+        // });
+
+        // this.add(clearAllButton);
+        // this.add(deleteButton);
     }
 
     public void clearAll() {
@@ -39,5 +68,15 @@ public class DeleteButton extends JPanel {
                 ex.printStackTrace();
             }
         }
-    }
+    } 
+
+    // public void test(String command) throws IOException {
+    //     VoiceCommands vc = new VoiceCommands();
+
+    //     if (vc.firstWord.equals("Clear") && vc.secondWord.equals("all")) {
+    //         clearAll();
+    //     } else if (vc.firstWord.equals("Delete") && vc.secondWord.equals("prompt.")) {
+    //         delete();
+    //     }
+    // }
 }

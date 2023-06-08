@@ -6,6 +6,7 @@ public class Whisper {
     private static final String API_ENDPOINT = "https://api.openai.com/v1/audio/transcriptions";
     private static final String TOKEN = "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";
     private static final String MODEL = "whisper-1";
+    //private static final String FILE_PATH = "/Users/peikexu/Documents/Ucsd/CSE/CSE110/cse-110-project-team-11/src/myAudio.mp3";
     private static final String FILE_PATH = "myAudio.mp3";
 
     private static void writeParameterToOutputStream(
@@ -70,7 +71,6 @@ public class Whisper {
         //     generatedText = "invalid";
         // }
         //print transcription result
-        //System.out.println("Transcription Result: " + generatedText);
         //System.out.println("Transcription Result: " + generatedText);
 
         return generatedText;
