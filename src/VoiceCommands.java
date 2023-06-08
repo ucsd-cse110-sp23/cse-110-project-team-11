@@ -190,6 +190,7 @@ import javax.swing.JTextArea;
 
 import org.bson.Document;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class VoiceCommands {
     private Whisper whisper = new Whisper();
@@ -294,9 +295,10 @@ public class VoiceCommands {
        } else if (firstWord.equalsIgnoreCase("Create") && secondWord.equalsIgnoreCase("email")) {
             value = "chatgpt";
             createEmail(chatGPT);
-            textSetter(chatGPT);
+            //textSetter(chatGPT);
        } else if (firstWord.equalsIgnoreCase("Send") && secondWord.equalsIgnoreCase("email")) {
             value = "non-chatgpt";
+            textSetter(chatGPT);
             sendEmail();
        } else if ((firstWord.equalsIgnoreCase("Set") && secondWord.equalsIgnoreCase("up") && thirdWord.equalsIgnoreCase("email.")) || (firstWord.equalsIgnoreCase("Setup") && secondWord.equalsIgnoreCase("email.") )) {
             value = "non-chatgpt";
@@ -352,7 +354,8 @@ public class VoiceCommands {
         //store = setup.getEmailH
     }
 
-    public void textSetter(ChatGPT chatGPT){
+    public void textSetter(ChatGPT chatGPT) throws IOException{
+        createEmail(chatGPT);
         this.text = chatGPT.getAnswer();
         System.out.println("email content: " + text);
         this.subject = chatGPT.getQuestion();
@@ -361,14 +364,21 @@ public class VoiceCommands {
     /*
      * Voice command "Create email" asks ChatGPT to create an email and show display name
      */
-    public void createEmail(ChatGPT chatGPT) {
+    public void createEmail(ChatGPT chatGPT) throws IOException {
         String email = chatGPT.getAnswer();
         
         //System.out.println("before: " + email);
         //String displayName = "Helen Keller";
 
-        this.name = store.getName();
-        this.displayName = store.getDisplayName();
+        if(store.getEmailHost() == new JSONObject()) {
+            this.displayName = "myName";
+        }
+        else {
+            this.name = store.getName();
+            this.displayName = store.getDisplayName();
+        }
+        // this.name = store.getName();
+        // this.displayName = store.getDisplayName();
         
         // handle case-sensitive cases
         email = email.replace("[your name]", displayName);
@@ -378,6 +388,11 @@ public class VoiceCommands {
         email = email.replace("[Name]", displayName);
         
         chatGPT.setAnswer(email);
+
+        System.out.println("email content: " + email);
+
+        //textSetter(chatGPT);
+
         
     }
 
