@@ -76,3 +76,4 @@ public class VoiceCommandsMock extends VoiceCommands {
         }
     }
 }
+>>>>>>>>> Temporary merge branch 2
