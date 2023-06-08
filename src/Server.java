@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.*;
 
+import javax.swing.JOptionPane;
+
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 
@@ -24,11 +26,9 @@ Server() throws IOException {
 
 
    // connect with database
-   MongoClient mongoClient = MongoClients.create(uri);
-
-
-   
-   MongoDatabase database = mongoClient.getDatabase("cse110");
+  MongoClient mongoClient = MongoClients.create(uri);
+    //System.out.println("Connected to the database successfully");
+    MongoDatabase database = mongoClient.getDatabase("cse110");
    
 
    // create a server
@@ -48,10 +48,14 @@ Server() throws IOException {
     server.start();
 
 
+}
+
+   
+   
+
     //System.out.println("Server started on port " + SERVER_PORT);
 
 
-}
 
 //  public static void main(String[] args) throws IOException {
 //     // create a thread pool to handle requests

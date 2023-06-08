@@ -117,6 +117,8 @@ class AppFrame extends JFrame {
 
       String email = user.getString("email");
 
+      //store = new EmailStorage(user);
+
       // //adding actions to exit
       addWindowListener(new WindowAdapter() {
 
