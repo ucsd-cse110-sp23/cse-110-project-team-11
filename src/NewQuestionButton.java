@@ -28,7 +28,7 @@ class NewQuestionButton extends JPanel {
     private HistoryList list;
     private JList historyList;
 
-    NewQuestionButton(JTextArea answerText, JTextArea questionText, JsonStorage storage, HistoryList hl, JList<String> list, String email) {
+    NewQuestionButton(JTextArea answerText, JTextArea questionText, JsonStorage storage, HistoryList hl, JList<String> list, String email, EmailStorage store) {
         this.answer = answerText;
         this.question = questionText;
         this.storage = storage;
@@ -122,7 +122,7 @@ class NewQuestionButton extends JPanel {
         String URL = "http://localhost:8100/";
         // If the icon is not currently visible, set it as the button's icon.
         // If the icon is currently visible, remove it and set the button's text back to "New Question".
-        NewQuestion newQ = new NewQuestion(answer, question, storage, list, historyList);
+        NewQuestion newQ = new NewQuestion(answer, question, storage, list, historyList, store, user_email);
         if (!isIconVisible) {
             newQuestion.setIcon(icon);
             newQuestion.setText("");

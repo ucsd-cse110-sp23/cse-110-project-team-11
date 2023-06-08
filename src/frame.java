@@ -195,4 +195,3 @@ class AppFrame extends JFrame {
 //       //new AppFrame(); // Create the frame
 //     }
 //   }
-

@@ -92,7 +92,7 @@ public class RequestHandler implements HttpHandler {
             user.append("email", email)
                 .append("password", password)
                 .append("history_prompt", Document.parse(obj.toString()))
-                .append("email_host", null)
+                .append("email_host", Document.parse(new JSONObject().toString()))
                 .append("remembered_device", false);
 
             collection.insertOne(user);
@@ -114,8 +114,13 @@ public void updateHistoryPrompt(String email, JSONObject historyPrompt) {
 
 //  Unfinished !!!
 
-public void updateEmailHost(String email, String emailHost) {
+public void updateEmailHost(String email, JSONObject emailHost) {
      MongoCollection<Document> collection = database.getCollection("user_information");
+
+     // update one document
+     Bson filter = eq("email", email);
+     Bson updateOperation = set("email_host", Document.parse(emailHost.toString()));
+     collection.updateOne(filter, updateOperation);
 }
 
 
@@ -221,10 +226,10 @@ public void updateEmailHost(String email, String emailHost) {
         String email = postData.substring(
           0,
           postData.indexOf(",")
-        ), history = postData.substring(postData.indexOf(",") + 1);
+        ), obj = postData.substring(postData.indexOf(",") + 1);
 
           while(scanner.hasNextLine()){
-            history = history + scanner.nextLine();
+            obj = obj + scanner.nextLine();
           }
 
 
@@ -250,11 +255,41 @@ public void updateEmailHost(String email, String emailHost) {
         // JSONObject obj = new JSONObject();
 
         // obj.put("historyPrompt", jsonArray);
-        JSONObject obj = new JSONObject(history);
+        
+        
+        
+        // JSONObject obj2 = new JSONObject(obj);
+        // String history = obj2.getString("historyPrompt");
+        // if(obj2.has("email_host")){
+        //   String emailHost = obj2.getString("email_host");
 
-        String response = obj.toString();
+        //   //updateEmailHost(email, emailHost);
+        // }
 
-        updateHistoryPrompt(email, obj);
+        // JSONObject historyPrompt = new JSONObject();
+        // historyPrompt.put("historyPrompt", history);
+
+        // String response = historyPrompt.toString();
+
+        // updateHistoryPrompt(email, historyPrompt);
+
+        // return response;
+
+        JSONObject update = new JSONObject(obj);
+
+
+        if(update.has("email_host")){
+          JSONObject emailHost = update.getJSONObject("email_host");
+
+          updateEmailHost(email, emailHost);
+        }
+        if(update.has("history")){
+          JSONObject history = update.getJSONObject("history");
+
+          updateHistoryPrompt(email, history);
+        }
+
+        String response = update.toString();
 
         return response;
      
