@@ -8,7 +8,11 @@ import java.io.FileReader;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+<<<<<<< HEAD
 class ChatGPT implements IChat{
+=======
+class ChatGPT{
+>>>>>>> fc4db1111d673a9b47b91874c830576b194bc3c8
     private static final String API_ENDPOINT = "https://api.openai.com/v1/completions";
     private static final String API_KEY = "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";
     private static final String MODEL = "text-davinci-003";
@@ -91,6 +95,11 @@ class ChatGPT implements IChat{
      */
     // public String loadfile(String fileName) {
     //     String line = "";
+<<<<<<< HEAD
+=======
+    // public String loadfile(String fileName) {
+    //     String line = "";
+>>>>>>> fc4db1111d673a9b47b91874c830576b194bc3c8
     
     //     try{
     //       BufferedReader reader = new BufferedReader(new FileReader(fileName));
@@ -99,16 +108,33 @@ class ChatGPT implements IChat{
     //     }
     //     catch(IOException e){
     //         System.out.println("Reading Error: " + e.getMessage());
+<<<<<<< HEAD
+=======
+    //     try{
+    //       BufferedReader reader = new BufferedReader(new FileReader(fileName));
+    //       line = reader.readLine();
+    //       reader.close();
+    //     }
+    //     catch(IOException e){
+    //         System.out.println("Reading Error: " + e.getMessage());
+>>>>>>> fc4db1111d673a9b47b91874c830576b194bc3c8
       
     //     }
     //     return line;
     // }
+<<<<<<< HEAD
+=======
+    //     }
+    //     return line;
+    // }
+>>>>>>> fc4db1111d673a9b47b91874c830576b194bc3c8
 
     // public static void main(String[] args) throws IOException, InterruptedException {
     //     ChatGPT chatGPT = new ChatGPT();
     //     Whisper whisper = new Whisper();
     //     String file = "myAudio.mp3";
 
+<<<<<<< HEAD
     //     /*
     //      * Sets question from .txt file (might be deleted), chat() sets the answer
     //      * and question, getAnswer() returns the result
@@ -117,3 +143,13 @@ class ChatGPT implements IChat{
     //     chatGPT.chat(chatGPT.getQuestion());
     // }
 }
+=======
+        /*
+         * Sets question from .txt file (might be deleted), chat() sets the answer
+         * and question, getAnswer() returns the result
+         */
+        chatGPT.setQuestion(whisper.getTranscript(file));
+        chatGPT.chat(chatGPT.getQuestion());
+    }
+}
+>>>>>>> fc4db1111d673a9b47b91874c830576b194bc3c8

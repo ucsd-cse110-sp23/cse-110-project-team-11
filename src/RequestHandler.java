@@ -123,15 +123,6 @@ public void updateEmailHost(String email, JSONObject emailHost) {
      collection.updateOne(filter, updateOperation);
 }
 
-
-
-
-
-
-
-
-
-
 // handle the request from the client
 
     public void handle(HttpExchange httpExchange) throws IOException {
@@ -232,49 +223,6 @@ public void updateEmailHost(String email, JSONObject emailHost) {
             obj = obj + scanner.nextLine();
           }
 
-
-        // String email = scanner.nextLine();
-
-        // StringBuilder inputBuilder = new StringBuilder();
-        // String line;
-        // while (scanner.hasNextLine()) {
-        //     line = scanner.nextLine();
-        //     if (line.isEmpty()) {
-        //         break; // Stop reading if an empty line is encountered
-        //     }
-        //     inputBuilder.append(line);
-        // }
-  
-        //String jsonArrayList = inputBuilder.toString();
-
-        // if (jsonArrayList.length() == 0){
-        //   return;
-        // }
-        // JSONArray jsonArray = new JSONArray(jsonArrayList);
-
-        // JSONObject obj = new JSONObject();
-
-        // obj.put("historyPrompt", jsonArray);
-        
-        
-        
-        // JSONObject obj2 = new JSONObject(obj);
-        // String history = obj2.getString("historyPrompt");
-        // if(obj2.has("email_host")){
-        //   String emailHost = obj2.getString("email_host");
-
-        //   //updateEmailHost(email, emailHost);
-        // }
-
-        // JSONObject historyPrompt = new JSONObject();
-        // historyPrompt.put("historyPrompt", history);
-
-        // String response = historyPrompt.toString();
-
-        // updateHistoryPrompt(email, historyPrompt);
-
-        // return response;
-
         JSONObject update = new JSONObject(obj);
 
 
@@ -295,6 +243,3 @@ public void updateEmailHost(String email, JSONObject emailHost) {
      
       }
 }
-     
-
-      

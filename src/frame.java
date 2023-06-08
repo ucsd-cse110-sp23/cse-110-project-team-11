@@ -87,8 +87,12 @@ class AppFrame extends JFrame {
 
     private Document user;
     private JsonStorage js;
+<<<<<<< HEAD
     private EmailStorage store;
     //private String user_email;
+=======
+   
+>>>>>>> fc4db1111d673a9b47b91874c830576b194bc3c8
 
     //user getter
     public Document getUser() {
@@ -143,7 +147,11 @@ class AppFrame extends JFrame {
         HistoryList list = new HistoryList(js, question.getAnswerArea(), question.getQuestionArea());
         JPanel historyPanel = list.getHistoryPanel();
         JList<String> historyList = list.getHistoryList();
+<<<<<<< HEAD
         NewQuestionButton newQuestionButton = new NewQuestionButton(question.getAnswerArea(), question.getQuestionArea(), js, list, historyList,email,store);
+=======
+        NewQuestionButton newQuestionButton = new NewQuestionButton(question.getAnswerArea(), question.getQuestionArea(), js, list, historyList,email);
+>>>>>>> fc4db1111d673a9b47b91874c830576b194bc3c8
         //DeleteButton deleteButton = new DeleteButton(list, js, historyList);
 
       //Set the whole window

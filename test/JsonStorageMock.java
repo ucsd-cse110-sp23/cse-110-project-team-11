@@ -3,20 +3,21 @@ import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-
-import org.bson.Document;
-import org.bson.json.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 
-public class JsonStorage {
+public class JsonStorageMock {
     
     private ArrayList<JSONObject> historyPrompt;
 
     //constructor
-    public JsonStorage() {    
+    public JsonStorageMock(String fileName) throws IOException {
         historyPrompt = new ArrayList<JSONObject>();
+        File file = new File(fileName);
+        if(file.exists()){
+            readJson(fileName);
+        }
     }
 
     public void setHistoryPrompt(ArrayList<JSONObject> arr) {
@@ -29,21 +30,23 @@ public class JsonStorage {
     }
 
     //read json file
-    public void readJson(Document user) throws IOException {
-        //get history prompt from the user account
-      String infor = user.toJson();
+    public void readJson(String fileName) throws IOException {
+        //read json file
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        String line = reader.readLine();
+        String json = "";
+        while (line != null) {
+            json += line;
+            line = reader.readLine();
+        }
+        reader.close();
 
-      JSONObject obj = new JSONObject(infor);
-      JSONObject obj2 = obj.getJSONObject("history_prompt");
-      JSONArray arr = obj2.getJSONArray("historyPrompt");
-      if(arr.length() == 0){
-        return;
-      }
-      else{
+        //parse json file
+        JSONObject obj = new JSONObject(json);
+        JSONArray arr = obj.getJSONArray("historyPrompt");
         for (int i = 0; i < arr.length(); i++) {
             historyPrompt.add(arr.getJSONObject(i));
         }
-      }     
     }
 
     //write json file

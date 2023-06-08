@@ -8,6 +8,7 @@ import org.json.JSONArray;
 
 import java.awt.*;
 import java.io.BufferedReader;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -130,6 +131,7 @@ class NewQuestionButton extends JPanel {
         if (!isIconVisible) {
             newQuestion.setIcon(icon);
             newQuestion.setText("");
+            newQ.newQuestionStart();
             newQ.newQuestionStart();
             isIconVisible = true;
         } else {
