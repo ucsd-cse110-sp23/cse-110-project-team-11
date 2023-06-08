@@ -72,7 +72,6 @@ public class Whisper {
         // }
         //print transcription result
         //System.out.println("Transcription Result: " + generatedText);
-        //System.out.println("Transcription Result: " + generatedText);
 
         return generatedText;
     }

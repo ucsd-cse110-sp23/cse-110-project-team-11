@@ -6,7 +6,6 @@ import javax.swing.JTextArea;
 import org.bson.Document;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONObject;
 
 public class NewQuestion {
     private static AudioRecorder audioRecorder = new AudioRecorder();
@@ -61,7 +60,12 @@ public class NewQuestion {
             }
         } 
         
-        
+        else {
+            String answer = "Invalid input. Please try again with the following accepted commands:\nQuestion\nDelete Prompt\nClear All\nSet Up Email\nCreate Email\nSend Email";
+            question = "Invalid input";
+            savedQuestion.put("question", question);
+            savedQuestion.put("answer", answer);
+        }
         
         storage.addPrompt(savedQuestion);
 
