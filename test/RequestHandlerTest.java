@@ -52,26 +52,26 @@ public class RequestHandlerTest {
         requestHandler.createAccount(testEmail, testPassword);
         assertTrue(requestHandler.searchExistence(testEmail), "Expected user to exist");
     }
+/* 
+    @Test
+    public void testUpdateHistoryPrompt() {
+        requestHandler.createAccount(testEmail, testPassword);
 
-//     @Test
-//     public void testUpdateHistoryPrompt() {
-//         requestHandler.createAccount(testEmail, testPassword);
+        JSONObject historyPrompt = new JSONObject();
+        historyPrompt.put("prompt", "This is a test");
 
-//         JSONObject historyPrompt = new JSONObject();
-//         historyPrompt.put("prompt", "This is a test");
+        requestHandler.updateHistoryPrompt(testEmail, historyPrompt);
 
-//         requestHandler.updateHistoryPrompt(testEmail, historyPrompt);
+        Document user = database.getCollection("user_information").find(new Document("email", testEmail)).first();
+        Document actualHistoryPrompt = (Document) user.get("historyPrompt");
 
-//         Document user = database.getCollection("user_information").find(new Document("email", testEmail)).first();
-//         Document actualHistoryPrompt = (Document) user.get("historyPrompt");
+        // Normalize the strings before comparing
+        String expected = historyPrompt.toString().replaceAll("\\s+", "");
+        //String actual = actualHistoryPrompt.toJson().replaceAll("\\s+", "");
 
-//         // Normalize the strings before comparing
-//         String expected = historyPrompt.toString().replaceAll("\\s+", "");
-//         String actual = actualHistoryPrompt.toJson().replaceAll("\\s+", "");
-
-//         assertEquals(expected, actual, "Expected historyPrompt to match");
-//     }
-
+        assertEquals(expected, actual, "Expected historyPrompt to match");
+    }
+*/
     @AfterAll
     public static void tearDown() {
         database.getCollection("user_information").deleteMany(new Document());
