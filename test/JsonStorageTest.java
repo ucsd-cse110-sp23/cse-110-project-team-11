@@ -1,179 +1,175 @@
-// import org.json.JSONObject;
-// import org.junit.jupiter.api.Test;
-// import java.io.IOException;
+import org.json.JSONObject;
+import org.junit.jupiter.api.Test;
+import java.io.IOException;
 
-// import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-// class JsonStorageTest {
-//     /*
-//      * Test constructor
-//      */
-// //     @Test
-// //     void testConstructor() throws IOException {
-// //         JsonStorage js = new JsonStorage("historyPrompt.json");
-// //         assertEquals(0, js.getHistoryPrompt().size());
-// //     }
+class JsonStorageTest {
+    /*
+     * Test constructor
+     */
+    @Test
+    void testConstructor() throws IOException {
+        JsonStorageMock jsm = new JsonStorageMock("historyPrompt.json");
+        assertEquals(0, jsm.getHistoryPrompt().size());
+    }
 
-//     /*
-//      * Test getQuestion()
-//      */
-//     @Test
-//     void testGetQuestion() throws IOException {
-//         JsonStorage js = new JsonStorage("historyPrompt.json");
-//         JSONObject eg1 = new JSONObject();
-//         js.clearPrompt();
-//         js.writeJson("historyPrompt.json");
+    /*
+     * Test getQuestion()
+     */
+    @Test
+    void testGetQuestion() throws IOException {
+        JsonStorageMock jsm = new JsonStorageMock("historyPrompt.json");
+        JSONObject eg1 = new JSONObject();
+        jsm.clearPrompt();
+        jsm.writeJson("historyPrompt.json");
 
-//         eg1.put("question", "Q1");
-//         eg1.put("answer", "A1");
+        eg1.put("question", "Q1");
+        eg1.put("answer", "A1");
 
-//         js.addPrompt(eg1);
-//         js.writeJson("historyPrompt.json");
+        jsm.addPrompt(eg1);
+        jsm.writeJson("historyPrompt.json");
 
-//         assertEquals("Q1", js.getQuestion(0));
-//         assertEquals(1, js.getHistoryPrompt().size());
+        assertEquals("Q1", jsm.getQuestion(0));
+        assertEquals(1, jsm.getHistoryPrompt().size());
+    }
+
+    /*
+     * Test getAnswer()
+     */
+    @Test
+    void testGetAnswer() throws IOException {
+        JsonStorageMock jsm = new JsonStorageMock("historyPrompt.json");
+        JSONObject eg1 = new JSONObject();
+        jsm.clearPrompt();
+        jsm.writeJson("historyPrompt.json");
+
+        eg1.put("question", "Q1");
+        eg1.put("answer", "A1");
+
+        jsm.addPrompt(eg1);
+        jsm.writeJson("historyPrompt.json");
+
+        assertEquals("A1", jsm.getAnswer(0));
+        assertEquals(1, jsm.getHistoryPrompt().size());
+    }
+
+    /*
+     * Test getIndex()
+     */
+    @Test
+    void testGetIndex() throws IOException {
+        JsonStorageMock jsm = new JsonStorageMock("historyPrompt.json");
+        JSONObject eg1 = new JSONObject();
+
+        jsm.clearPrompt();
+        jsm.writeJson("historyPrompt.json");
+
+        eg1.put("question", "Q1");
+        eg1.put("answer", "A1");
+
+        jsm.addPrompt(eg1);
+        jsm.writeJson("historyPrompt.json");
+
+        assertEquals(0, jsm.getIndex(eg1));
+    }
+
+    /*
+     * Test findPrompt()
+     */
+    @Test
+    void testFindPrompt() throws IOException {
+        JsonStorageMock jsm = new JsonStorageMock("historyPrompt.json");
+        JSONObject eg1 = new JSONObject();
+
+        jsm.clearPrompt();
+        jsm.writeJson("historyPrompt.json");
+
+        eg1.put("question", "Q1");
+        eg1.put("answer", "A1");
+
+        jsm.addPrompt(eg1);
+        jsm.writeJson("historyPrompt.json");
+
+        JSONObject ans = new JSONObject();
+        ans.put("question", "Q1");
+        ans.put("answer", "A1");
+
+        assertEquals(ans.toString(0), (jsm.findPrompt(0)).toString(0));
+        assertEquals(null, jsm.findPrompt(2));
+    }
+
+    /*
+     * Test addPrompt()
+     */
+    @Test
+    void testAddPrompt() throws IOException {
+        JsonStorageMock jsm = new JsonStorageMock("historyPrompt.json");
+        JSONObject eg1 = new JSONObject();
+        JSONObject eg2 = new JSONObject();
+
+        jsm.clearPrompt();
+        jsm.writeJson("historyPrompt.json");
+
+        eg1.put("question", "Q1");
+        eg1.put("answer", "A1");
+
+        eg2.put("question", "Q2");
+        eg2.put("answer", "A2");
+
+        jsm.addPrompt(eg1);
+        jsm.addPrompt(eg2);
+        jsm.writeJson("historyPrompt.json");
+
+        assertEquals("Q1", jsm.getQuestion(0));
+        assertEquals("A1", jsm.getAnswer(0));
+        assertEquals("Q2", jsm.getQuestion(1));
+        assertEquals("A2", jsm.getAnswer(1));
         
-//         // test array index out of bounds error?
-//     }
+        assertEquals(2, jsm.getHistoryPrompt().size());
+    }
 
-//     /*
-//      * Test getAnswer()
-//      */
-//     @Test
-//     void testGetAnswer() throws IOException {
-//         JsonStorage js = new JsonStorage("historyPrompt.json");
-//         JSONObject eg1 = new JSONObject();
-//         js.clearPrompt();
-//         js.writeJson("historyPrompt.json");
+    @Test
+    void testRemovePrompt() throws IOException {
+        JsonStorageMock jsm = new JsonStorageMock("historyPrompt.json");
+        JSONObject eg1 = new JSONObject();
 
-//         eg1.put("question", "Q1");
-//         eg1.put("answer", "A1");
+        jsm.clearPrompt();
+        jsm.writeJson("historyPrompt.json");
 
-//         js.addPrompt(eg1);
-//         js.writeJson("historyPrompt.json");
+        eg1.put("question", "Q1");
+        eg1.put("answer", "A1");
 
-//         assertEquals("A1", js.getAnswer(0));
-//         assertEquals(1, js.getHistoryPrompt().size());
-        
-//         // test array index out of bounds error?
-//     }
+        jsm.addPrompt(eg1);
+        jsm.writeJson("historyPrompt.json");
 
-//     /*
-//      * Test getIndex()
-//      */
-//     @Test
-//     void testGetIndex() throws IOException {
-//         JsonStorage js = new JsonStorage("historyPrompt.json");
-//         JSONObject eg1 = new JSONObject();
+        jsm.removePrompt(0);
+        jsm.writeJson("historyPrompt.json");
 
-//         js.clearPrompt();
-//         js.writeJson("historyPrompt.json");
+        assertEquals(0, jsm.getHistoryPrompt().size());
+    }
 
-//         eg1.put("question", "Q1");
-//         eg1.put("answer", "A1");
+    @Test
+    void testClearPrompt() throws IOException {
+        JsonStorageMock jsm = new JsonStorageMock("historyPrompt.json");
+        JSONObject eg1 = new JSONObject();
+        JSONObject eg2 = new JSONObject();
 
-//         js.addPrompt(eg1);
-//         js.writeJson("historyPrompt.json");
+        jsm.clearPrompt();
+        jsm.writeJson("historyPrompt.json");
 
-//         assertEquals(0, js.getIndex(eg1));
-//     }
+        eg1.put("question", "Q1");
+        eg1.put("answer", "A1");
 
-//     /*
-//      * Test findPrompt()
-//      */
-//     @Test
-//     void testFindPrompt() throws IOException {
-//         JsonStorage js = new JsonStorage("historyPrompt.json");
-//         JSONObject eg1 = new JSONObject();
+        eg2.put("question", "Q2");
+        eg2.put("answer", "A2");
 
-//         js.clearPrompt();
-//         js.writeJson("historyPrompt.json");
+        jsm.addPrompt(eg1);
+        jsm.addPrompt(eg2);
+        jsm.writeJson("historyPrompt.json");
 
-//         eg1.put("question", "Q1");
-//         eg1.put("answer", "A1");
-
-//         js.addPrompt(eg1);
-//         js.writeJson("historyPrompt.json");
-
-//         JSONObject ans = new JSONObject();
-//         ans.put("question", "Q1");
-//         ans.put("answer", "A1");
-
-//         assertEquals(ans.toString(0), (js.findPrompt(0)).toString(0));
-//         assertEquals(null, js.findPrompt(2));
-//     }
-
-//     /*
-//      * Test addPrompt()
-//      */
-//     @Test
-//     void testAddPrompt() throws IOException {
-//         JsonStorage js = new JsonStorage("historyPrompt.json");
-//         JSONObject eg1 = new JSONObject();
-//         JSONObject eg2 = new JSONObject();
-
-//         js.clearPrompt();
-//         js.writeJson("historyPrompt.json");
-
-//         eg1.put("question", "Q1");
-//         eg1.put("answer", "A1");
-
-//         eg2.put("question", "Q2");
-//         eg2.put("answer", "A2");
-
-//         js.addPrompt(eg1);
-//         js.addPrompt(eg2);
-//         js.writeJson("historyPrompt.json");
-
-//         assertEquals("Q1", js.getQuestion(0));
-//         assertEquals("A1", js.getAnswer(0));
-//         assertEquals("Q2", js.getQuestion(1));
-//         assertEquals("A2", js.getAnswer(1));
-        
-//         assertEquals(2, js.getHistoryPrompt().size());
-//     }
-
-//     @Test
-//     void testRemovePrompt() throws IOException {
-//         JsonStorage js = new JsonStorage("historyPrompt.json");
-//         JSONObject eg1 = new JSONObject();
-
-//         js.clearPrompt();
-//         js.writeJson("historyPrompt.json");
-
-//         eg1.put("question", "Q1");
-//         eg1.put("answer", "A1");
-
-//         js.addPrompt(eg1);
-//         js.writeJson("historyPrompt.json");
-
-//         js.removePrompt(0);
-//         js.writeJson("historyPrompt.json");
-
-//         assertEquals(0, js.getHistoryPrompt().size());
-//     }
-
-//     @Test
-//     void testClearPrompt() throws IOException {
-//         JsonStorage js = new JsonStorage("historyPrompt.json");
-//         JSONObject eg1 = new JSONObject();
-//         JSONObject eg2 = new JSONObject();
-
-//         js.clearPrompt();
-//         js.writeJson("historyPrompt.json");
-
-//         eg1.put("question", "Q1");
-//         eg1.put("answer", "A1");
-
-//         eg2.put("question", "Q2");
-//         eg2.put("answer", "A2");
-
-//         js.addPrompt(eg1);
-//         js.addPrompt(eg2);
-//         js.writeJson("historyPrompt.json");
-
-//         js.clearPrompt();
-//         js.writeJson("historyPrompt.json");
-//         assertEquals(0, js.getHistoryPrompt().size());
-//     }
-// }
+        jsm.clearPrompt();
+        jsm.writeJson("historyPrompt.json");
+        assertEquals(0, jsm.getHistoryPrompt().size());
+    }
+}
