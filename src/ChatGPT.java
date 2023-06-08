@@ -8,7 +8,7 @@ import java.io.FileReader;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-class ChatGPT implements IChat{
+class ChatGPT {
     private static final String API_ENDPOINT = "https://api.openai.com/v1/completions";
     private static final String API_KEY = "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";
     private static final String MODEL = "text-davinci-003";
