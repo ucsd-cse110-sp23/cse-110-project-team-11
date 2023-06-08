@@ -398,4 +398,11 @@ private void saveCredentials(String email, String password) {
         // nothing happens
     }
 }
+
+public static void main(String[] args) throws IOException {
+  new Server();
+  LoginUI serverUI = new LoginUI();
+  serverUI.setVisible(true);
+
+}
 }

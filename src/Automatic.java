@@ -35,10 +35,11 @@ public class Automatic {
                     responseBody.append(line);
               }
               in.close();
-              new AppFrame(Document.parse(responseBody.toString()));
+              AppFrame af = new AppFrame(Document.parse(responseBody.toString()));
+              af.setVisible(true);
           } }
           catch (Exception ex) {
-            //
+            System.out.println("error!!!");
 
           }
           

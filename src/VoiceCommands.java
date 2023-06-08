@@ -217,6 +217,7 @@ public class VoiceCommands {
     String text;
 
     String apiKey;
+    String subject;
 
     /*
      * Constructor
@@ -238,6 +239,8 @@ public class VoiceCommands {
         // this.to = store.getEmail();
         // this.SMTP = store.getSMTP();
         // this.TLS = store.getTLS();
+        this.text = "a";
+        this.subject = "cse110";
 
     }
 
@@ -259,16 +262,16 @@ public class VoiceCommands {
             this.thirdWord = words[2];
         }
 
-        // get to email address
-        if (transcript.contains("Send email to")){
-            String emailAddr = transcript.substring(14, transcript.length());
-            // need to remove spaces, to lower case, replace "at" with @, replace "dot" with .
-            emailAddr = emailAddr.replaceAll(" ", "");
-            emailAddr.toLowerCase();
-            emailAddr = emailAddr.replace("at", "@");
-            emailAddr = emailAddr.replace("dot", ".");
-            System.out.println("send email to: " + emailAddr);
-        }
+        // // get to email address
+        // if (transcript.contains("Send email to")){
+        //     String emailAddr = transcript.substring(14, transcript.length());
+        //     // need to remove spaces, to lower case, replace "at" with @, replace "dot" with .
+        //     emailAddr = emailAddr.replaceAll(" ", "");
+        //     emailAddr.toLowerCase();
+        //     emailAddr = emailAddr.replace("at", "@");
+        //     emailAddr = emailAddr.replace("dot", ".");
+        //     System.out.println("send email to: " + emailAddr);
+        // }
     }
 
     /*
@@ -291,6 +294,7 @@ public class VoiceCommands {
        } else if (firstWord.equalsIgnoreCase("Create") && secondWord.equalsIgnoreCase("email")) {
             value = "chatgpt";
             createEmail(chatGPT);
+            textSetter(chatGPT);
        } else if (firstWord.equalsIgnoreCase("Send") && secondWord.equalsIgnoreCase("email")) {
             value = "non-chatgpt";
             sendEmail();
@@ -345,6 +349,13 @@ public class VoiceCommands {
     public void setUpEmail() throws IOException {  
         SetUpEmail setup = new SetUpEmail(store, user_email);
         setup.setVisible(true);
+        //store = setup.getEmailH
+    }
+
+    public void textSetter(ChatGPT chatGPT){
+        this.text = chatGPT.getAnswer();
+        System.out.println("email content: " + text);
+        this.subject = chatGPT.getQuestion();
     }
 
     /*
@@ -352,7 +363,8 @@ public class VoiceCommands {
      */
     public void createEmail(ChatGPT chatGPT) {
         String email = chatGPT.getAnswer();
-        System.out.println("before: " + email);
+        
+        //System.out.println("before: " + email);
         //String displayName = "Helen Keller";
 
         this.name = store.getName();
@@ -366,7 +378,7 @@ public class VoiceCommands {
         email = email.replace("[Name]", displayName);
         
         chatGPT.setAnswer(email);
-        this.text = chatGPT.getAnswer();
+        
     }
 
     public void sendEmail() {
@@ -384,13 +396,13 @@ public class VoiceCommands {
                 this.to = store.getEmail();
                 this.SMTP = store.getSMTP();
                 this.TLS = store.getTLS();
-            
+        
             String sampleEmail = "renahu2020@gmail.com";
-            EmailSender sender = new EmailSender(SMTP, TLS, sampleEmail, to, text);
+            //EmailSender sender = new EmailSender(SMTP, TLS, sampleEmail, to, text);
 
-            sender.send();
-                    //EmailServiceImpl host = new EmailServiceImpl(apiKey);
-                    //host.sendEmail(to,displayName,text);
+            //sender.send();
+                    EmailServiceImpl host = new EmailServiceImpl(apiKey);
+                    host.sendEmail(to,subject,text);
             }
             else{
                 throw new Exception("invalid port number");
