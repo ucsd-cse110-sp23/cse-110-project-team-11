@@ -1,3 +1,4 @@
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,13 +9,15 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BDDTest {
     private VoiceCommandsMock vcm;
     private ArrayList<JSONObject> hpm;
-    private JsonStorage js;
+    private JsonStorageMock jsm;
+    private ChatGPTMock cgptm;
 
     @BeforeEach
     public void setup() throws IOException {
         vcm = new VoiceCommandsMock();
         hpm = new ArrayList<JSONObject>();
-        js = new JsonStorage("historyPromptMock.json");
+        jsm = new JsonStorageMock("historyPromptMock.json");
+        cgptm = new ChatGPTMock();
     }
 
     @Test
@@ -26,9 +29,9 @@ public class BDDTest {
         jo.put("question", "answer");
         hpm.add(jo);
 
-        js.setHistoryPrompt(hpm);
+        jsm.setHistoryPrompt(hpm);
 
-        js.writeJson("historyPromptMock.json");
+        jsm.writeJson("historyPromptMock.json");
 
         // vcm.clearAll();
 
@@ -40,5 +43,21 @@ public class BDDTest {
          * call clear all from voice commands (mock version)
          * check to see that list size == 1
          */
+    }
+    
+    @Test
+    public void testUS8() throws IOException, JSONException, InterruptedException {
+        cgptm.setQuestion("Create email to Rena about the upcoming holiday.");
+        cgptm.setAnswer("Dear Rena,\nHolidays coming soon!\nBest regards,\nHelen Keller");
+
+        String q = cgptm.getQuestion();
+        String a = cgptm.getAnswer();
+        String displayName = "Helen Keller";
+
+        //test voicecommands
+        assertEquals("chatgpt", vcm.callCommands(q));
+
+        //test email is created by last line is display name (Helen Keller)
+        assertTrue(a.endsWith(displayName));
     }
 }
