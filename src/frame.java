@@ -7,8 +7,15 @@ import java.awt.Insets;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import org.bson.Document;
+import org.bson.json.JsonObject;
+import org.json.JSONObject;
+import org.json.JSONArray;
+
 import javax.swing.*;
 
 
@@ -78,29 +85,50 @@ class AppFrame extends JFrame {
     Color blue = new Color(100, 204, 200);
     Color lightGray = new Color (200,200,200);
 
+    private Document user;
+    private JsonStorage js;
+   
+
+    //user getter
+    public Document getUser() {
+      return user;
+    }
+
+    //JsonStorage getter
+    public JsonStorage getJsonStorage() {
+      return js;
+    }
+
     /*
      * Main UI Frame
      */
-    AppFrame() throws IOException {
+    AppFrame(Document user) throws IOException {
+
+      //initailze the user
+      this.user = user;
 
       //initailze the data structure
-      JsonStorage js = new JsonStorage("historyPrompt.json");
+      js = new JsonStorage();
+       
+      //read user information
+      js.readJson(user);
+
+      String email = user.getString("email");
+
+      // // //adding actions to exit
+      // addWindowListener(new WindowAdapter() {
 
 
-      //adding actions to exit
-      addWindowListener(new WindowAdapter() {
-
-
-        @Override
-        public void windowClosing(WindowEvent e){
-          try {
-            js.writeJson("historyPrompt.json");
-          } catch (IOException e1) {
-            e1.printStackTrace();
-          }
-            System.exit(0);
-          }
-      });
+      //   @Override
+      //   public void windowClosing(WindowEvent e){
+      //     try {
+      //       js.writeJson("historyPrompt.json");
+      //     } catch (IOException e1) {
+      //       e1.printStackTrace();
+      //     }
+      //       System.exit(0);
+      //     }
+      // });
      
         //set original question panel
         String newQuestion = "";
@@ -113,8 +141,8 @@ class AppFrame extends JFrame {
         HistoryList list = new HistoryList(js, question.getAnswerArea(), question.getQuestionArea());
         JPanel historyPanel = list.getHistoryPanel();
         JList<String> historyList = list.getHistoryList();
-        NewQuestionButton newQuestionButton = new NewQuestionButton(question.getAnswerArea(), question.getQuestionArea(), js, list, historyList);
-        DeleteButton deleteButton = new DeleteButton(list, js, historyList);
+        NewQuestionButton newQuestionButton = new NewQuestionButton(question.getAnswerArea(), question.getQuestionArea(), js, list, historyList,email);
+        //DeleteButton deleteButton = new DeleteButton(list, js, historyList);
 
       //Set the whole window
       this.setSize(1000,1000); // 1000 width and 1000 height
@@ -142,7 +170,6 @@ class AppFrame extends JFrame {
 
       leftPanel.setPreferredSize(new Dimension(180, 1000));
       leftPanel.setBackground(blue);
-      leftPanel.add(deleteButton);
 
 
       // Set the minimum size of the left panel
@@ -168,8 +195,9 @@ class AppFrame extends JFrame {
 
 
 
-public class frame {
-    public static void main(String args[]) throws IOException {
-      new AppFrame(); // Create the frame
-    }
-  }
+// public class frame {
+//     public static void main(String args[]) throws IOException {
+//       //new AppFrame(); // Create the frame
+//     }
+//   }
+

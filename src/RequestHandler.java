@@ -12,6 +12,9 @@ import java.io.File;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+
+import javax.swing.JFrame;
+
 import org.bson.conversions.Bson;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -62,6 +65,16 @@ public class RequestHandler implements HttpHandler {
       }
   }
 
+  //return the user
+    public Document getUser(String email) {
+        MongoCollection<Document> collection = database.getCollection("user_information");
+    
+        Document user = collection.find(eq("email", email)).first();
+        return user;
+    }
+
+
+// create an account
   public void createAccount(String email, String password) {
     //mongodb+srv://Cluster95779:YV50WnpyZEp9@cluster95779.lfr31so.mongodb.net/?retryWrites=true&w=majority
 
@@ -93,7 +106,7 @@ public void updateHistoryPrompt(String email, JSONObject historyPrompt) {
 
         // update one document
         Bson filter = eq("email", email);
-        Bson updateOperation = set("historyPrompt", Document.parse(historyPrompt.toString()));
+        Bson updateOperation = set("history_prompt", Document.parse(historyPrompt.toString()));
         collection.updateOne(filter, updateOperation);
 }
 
@@ -104,6 +117,7 @@ public void updateHistoryPrompt(String email, JSONObject historyPrompt) {
 public void updateEmailHost(String email, String emailHost) {
      MongoCollection<Document> collection = database.getCollection("user_information");
 }
+
 
 
 
@@ -124,6 +138,8 @@ public void updateEmailHost(String email, String emailHost) {
             response = handleLog(httpExchange);
           } else if (method.equals("POST")) {
             response = handleCreate(httpExchange);
+          } else if(method.equals("PUT")){
+            handleUpdate(httpExchange);
           }
           else{
             throw new Exception("Not Valid Request Method");
@@ -161,6 +177,8 @@ public void updateEmailHost(String email, String emailHost) {
             String password = URLDecoder.decode(keyValue2[1], "UTF-8");
             if(verifyPassword(email, password) == true){
               response = "login successfully";
+              Document user = getUser(email);
+              response = response  + '\n' + user.toJson();
             }
           }
           
@@ -185,7 +203,7 @@ public void updateEmailHost(String email, String emailHost) {
           createAccount(email, password);
           response = "created successfully";
         }
-     
+        
         
   
         scanner.close();
@@ -194,7 +212,51 @@ public void updateEmailHost(String email, String emailHost) {
         return response;
 
       }
-}
-     
 
-      
+      private String handleUpdate(HttpExchange httpExchange) throws IOException {
+        InputStream inStream = httpExchange.getRequestBody();
+        Scanner scanner = new Scanner(inStream);
+
+        String postData = scanner.nextLine();
+        String email = postData.substring(
+          0,
+          postData.indexOf(",")
+        ), history = postData.substring(postData.indexOf(",") + 1);
+
+          while(scanner.hasNextLine()){
+            history = history + scanner.nextLine();
+          }
+
+
+        // String email = scanner.nextLine();
+
+        // StringBuilder inputBuilder = new StringBuilder();
+        // String line;
+        // while (scanner.hasNextLine()) {
+        //     line = scanner.nextLine();
+        //     if (line.isEmpty()) {
+        //         break; // Stop reading if an empty line is encountered
+        //     }
+        //     inputBuilder.append(line);
+        // }
+  
+        //String jsonArrayList = inputBuilder.toString();
+
+        // if (jsonArrayList.length() == 0){
+        //   return;
+        // }
+        // JSONArray jsonArray = new JSONArray(jsonArrayList);
+
+        // JSONObject obj = new JSONObject();
+
+        // obj.put("historyPrompt", jsonArray);
+        JSONObject obj = new JSONObject(history);
+
+        String response = obj.toString();
+
+        updateHistoryPrompt(email, obj);
+
+        return response;
+     
+      }
+}

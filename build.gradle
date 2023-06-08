@@ -1,7 +1,6 @@
 plugins {
     id 'java'
     id 'application'
-
 }
 
 java {
@@ -22,13 +21,41 @@ dependencies {
     // This provides the TestEngine to actually run the tests.
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 
+    implementation 'org.mongodb:mongodb-driver-sync:4.9.1'
+
     // Add JSON dependency
     implementation 'org.json:json:20210307'
 
-}
+    dependencies {
+    // SLF4J API dependency
+    implementation 'org.slf4j:slf4j-api:1.7.32'
 
-application {
-    mainClass = "Database"
+    // Logback implementation dependency
+    implementation 'ch.qos.logback:logback-classic:1.2.6'
+
+    implementation 'com.sun.mail:javax.mail:1.6.2'
+
+    // Use JUnit Jupiter API for testing.
+    //testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    //testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+    testImplementation 'junit:junit:4.13'
+
+    // Use Mockito for mocking in tests.
+    testImplementation 'org.mockito:mockito-core:3.12.4'
+
+    testImplementation 'org.powermock:powermock-api-mockito2:2.0.9'
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.9'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+
+    testImplementation 'com.icegreen:greenmail:1.6.2'
+
+    implementation 'com.sendgrid:sendgrid-java:4.9.3'
+
+
+}
 }
 
 sourceSets {
@@ -44,11 +71,10 @@ sourceSets {
     }
 }
 
-test {
-    useJUnitPlatform()
+application{
+    mainClass = 'Database'
 }
 
-dependencies {
-    implementation 'io.fares.junit.mongodb:mongodb-junit-test:1.0.1'
-    implementation 'org.mongodb:mongodb-driver-sync:4.9.1'
+test {
+    useJUnitPlatform()
 }

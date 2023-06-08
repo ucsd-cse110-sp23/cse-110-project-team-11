@@ -4,7 +4,7 @@ import java.io.*;
 import java.lang.management.LockInfo;
 import java.net.*;
 import javax.swing.*;
-import javax.swing.text.Document;
+import org.bson.Document;
 
 import com.mongodb.client.MongoCollection;
 
@@ -62,7 +62,7 @@ class ButtonPanel extends JPanel {
 
 public class LoginUI extends JFrame {
 
-  public final String URL = "http://localhost:8100/";
+  private final String URL = "http://localhost:8100/";
 
 
   private JButton createAccountButton, loginButton;
@@ -122,29 +122,6 @@ public class LoginUI extends JFrame {
     );
 
 
-    // loginButton.addActionListener(
-    //   new ActionListener() {
-    //     public void actionPerformed(ActionEvent e) {
-    //       try {
-    //         String email = fieldPanel.getEmail();
-    //         String password = fieldPanel.getPassword();
-    //         URL url = new URL(URL + "?=" + email + "=" + password);
-    //         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-    //         conn.setRequestMethod("GET");
-    //         String response = "ok";
-    //         BufferedReader in = new BufferedReader(
-    //           new InputStreamReader(conn.getInputStream())
-    //         );
-    //         response = in.readLine();
-    //         in.close();
-    //         JOptionPane.showMessageDialog(null, response);
-    //       } catch (Exception ex) {
-    //         ex.printStackTrace();
-    //         JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
-    //       }
-    //     }
-    //   }
-    // );
 
     loginButton.addActionListener(
   new ActionListener() {
@@ -164,8 +141,29 @@ public class LoginUI extends JFrame {
           new InputStreamReader(conn.getInputStream())
         );
         String response = in.readLine();
+        StringBuilder responseBody = new StringBuilder();
+        
+        // if(wholeResponse.indexOf(',') == -1){
+        //   JOptionPane.showMessageDialog(null, wholeResponse);
+        //   return;
+        // }
+        //String response = wholeResponse.substring(0, wholeResponse.indexOf(','));
+        if(response.equals("login successfully")){
+  
+          // String user = wholeResponse.substring(response.indexOf(',') + 1);
+          String line;
+          while ((line = in.readLine()) != null) {
+                responseBody.append(line);
+          }
+          in.close();
+          dispose();
+          //new AppFrame();
+          new AppFrame(Document.parse(responseBody.toString()));
+        }
+        else{
+          JOptionPane.showMessageDialog(null, response);
+        }
         in.close();
-        JOptionPane.showMessageDialog(null, response);
       } catch (Exception ex) {
         ex.printStackTrace();
         JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
@@ -181,8 +179,8 @@ public class LoginUI extends JFrame {
 
   
 
-  public static void main(String[] args) {
-    LoginUI serverUI = new LoginUI();
-    serverUI.setVisible(true);
-  }
+  // public static void main(String[] args) {
+  //   LoginUI serverUI = new LoginUI();
+  //   serverUI.setVisible(true);
+  // }
 }
