@@ -38,6 +38,7 @@ public class NewQuestion {
         VoiceCommands vc = new VoiceCommands(answer, question, storage, hl, whisper, list, store, user_email);
         String whisperArg = "myAudio.mp3";
         String question = whisper.getTranscript(whisperArg);
+        System.out.println(question);
         JSONObject savedQuestion = new JSONObject();
 
         chatGPT.chat(question);

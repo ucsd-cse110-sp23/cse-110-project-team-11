@@ -19,10 +19,6 @@ public class JsonStorage {
         historyPrompt = new ArrayList<JSONObject>();
     }
 
-    public void setHistoryPrompt(ArrayList<JSONObject> arr) {
-        this.historyPrompt = arr;
-    }
-
     //get history prompt
     public ArrayList<JSONObject> getPrompts() {
         return historyPrompt;

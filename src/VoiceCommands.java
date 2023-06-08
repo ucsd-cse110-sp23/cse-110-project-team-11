@@ -10,7 +10,6 @@ public class VoiceCommands {
     private Whisper whisper = new Whisper();
     //private String whisperArg = "/Users/peikexu/Documents/Ucsd/CSE/CSE110/cse-110-project-team-11/src/myAudio.mp3";
     private String whisperArg = "myAudio.mp3";
-    
     String question;
     String firstWord = "";
     String secondWord = "";
@@ -70,19 +69,19 @@ public class VoiceCommands {
        if (firstWord.equalsIgnoreCase("Question") || firstWord.equalsIgnoreCase("Question,") || firstWord.equalsIgnoreCase("Question.")) {
             //question();
             value = "chatgpt";
-       } else if (firstWord.equalsIgnoreCase("Delete") && secondWord.equalsIgnoreCase("prompt.")) {
+       } else if (firstWord.equalsIgnoreCase("Delete") && (secondWord.equalsIgnoreCase("prompt.") || secondWord.equalsIgnoreCase("prompt)"))) {
             value = "non-chatgpt";
             deletePrompt();
-       } else if (firstWord.equalsIgnoreCase("Clear") && secondWord.equalsIgnoreCase("all.")) {
+       } else if (firstWord.equalsIgnoreCase("Clear") && (secondWord.equalsIgnoreCase("all.") || secondWord.equalsIgnoreCase("all"))) {
             value = "non-chatgpt";
             clearAll();
-       } else if (firstWord.equalsIgnoreCase("Create") && secondWord.equalsIgnoreCase("email")) {
+       } else if (firstWord.equalsIgnoreCase("Create") && (secondWord.equalsIgnoreCase("email.") || secondWord.equalsIgnoreCase("email"))) {
             value = "chatgpt";
             createEmail(chatGPT);
-       } else if (firstWord.equalsIgnoreCase("Send") && secondWord.equalsIgnoreCase("email.")) {
+       } else if (firstWord.equalsIgnoreCase("Send") && (secondWord.equalsIgnoreCase("email.") || secondWord.equalsIgnoreCase("email"))) {
             value = "non-chatgpt";
             sendEmail();
-       } else if (firstWord.equalsIgnoreCase("Set") && secondWord.equalsIgnoreCase("up") && thirdWord.equalsIgnoreCase("email.")) {
+       } else if (firstWord.equalsIgnoreCase("Set") && secondWord.equalsIgnoreCase("up") && (thirdWord.equalsIgnoreCase("email.") || thirdWord.equalsIgnoreCase("email"))) {
             value = "non-chatgpt";
             setUpEmail();
         } 
