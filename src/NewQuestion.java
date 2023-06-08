@@ -3,6 +3,7 @@ import java.io.IOException;
 import javax.swing.JList;
 import javax.swing.JTextArea;
 
+import org.bson.Document;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,13 +16,17 @@ public class NewQuestion {
     private JsonStorage js;
     private HistoryList hl;
     private JList<String> list;
+    private EmailStorage store;
+    private String user_email;
 
-    public NewQuestion(JTextArea answerText, JTextArea questionText, JsonStorage storage, HistoryList hl, JList<String> historyList) {
+    public NewQuestion(JTextArea answerText, JTextArea questionText, JsonStorage storage, HistoryList hl, JList<String> historyList, EmailStorage store, String user_email) {
         this.answer = answerText;
         this.question = questionText;
         this.js = storage;
         this.hl = hl;
         this.list = historyList;
+        this.store = store;
+        this.user_email = user_email;
     }
 
     public void newQuestionStart(){
@@ -30,7 +35,7 @@ public class NewQuestion {
 
     public void newQuestionEnd(JsonStorage storage) throws JSONException, IOException, InterruptedException {
         audioRecorder.stopRecording();
-        VoiceCommands vc = new VoiceCommands(answer, question, storage, hl, whisper, list);
+        VoiceCommands vc = new VoiceCommands(answer, question, storage, hl, whisper, list, store, user_email);
         String whisperArg = "myAudio.mp3";
         String question = whisper.getTranscript(whisperArg);
         JSONObject savedQuestion = new JSONObject();

@@ -1,5 +1,6 @@
 import javax.swing.*;
 
+import org.bson.codecs.JsonObjectCodec;
 import org.bson.json.JsonObject;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,13 +27,17 @@ class NewQuestionButton extends JPanel {
     private JsonStorage storage;
     private HistoryList list;
     private JList historyList;
+    private EmailStorage store;
+    private String user_email;
 
-    NewQuestionButton(JTextArea answerText, JTextArea questionText, JsonStorage storage, HistoryList hl, JList<String> list, String email) {
+    NewQuestionButton(JTextArea answerText, JTextArea questionText, JsonStorage storage, HistoryList hl, JList<String> list, String email, EmailStorage store) {
         this.answer = answerText;
         this.question = questionText;
         this.storage = storage;
         this.list = hl;
         this.historyList = list;
+        this.store = store;
+        this.user_email = email;
 
         setPreferredSize(new Dimension(400, 60));
         setBackground(new Color(0, 0, 0, 0)); // set background color to transparent
@@ -121,7 +126,7 @@ class NewQuestionButton extends JPanel {
         String URL = "http://localhost:8100/";
         // If the icon is not currently visible, set it as the button's icon.
         // If the icon is currently visible, remove it and set the button's text back to "New Question".
-        NewQuestion newQ = new NewQuestion(answer, question, storage, list, historyList);
+        NewQuestion newQ = new NewQuestion(answer, question, storage, list, historyList, store, user_email);
         if (!isIconVisible) {
             newQuestion.setIcon(icon);
             newQuestion.setText("");
@@ -151,6 +156,12 @@ class NewQuestionButton extends JPanel {
                 }
                 JSONObject history = new JSONObject();
                 history.put("historyPrompt", jsonArray);
+
+                JSONObject update = new JSONObject();
+                update.put("history", history);
+
+                //If email set up
+                //update.put("email", email);
                 
                 URL url = new URL(URL);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -159,7 +170,7 @@ class NewQuestionButton extends JPanel {
                 OutputStreamWriter out = new OutputStreamWriter(
                     conn.getOutputStream()
                 );
-                out.write(email + ',' + history.toString());
+                out.write(email + ',' + update.toString());
                 out.flush();
                 out.close();
 

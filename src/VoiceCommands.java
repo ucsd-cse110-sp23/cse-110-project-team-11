@@ -3,27 +3,32 @@ import java.io.IOException;
 import javax.swing.JList;
 import javax.swing.JTextArea;
 
+import org.bson.Document;
 import org.json.JSONException;
 
 public class VoiceCommands {
     private Whisper whisper = new Whisper();
-    private String whisperArg = "/Users/peikexu/Documents/Ucsd/CSE/CSE110/cse-110-project-team-11/src/myAudio.mp3";
-
+    //private String whisperArg = "/Users/peikexu/Documents/Ucsd/CSE/CSE110/cse-110-project-team-11/src/myAudio.mp3";
+    private String whisperArg = "myAudio.mp3";
+    
     String question;
     String firstWord = "";
     String secondWord = "";
     String thirdWord = "";
+    
+    String user_email;
 
     JTextArea answerArea;
     JTextArea questionArea;
     HistoryList hl;
     JsonStorage js;
     JList<String> questionList;
+    EmailStorage store;
 
     /*
      * Constructor
      */
-    public VoiceCommands(JTextArea answerText, JTextArea questionText, JsonStorage storage, HistoryList hl, Whisper whisper, JList<String> historyList) throws IOException {
+    public VoiceCommands(JTextArea answerText, JTextArea questionText, JsonStorage storage, HistoryList hl, Whisper whisper, JList<String> historyList, EmailStorage store, String user_email) throws IOException {
         // question = whisper.getTranscript(whisperArg);
         
         this.answerArea = answerText;
@@ -31,6 +36,8 @@ public class VoiceCommands {
         this.hl = hl;
         this.js = storage;
         this.questionList = historyList;
+        this.store = store;
+        this.user_email = user_email;
     }
 
     /*
@@ -123,8 +130,9 @@ public class VoiceCommands {
         }
     }
 
-    public void setUpEmail() {  
-        //TODO, not us
+    public void setUpEmail() throws IOException {  
+        SetUpEmail setup = new SetUpEmail(store, user_email);
+        setup.setVisible(true);
     }
 
     /*
