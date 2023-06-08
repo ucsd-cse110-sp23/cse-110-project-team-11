@@ -13,7 +13,7 @@ import org.json.*;
 public class EmailStorage {
     
     JSONObject user; //genral
-    //private JSONObject setup; //individualsetp
+    //JSONObject setup; //individualsetp
 
 
     //constructor
@@ -32,20 +32,21 @@ public class EmailStorage {
     }
 
     //read json file
-    public void readJson(String fileName) throws IOException {
-        JSONArray info = (JSONArray) parser.parse(new FileReader(filename));
-        for(Object person: info){
-            JSONObject p = (JSONObject) person;
-            
-            String firstNameField = (String)p.get("firstName");
-            String lastNameField =(String)p.get("lastName");
-            String displayNameField = (String) p.get(" displayName");
-            String emailField = (String) p.get("email");
-            String SMTPField = (String) p.get("SMTP");
-            String TLSField = (String) p.get("TLS");
+    public JSONObject readJson(String fileName) throws IOException {
+        //JSONArray info = (JSONArray) new parser.parse(new FileReader(fileName));
+        Object obj = new JSONParser().parse(new FileReader(fileName));
+        JSONObject p = (JSONObject) obj;
+        return p;
+        /* 
+        String firstNameField = (String)p.get("firstName");
+        String lastNameField =(String)p.get("lastName");
+        String displayNameField = (String) p.get(" displayName");
+        String emailField = (String) p.get("email");
+        String SMTPField = (String) p.get("SMTP");
+        String TLSField = (String) p.get("TLS");
 
-            user.put(emailField, p);
-        }
+        user.put(emailField, p);
+        */
     }
 
     //write json file
@@ -58,7 +59,7 @@ public class EmailStorage {
     }
 
     //add prompt to historyPrompt
-    public void addPrompt(JSONObject obj, String firstName, String lastName, String display, String email, String SMTP, String TLS) {
+    public void addPrompt(String firstName, String lastName, String display, String email, String SMTP, String TLS) {
         JSONObject setup = new JSONObject();
         setup.put("firstName", firstName);
         setup.put("lastName", lastName);
@@ -67,11 +68,11 @@ public class EmailStorage {
         setup.put("SMTP", SMTP);
         setup.put("TLS", TLS);
 
-        obj.put(email, setup);
+        user.put(email, setup);
     }
 
-    //get historyPrompt
-    public JSONObject getUsers() {
-        return user;
+    public JSONObject getSetup(String email) {
+        return user.getJSONObject(email);
     }
+    
 }

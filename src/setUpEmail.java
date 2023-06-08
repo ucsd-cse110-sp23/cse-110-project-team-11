@@ -108,7 +108,7 @@ class SetUpEmail extends JFrame {
   private FieldPanel fieldPanel;
   private ButtonPanel buttonPanel;
 
-  public SetUpEmail() {
+  public SetUpEmail(EmailStorage store) {
     setSize(600, 300);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     setLayout(new GridLayout(2,2));
@@ -140,6 +140,7 @@ class SetUpEmail extends JFrame {
               return;
             }
 
+            store.addPrompt(firstName, lastName, displayName, email, SMTPHost, TLSPort);
             JOptionPane.showMessageDialog(null, "Information saved successfully!");
             
             
